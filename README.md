@@ -2,7 +2,7 @@
 
 This LG smart TV app is implemented using __Vanilla JS__. Application is implemented as a single-page application (SPA).
 
-## App on other TV platforms
+## Similar app on other TV platforms
   - [Samsung](https://github.com/heaven-dev/tv7SamsungNg)
   - Android:
     - [fi](https://github.com/heaven-dev/taivasTv7Android)
