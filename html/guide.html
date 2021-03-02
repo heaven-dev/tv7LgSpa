@@ -1,0 +1,43 @@
+<div id="mainView" class="guMainView">
+
+	<div id="contentContainer" class="guideContentContainer mainContentAnimationFadeIn" tabindex="0">
+		<div id="guideBusyLoader" class="busyLoader guideBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+
+        <div class="guDatesContainer">
+            <div id="dateItems" class="guDates"></div>
+        </div>
+
+		<div id="contentRows" class="guContentRows">
+			<div id="guideContainer" class="guGuideContainer"></div>
+		</div>
+
+		<script id="datesTemplate" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="r_{{@index}}" class="guDateItem" onclick="guDateItemClicked(this)" tabindex="0">{{label}}</div>
+			{{/each}}
+		</script>
+
+		<script id="guideTemplate" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="{{@index}}_c" class="guGuideItem" style="height: {{rowItemHeight}}px" onclick="guProgramItemClicked(this)" tabindex="0">
+					<img class="guGuideImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<div class="guInfoArea" style="left: {{rowImageWidth}}px">	
+						<div class="guTitleContainer">
+							<div id="ongoingProgram_{{@index}}" class="guOngoingProgram guOngoingBlink"></div>
+							<div id="time" class="guTime">{{startEndLocal}}</div>
+							<div id="nameDesc" class="guNameDesc">{{name_desc}}</div>
+						</div>
+
+						<div id="caption" class="guCaption">{{caption}}</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+
+	</div>
+</div>

@@ -1,0 +1,38 @@
+<div id="mainView" class="srMainView">
+
+	<div id="contentContainer" class="searchResultContentContainer mainContentAnimationFadeIn">
+		<div id="searchResultText" class="srSearchResultText" tabindex="0"></div>
+		<div id="noHitsText" class="srNoHitsText"></div>
+		
+		<div id="searchResultBusyLoader" class="busyLoader searchResultBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+
+		<div id="contentRows" class="srContentRows">
+			<div id="searchResultContainer" class="searchResultContainer"></div>
+		</div>
+
+		<script id="searchResultTemplate" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="{{rowidindex}}_c" class="srSearchItem" style="height: {{rowItemHeight}}px" onclick="srItemClicked(this)" tabindex="0">
+					<img class="srSearchImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<div class="srInfoArea" style="left: {{rowImageWidth}}px">
+						<div class="srTitleContainer">
+							{{#if (isSeries type)}}
+								<img class="srTypeIcon" src="images/series.svg" alt=""/>
+							{{else}}
+								<img class="srTypeIcon" src="images/episode.svg" alt=""/>
+							{{/if}}
+							<div id="nameDesc" class="srNameDesc">{{name_desc}}</div>
+						</div>
+						<div id="caption" class="srCaption">{{caption}}</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+		
+	</div>
+</div>

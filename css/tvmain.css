@@ -1,0 +1,208 @@
+.tvMainContentContainer {
+	padding: 10px;
+	height: calc(100% - 40px);
+}
+
+.tvMainContentItem {
+	position: relative;
+	width: calc(50% - 5px);
+	min-width: calc(50% - 5px);
+	max-width: calc(50% - 5px);
+	height: 100%;
+	margin-right: 5px;
+}
+
+.tmNextProgramsContentItem {
+	position: relative;
+	width: 100%;
+	height: calc(50% - 10px);
+}
+
+.tmContentImage {
+	height: 100%;
+	position: relative;
+	width: calc(100% - 12px);
+	max-height: calc(100% - 12px);
+	border: 6px solid #444444;
+	display: none;
+}
+
+.tmNextProgramsText {
+	color: #444444;
+	font-size: 32px;
+	font-weight: bold;
+	height: 28px;
+	line-height: 28px;
+	padding: 10px;
+}
+
+.tmStatusBarContainer {
+	position: absolute;
+	margin: 0 6px;
+	background-color: #eeeeee;
+	width: calc(100% - 14px);
+	height: 8px;
+	bottom: 6px;
+}
+
+.tmStatusBar {
+	position: relative;
+	background-color: #0099CC;
+	width: 0%;
+	height: 8px;
+}
+
+.tmDescText {
+	position: absolute;
+	background-color: #444444;
+	color: #ffffff;
+	opacity: 0.8;
+	height: 32px;
+	line-height: 32px;
+	margin: 0 6px;
+	width: calc(100% - 20px);
+	padding: 0 4px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 30px;
+	bottom: 14px;
+}
+
+.tmPlayButtonContainer {
+	position: absolute;
+	background-color: transparent;
+	z-index: 200;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.tmPlayButton {
+	width: 80px;
+	height: 80px;
+	z-index: 100;
+	border-radius: 50%;
+	background-color: #ffffff;
+	opacity: 0.7;
+	border: 2px solid #000000;
+	outline: none;
+}
+
+.tmPlayButton:focus {
+	background-color: #0099CC;
+	opacity: 1;
+	outline: none;
+}
+
+.tmPlayIcon {
+	width: 80px;
+	height: 80px;
+}
+
+.tmNextProgramsRow {
+	display: -webkit-flex;
+	display: flex;
+	position: relative;
+	height: 50%;
+	max-height: calc(50% - 14px);
+}
+
+.tmImageAndDescription {
+	max-width: 20%;
+	min-width: 20%;
+	height: 100%;
+}
+
+.tmNextProgramsImg {
+	width: 100%;
+	height: 100%;
+	max-height: 100%;
+}
+
+.tmNextProgramsDesc {
+	height: 32px;
+	width: calc(20% - 16px);
+	background-color: #444444;
+	color: #ffffff;
+	line-height: 32px;
+	padding: 0 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	position: absolute;
+	font-size: 30px;
+	opacity: 0.8;
+	bottom: 0;
+}
+
+.tmTvAndGuideContainer {
+	display: -webkit-flex;
+	display: flex;
+	height: calc(50% - 10px);
+}
+
+.tmGuideContainer {
+	width: calc(50% - 5px);
+	min-width: calc(50% - 5px);
+	max-width: calc(50% - 5px);
+	height: 100%;
+	margin-left: 5px;
+	border: 1px solid transparent;
+}
+
+.tmGuideHeader {
+	display: -webkit-flex;
+	display: flex;
+	color: #444444;
+	font-size: 32px;
+	font-weight: bold;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 0 4px 0;
+	margin-right: 10px;
+}
+
+.tmGuideRowsContainer {
+	height: calc(100% - 32px);
+	margin-right: 20px;
+}
+
+.tmGuideTableTimeCol,
+.tmGuideTableName {
+	font-weight: bold;
+}
+
+.tmGuideTableText {
+	color: #444444;
+}
+
+.tmGuideTableTimeCol {
+	padding-left: 16px;
+	float: left;
+}
+
+.tmGuideTableNameDescCol {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 16px;
+}
+
+.tmUpDownIconContainer {
+	margin-left: auto;
+}
+
+.tmUpDownIcon {
+	vertical-align: middle;
+	height: 36px;
+	border: 1px solid #000000;
+    border-radius: 50%;
+}
+
+.tmUpDownIcon:focus {
+	background-color: #0099CC;
+	border-radius: 50%;
+	outline: none;
+}

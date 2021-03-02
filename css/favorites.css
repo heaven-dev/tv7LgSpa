@@ -1,0 +1,124 @@
+.faMainView {
+	height: calc(100% - 90px);
+}
+
+.faContentContainer {
+	overflow: hidden;
+	height: 100%;
+}
+
+.faContentRows {
+	height: 100%;
+	overflow: hidden;
+}
+
+.faFavoritesContainer {
+	height: 100%;
+	margin: 50px 20px 20px 10px;
+	position: relative;
+}
+
+.faFavoritesItem {
+	position: relative;
+	width: calc(100% - 20px);
+	border: 10px solid #444444;
+	outline: none;
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+
+.faFavoritesItem:focus {
+	border: 10px solid #0099CC;
+	border-radius: 4px;
+	background-color: #dddddd;
+	/*
+	-webkit-box-shadow: 0px 0px 30px 0px #0099CC;
+	box-shadow: 0px 0px 30px 0px #0099CC;
+	*/
+}
+
+.faFavoritesImage {
+	width: 30%;
+	height: 100%;
+}
+
+.favoritesBusyLoader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 100;
+	display: none;
+}
+
+.faInfoArea {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	padding: 10px 20px;
+	overflow-y: hidden;
+}
+
+.faTitleContainer {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.faTypeIcon {
+	width: 37px;
+	min-width: 37px;
+	height: 37px;
+	background-color: #cccccc;
+    border-radius: 50%;
+	margin-right: 10px;
+	border: 1px solid #444444;
+}
+
+.faNameDesc {
+	color: #444444;
+	font-size: 32px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.faCaption {
+	color: #444444;
+	font-size: 28px;
+	font-weight: bold;
+	padding-right: 20px;
+}
+
+.faFavoritesText {
+	position: fixed;
+	z-index: 100;
+	background-color: #fff;
+	width: 100%;
+	font-size: 32px;
+	font-weight: bold;
+	color: #444444;
+	height: 50px;
+	line-height: 50px;
+	padding-left: 12px;
+	white-space: nowrap;
+    overflow: hidden;
+	text-overflow: ellipsis;
+	outline: none;
+}
+
+.faNoFavoritesText {
+	background-color: #fff;
+	font-size: 32px;
+	font-weight: bold;
+	color: #444444;
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}

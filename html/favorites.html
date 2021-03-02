@@ -1,0 +1,34 @@
+<div id="mainView" class="faMainView">
+
+	<div id="contentContainer" class="faContentContainer mainContentAnimationFadeIn">
+		<div id="favoritesText" class="faFavoritesText" tabindex="0"></div>
+		<div id="noFavoritesText" class="faNoFavoritesText"></div>
+
+		<div id="favoritesBusyLoader" class="busyLoader favoritesBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+
+		<div id="contentRows" class="faContentRows">
+			<div id="favoritesContainer" class="faFavoritesContainer"></div>
+		</div>
+
+		<script id="favoritesTemplate" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="{{rowidindex}}_c" class="faFavoritesItem" style="height: {{rowItemHeight}}px" onclick="faItemClicked(this)" tabindex="0">
+					<img class="faFavoritesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<div class="faInfoArea" style="left: {{rowImageWidth}}px">
+						<div class="faTitleContainer">
+							<img class="faTypeIcon" src="images/episode.svg" alt=""/>
+							<div id="nameDesc" class="faNameDesc">{{name_desc}}</div>
+						</div>
+						<div id="caption" class="faCaption">{{caption}}</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+		
+	</div>
+</div>

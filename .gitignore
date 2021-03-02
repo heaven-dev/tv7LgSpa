@@ -1,0 +1,8 @@
+.vscode/
+/dist
+/tmp
+/.sign
+/.settings
+/node_modules
+/misc/profiles.xml.bu
+package-lock.json

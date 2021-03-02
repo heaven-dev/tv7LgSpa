@@ -1,0 +1,87 @@
+<div id="mainView" class="seMainView">
+
+	<div id="contentContainer" class="searchContentContainer mainContentAnimationFadeIn" tabindex="0">
+
+		<div class="seTextFieldAndkeyboardContainer">
+			<div id="searchTextField" class="seSearchTextField"></div>
+
+			<div id="keyboardContainer" class="seKeyboardContainer">
+				<div id="row1" class="seKeyboardRow"></div>
+				<div id="row2" class="seKeyboardRow"></div>
+				<div id="row3" class="seKeyboardRow"></div>
+				<div id="row4" class="seKeyboardRow"></div>
+			</div>
+		</div>
+
+		
+		<script id="letterRow1Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="0_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{#if (isLowerCase)}}{{n}}{{else}}{{c}}{{/if}}</div>
+			{{/each}}
+		</script>
+
+		<script id="letterRow2Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="1_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{#if (isLowerCase)}}{{n}}{{else}}{{c}}{{/if}}</div>
+			{{/each}}
+		</script>
+
+		<script id="letterRow3Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="2_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{#if (isLowerCase)}}{{n}}{{else}}{{c}}{{/if}}</div>
+
+				{{#if @last}}
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="space" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="spaceIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/space.svg" />
+					</div>
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="backSpace" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="backspaceIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/backspace.svg" />
+					</div>
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="capslock" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="capslockIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/capslock.svg" />
+					</div>
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="specialChars" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="specialCharsIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/specialchar.svg" />
+					</div>
+				{{/if}}
+			{{/each}}
+		</script>
+
+
+		<script id="nbrSpecialRow1Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="0_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{n}}</div>
+			{{/each}}
+		</script>
+
+		<script id="nbrSpecialRow2Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="1_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{n}}</div>
+			{{/each}}
+		</script>
+
+		<script id="nbrSpecialRow3Template" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="2_{{@index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" onclick="seKeyItemClicked(this)" tabindex="0">{{n}}</div>
+
+				{{#if @last}}
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="space" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="spaceIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/space.svg" />
+					</div>
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="backSpace" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="backspaceIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/backspace.svg" />
+					</div>
+					<div id="2_{{incIdx @index}}" class="seKey keyboardAnimationFadeIn" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="letterChars" onclick="seKeyItemClicked(this)" tabindex="0">
+						<img id="letterCharsIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/letter.svg" />
+					</div>
+				{{/if}}
+			{{/each}}
+		</script>
+
+		<script id="clearSearchRowTemplate" type="text/x-handlebars-template">
+			<div id="searchKey" class="seKey seTextKey keyboardAnimationFadeIn" style="height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" key="search" onclick="seKeyItemClicked(this)" tabindex="0">{{search}}</div>
+			<div id="clearKey" class="seKey seTextKey keyboardAnimationFadeIn" style="height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" key="clear" onclick="seKeyItemClicked(this)" tabindex="0">{{clear}}</div>
+		</script>
+
+	</div>
+</div>

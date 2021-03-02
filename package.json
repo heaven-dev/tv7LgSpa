@@ -1,0 +1,41 @@
+{
+  "name": "tv7spa",
+  "version": "1.0.0",
+  "description": "TV7 LG smart TV application.",
+  "scripts": {
+    "build-fi": "gulp fi",
+    "build-et": "gulp et",
+    "build-sv": "gulp sv",
+    "build-ru": "gulp ru",
+    "build-all": "gulp fi && gulp et && gulp sv && gulp ru",
+    "run-fi": "gulp run_fi",
+    "run-et": "gulp run_et",
+    "run-sv": "gulp run_sv",
+    "run-ru": "gulp run_ru"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heaven-dev/tv7Spa"
+  },
+  "keywords": [
+    "lg-smart-tv",
+    "smart-tv"
+  ],
+  "author": "heaven-dev",
+  "license": "MIT",
+  "homepage": "https://github.com/heaven-dev/tv7Spa#readme",
+  "devDependencies": {
+    "child_process": "^1.0.2",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-template": "^5.0.0",
+    "gulp-uglify": "^3.0.2",
+    "merge-stream": "^2.0.0",
+    "readable-stream": "^3.6.0",
+    "yargs": "^15.4.1"
+  }
+}

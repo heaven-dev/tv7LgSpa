@@ -1,0 +1,15 @@
+{
+    "vendor": "<%= appInfoVendor %>",
+    "icon": "tv7icon_80x80.png",
+    "largeIcon": "tv7icon_130x130.png",
+    "bgColor": "white",
+    "iconColor": "white",
+    "main": "index.html",
+    "id": "<%= appInfoId %>",
+    "title": "<%= appInfoTitle %>",
+    "appDescription": "<%= appInfoDescription %>",
+    "type": "web",
+    "version": "<%= appInfoVersion %>",
+    "handlesRelaunch": false,
+    "disableBackHistoryAPI": true
+}

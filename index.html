@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Heaven TV7</title>
+		<meta charset="UTF-8">
+		
+		<link rel="stylesheet" type="text/css" href="css/toolbar.css"/>
+		<link rel="stylesheet" type="text/css" href="css/sidebar.css"/>
+		<link rel="stylesheet" type="text/css" href="css/busyloader.css"/>
+		<link rel="stylesheet" type="text/css" href="css/contentfadein.css"/>
+		<link rel="stylesheet" type="text/css" href="css/exitmodal.css"/>
+
+		<link rel="stylesheet" type="text/css" href="css/videojs/video-js.7.9.7.min.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="css/tvplayer.css"/>
+		<link rel="stylesheet" type="text/css" href="css/series.css"/>
+		<link rel="stylesheet" type="text/css" href="css/searchresult.css"/>
+		<link rel="stylesheet" type="text/css" href="css/search.css"/>
+		<link rel="stylesheet" type="text/css" href="css/programinfo.css"/>
+		<link rel="stylesheet" type="text/css" href="css/platforminfo.css"/>
+		<link rel="stylesheet" type="text/css" href="css/guide.css"/>
+		<link rel="stylesheet" type="text/css" href="css/favorites.css"/>
+		<link rel="stylesheet" type="text/css" href="css/categoryprograms.css"/>
+		<link rel="stylesheet" type="text/css" href="css/archiveplayer.css"/>
+		<link rel="stylesheet" type="text/css" href="css/archivemain.css"/>
+		<link rel="stylesheet" type="text/css" href="css/tvmain.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		
+		<script type="text/javascript" src="js/videojs/video-js.7.9.7.min.js"></script>
+		<script type="text/javascript" src="js/handlebars/handlebars.min-v4.7.6.js"></script>
+		<script type="text/javascript" src="js/anime/anime.min.js"></script>
+		<script type="text/javascript" src="js/webOSTVjs-1.2.2/webOSTV.js"></script>
+	</head>
+	<body class="body">
+		<div>
+			<div id="exitModal" class="exitModal">
+				<div class="modalBackground exitModalAnimationFadeIn"></div>
+				<div class="modalContentArea exitModalContentAnimationFadeIn">
+					<div class="modalTextAndButtons">
+						<div id="modalQuestionText" class="modalQuestionText"></div>
+						<div class="modalButtons">
+							<div id="exitYesButton" class="okButton" onclick="exitButtonClicked(this)" tabindex="0"></div>
+							<div id="exitCancelButton" class="cancelButton" onclick="exitButtonClicked(this)" tabindex="0"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="toolbarContainer" class="toolbarContainer">
+				<div class="toolbar">
+					<div class="toolbarTextContainer">
+						<span id="toolbarText" class="toolbarText"></span>
+					</div>
+					<div class="toolbarImageContainer">
+						<img id="toolbarLogo" class="logoImage" src="" alt="tv7"/>
+					</div>
+				</div>
+			</div>
+
+			<div id="sidebar" class="sidebar">
+				<div id="tvIconContainer" class="tvIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="tvIcon" class="tvIcon" src="images/tv.svg" alt="" />
+					</div>
+					<div id="tvIconText" class="tvIconText"></div>
+				</div>
+			
+				<div id="archiveIconContainer" class="archiveIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="archiveIcon" class="tvIcon" src="images/archive.svg" alt="" />
+					</div>
+					<div id="archiveIconText" class="archiveIconText"></div>
+				</div>
+		
+				<div id="guideIconContainer" class="guideIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="guideIcon" class="tvIcon" src="images/guide.svg" alt="" />
+					</div>
+					<div id="guideIconText" class="guideIconText"></div>
+				</div>
+			
+				<div id="searchIconContainer" class="searchIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="searchIcon" class="tvIcon" src="images/search.svg" alt="" />
+					</div>
+					<div id="searchIconText" class="searchIconText"></div>
+				</div>
+		
+				<div id="favoritesIconContainer" class="favoritesIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="favoritesIcon" class="favoritesIcon" src="images/favorites.svg" alt="" />
+					</div>
+					<div id="favoritesIconText" class="favoritesIconText"></div>
+				</div>
+		
+				<div id="platformInfoIconContainer" class="platformInfoIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="platformInfoIcon" class="platformInfoIcon" src="images/settings.svg" alt="" />
+					</div>
+					<div id="platformInfoIconText" class="platformInfoIconText"></div>
+				</div>
+			</div>
+
+			<div id="appContent"></div>
+		</div>
+
+		<script type="text/javascript" src="js/tvplayer.js"></script>
+		<script type="text/javascript" src="js/series.js"></script>
+		<script type="text/javascript" src="js/searchresult.js"></script>
+		<script type="text/javascript" src="js/search.js"></script>
+		<script type="text/javascript" src="js/programinfo.js"></script>
+		<script type="text/javascript" src="js/platforminfo.js"></script>
+		<script type="text/javascript" src="js/guide.js"></script>
+		<script type="text/javascript" src="js/favorites.js"></script>
+		<script type="text/javascript" src="js/categoryprograms.js"></script>
+		<script type="text/javascript" src="js/tvmain.js"></script>
+		<script type="text/javascript" src="js/archivemain.js"></script>
+		<script type="text/javascript" src="js/archiveplayer.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+
+		<script type="text/javascript" src="js/util/constants.js"></script>
+		<script type="text/javascript" src="js/util/common.js"></script>
+		<script type="text/javascript" src="js/util/archive.js"></script>
+		<script type="text/javascript" src="js/util/programschedule.js"></script>
+		<script type="text/javascript" src="js/util/locale.js"></script>
+	</body>
+</html>

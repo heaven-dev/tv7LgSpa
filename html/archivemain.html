@@ -1,0 +1,127 @@
+<div id="mainView" class="amMainView">
+
+	<div id="contentContainer" class="archiveMainContentContainer mainContentAnimationFadeIn">
+
+		<div id="commonBusyLoader" class="busyLoader amCommonBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		
+		<div id="contentRows" class="amContentRows">
+
+			<div id="recommendedProgramsText" class="amRecommendedProgramsText"></div>
+			<div id="recommendedProgramsContainer" class="amRowContainer">
+				<div id="recommendedBusyLoader" class="busyLoader archiveMainBusyLoader">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+			
+			<div id="mostViewedProgramsText" class="amMostViewedProgramsText"></div>
+			<div id="mostViewedProgramsContainer" class="amRowContainer">
+				<div id="mostViewedBusyLoader" class="busyLoader archiveMainBusyLoader">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+
+			<div id="newestProgramsText" class="amNewestProgramsText"></div>
+			<div id="newestProgramsContainer" class="amRowContainer">
+				<div id="newestBusyLoader" class="busyLoader archiveMainBusyLoader">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+
+			<div id="categoriesText" class="amCategoriesText"></div>
+			<div id="categoriesContainer" class="amRowContainer">
+
+			</div>	
+		</div>
+	</div>
+
+	<script id="recommendedTemplate" type="text/x-handlebars-template">
+		<div id="recommendedPrograms" class="amRecommendedPrograms" style="width: {{rowWidth 'recommended'}}px">
+			{{#each this}}
+				<div id="0_{{@index}}" class="amProgramItem recommendedItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+					<div class="amProgramDate">{{broadcast_date_time}}</div>
+					<div class="amProgramTime">{{duration_time}}</div>
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<div class="amProgramDesc">{{name_desc}}</div>
+				</div>
+			{{/each}}
+		</div>
+	</script>
+
+	<script id="mostViewedTemplate" type="text/x-handlebars-template">
+		<div id="mostViewedPrograms" class="amMostViewedPrograms" style="width: {{rowWidth 'mostViewed'}}px">
+			{{#each this}}
+				<div id="1_{{@index}}" class="amProgramItem mostViewedItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+					<div class="amProgramDate">{{broadcast_date_time}}</div>
+					<div class="amProgramTime">{{duration_time}}</div>
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<div class="amProgramDesc">{{name_desc}}</div>
+				</div>
+			{{/each}}
+		</div>
+	</script>
+
+	<script id="newestTemplate" type="text/x-handlebars-template">
+		<div id="newestPrograms" class="amNewestPrograms" style="width: {{rowWidth 'newest'}}px">
+			{{#each this}}
+				<div id="2_{{@index}}" class="amProgramItem newestItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+					<div class="amProgramDate">{{broadcast_date_time}}</div>
+					<div class="amProgramTime">{{duration_time}}</div>
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<div class="amProgramDesc">{{name_desc}}</div>
+				</div>
+			{{/each}}
+		</div>
+	</script>
+
+	<script id="categoriesTemplate" type="text/x-handlebars-template">
+		<div id="categoriesBusyLoader" class="busyLoader amCategoriesBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+
+		<div id="categories" class="amCategories categoriesAnimationFadeIn" style="width: {{rowWidth 'categories'}}px">
+			{{#each this}}
+				<div id="3_{{@index}}" class="amCategoriesItem" onclick="amItemClicked(this)" tabindex="0">
+					<div>
+						<img id="categoryImage" class="amCategoryImage" src="{{categoryLogo}}" alt=""/>
+						{{#if parent_id}}
+							<div class="amCategoryNameText" style="width: {{rowItemWidth -40}}px">{{category_name}}</div>
+						{{else}}
+							<div class="amCategoryNameText" style="width: {{rowItemWidth -40}}px">{{name}}</div>
+						{{/if}}
+					</div>
+				</div>
+
+				{{#if parent_id}}
+					{{#if @last}}
+						<div id="3_{{incIdx @index}}" class="amCategoriesBackItem" onclick="amItemClicked(this)" tabindex="0">
+							<div class="amCategoriesIconText">
+								<div class="amBackIconContainer">
+									<object class="amBackIcon" data="images/arrow_back.svg" type="image/svg+xml"></object>
+								</div>
+								<div id="categoryBackText" class="amCategoryBackText" style="height: {{rowItemHeight -40}}px; line-height: {{rowItemHeight -40}}px"></div>
+							</div>
+						</div>
+					{{/if}}
+				{{/if}}
+			{{/each}}
+		</div>
+	</script>
+
+</div>

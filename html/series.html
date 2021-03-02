@@ -1,0 +1,37 @@
+<div id="mainView" class="siMainView">
+
+	<div id="contentContainer" class="seriesContentContainer mainContentAnimationFadeIn">
+		<div id="seriesText" class="siSeriesText"></div>
+		<div id="seriesBusyLoader" class="busyLoader seriesBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+
+		<div id="contentRows" class="siContentRows">
+			<div id="seriesProgramsContainer" class="seriesProgramsContainer"></div>
+		</div>
+
+		<script id="seriesTemplate" type="text/x-handlebars-template">
+			{{#each this}}
+				<div id="{{rowidindex}}_c" class="siSeriesItem" style="height: {{rowItemHeight}}px" onclick="siItemClicked(this)" tabindex="0">
+					<img class="siSeriesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<div class="siInfoArea" style="left: {{rowImageWidth}}px">
+						<div class="siTitleContainer">
+							<img class="siTypeIcon" src="images/episode.svg" alt=""/>
+							<div id="nameDesc" class="siNameDesc">{{name_desc}}</div>
+						</div>
+
+						<div class="siDetailsContainer">
+							<div id="episodeNumber" class="siEpisodeNumber" style="font-size: {{detailsFontSize}}px">{{title_episode_number}}</div>
+							<div id="duration" class="siDuration" style="font-size: {{detailsFontSize}}px">{{title_duration_time}}</div>
+							<div id="firstBroadcast" class="siFirstBroadcast" style="font-size: {{detailsFontSize}}px">{{title_broadcast_date_time}}</div>
+						</div>
+					</div>
+				</div>
+			{{/each}}
+		</script>
+		
+	</div>
+</div>

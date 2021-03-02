@@ -1,0 +1,36 @@
+.mainContentAnimationFadeIn,
+.categoriesAnimationFadeIn,
+.rowAnimationFadeIn {
+	-webkit-animation: contentAnimationFadeIn 0.9s linear;
+	animation: contentAnimationFadeIn 0.9s linear;	
+}
+
+@-webkit-keyframes contentAnimationFadeIn {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.2;
+	}
+	100% {
+		opacity: 1
+	}
+}
+
+@keyframes contentAnimationFadeIn {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.2;
+	}
+	100% {
+		opacity: 1
+	}
+}

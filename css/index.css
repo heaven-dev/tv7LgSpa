@@ -1,0 +1,24 @@
+.body {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+.indexContentContainer {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.indexLoadLogo {
+	width: 580px;
+}
+
+/*
+	loading.io CSS spinner: https://loading.io/css/
+*/
+.indexBusyLoader {
+	margin: 10px auto 0 auto;
+}

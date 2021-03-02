@@ -1,0 +1,210 @@
+.amMainView {
+	height: calc(100% - 90px);
+}
+
+.archiveMainContentContainer {
+	overflow: hidden;
+	height: 100%;
+}
+
+.amContentRows {
+	position: relative;
+	height: 100%;
+}
+
+.archiveMainBusyLoader {
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: none;
+}
+
+.amCategoriesBusyLoader {
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: none;
+	z-index: 300;
+    position: absolute;
+}
+
+.amCommonBusyLoader {
+	position: absolute;
+	z-index: 300;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: none;
+}
+
+.amRecommendedProgramsText,
+.amMostViewedProgramsText,
+.amNewestProgramsText,
+.amCategoriesText {
+	font-size: 32px;
+	font-weight: bold;
+	color: #444444;
+	height: 50px;
+    line-height: 50px;
+	padding-left: 12px;
+	margin-top: 10px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.amCategoryNameText,
+.amCategoryBackText {
+	width: calc(100% - 20px);
+	padding: 10px;
+	font-size: 32px;
+	font-weight: bold;
+	color: #444444;
+	background-color: #eeeeee;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.amRowContainer {
+	background-color: #eeeeee;
+	position: relative;
+}
+
+.amRecommendedPrograms,
+.amMostViewedPrograms,
+.amNewestPrograms,
+.amCategories {
+	height: 100%;
+	position: relative;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.amCategories {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.amProgramItem,
+.amCategoriesItem,
+.amCategoriesBackItem {
+	position: relative;
+	border: 10px solid #444444;
+	outline: none;
+	border-radius: 4px;
+}
+
+.amProgramItem,
+.amCategoriesItem {
+	margin-right: 10px;
+}
+
+.amCategoriesItem {
+	display: -webkit-flex;
+	display: flex;
+    align-items: center;
+}
+
+.amCategoryImage {
+	width: 60%;
+}
+
+.amProgramItem:first-child,
+.amCategoriesItem:first-child {
+	margin-left: 10px;
+}
+
+.amCategoriesItem,
+.amCategoriesBackItem {
+	text-align: center;
+	background-color: #eeeeee;
+}
+
+.amCategoriesBackItem {
+	width: 346px;
+}
+
+.amProgramItem:focus,
+.amCategoriesItem:focus,
+.amCategoriesBackItem:focus {
+	border: 10px solid #0099CC;
+	border-radius: 4px;
+	/*
+	-webkit-box-shadow: 0px 0px 30px 0px #0099CC;
+	box-shadow: 0px 0px 30px 0px #0099CC;
+	*/
+}
+
+/*
+.amProgramItem:hover,
+.amCategoriesItem:hover,
+.amCategoriesBackItem:hover {
+	border: 10px solid #0099CC;
+	border-radius: 4px;
+}
+*/
+
+.amProgramDate,
+.amProgramTime {
+	background-color: #444444;
+	color: #ffffff;
+	padding: 2px 4px;
+	position: absolute;
+	font-size: 24px;
+	font-weight: bold;
+	opacity: 0.8;
+	top: 6px;
+}
+
+.amProgramDate {
+	left: 6px;
+}
+
+.amProgramTime {
+	right: 6px;
+}
+
+.amProgramImg {
+	border: none;
+}
+
+.amProgramDesc {
+	height: 32px;
+	width: calc(100% - 16px);
+	background-color: #444444;
+	color: #ffffff;
+	line-height: 32px;
+	padding: 0 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	position: absolute;
+	font-size: 30px;
+	opacity: 0.8;
+	bottom: 0;
+}
+
+.amCategoriesIconText {
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	width: 346px;
+}
+
+.amCategoryBackText {
+	width: initial;
+}
+
+.amBackIconContainer {
+	width: 100px;
+	height: 100px;
+}
+
+.amBackIcon {
+	width: 100px;
+	height: 100px;
+}
