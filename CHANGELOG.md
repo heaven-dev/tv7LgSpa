@@ -1,4 +1,4 @@
-# 03.03.2021 09:50
+# 03.03.2021 15:46
 
 ### Bug Fixes
 
@@ -6,7 +6,7 @@
 
 ### Features
 
-* Busy indocator changed.
+* Busy indicator changed.
 * Version 2.0.1.
 
 
