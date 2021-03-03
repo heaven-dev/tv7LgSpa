@@ -20,6 +20,6 @@
 
 * Initial version
 * App implemented as a single-page app (SPA)
-* Version numbers of this app starts from 2.0.0
+* Version numbers 2.0.0
 
 
