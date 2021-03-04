@@ -1,3 +1,14 @@
+# 04.03.2021 15:00
+
+### Bug Fixes
+
+* Fixed category selection related bug on archive main page.
+
+### Features
+
+* New version 2.0.2.
+
+
 # 03.03.2021 15:46
 
 ### Bug Fixes

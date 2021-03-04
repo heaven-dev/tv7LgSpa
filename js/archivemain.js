@@ -864,9 +864,8 @@ var ArchiveMain = (function () {
 				newRightMargin -= Math.round(itemWidth / 10);
 			}
 
-			var itemHeight = calculateRowHeight();
-			if (row > 1) {
-				bottomMargin = (itemHeight + 60) * (row - 1);
+			if (row === 2 || row === 3) {
+				bottomMargin = calculateRowHeight() + 60;
 			}
 			else {
 				bottomMargin = 0;
@@ -891,6 +890,7 @@ var ArchiveMain = (function () {
 			else {
 				categoriesMargin = newRightMargin;
 				rowMoveLeftRight(row, col, true, false);
+				rowMoveUpDown(3, true);
 
 				handleCategorySelection(row, col, getPageState());
 			}
