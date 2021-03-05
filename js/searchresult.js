@@ -35,10 +35,11 @@ var SearchResult = (function () {
 			restorePageState(pageState);
 		}
 		else {
-			var queryString = getValueFromCache(searchTextKey);
-			if (queryString) {
-				//console.log('Query string: ', queryString);
-				searchByString(queryString);
+			var searchPageState = getValueFromCache(searchPageStateKey);
+			if (searchPageState) {
+				//console.log('Search Page state: ', searchPageState);
+				searchPageState = stringToJson(searchPageState);
+				searchByString(searchPageState.searchText);
 			}
 		}
 

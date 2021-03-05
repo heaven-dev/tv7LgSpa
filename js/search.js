@@ -13,6 +13,7 @@ var Search = (function () {
     var keyWidthAndHeight = 0;
     var keyFontSize = 0;
     var iconWidth = 0;
+    var searchTextFieldWidth = 0;
 
     Search.prototype.initSearch = function () {
         showElementById('toolbarContainer');
@@ -35,7 +36,16 @@ var Search = (function () {
 
         focusToElement(defaultRowCol);
 
-        restoreSearchText();
+        setTimeout(function () {
+            var pageState = getValueFromCache(searchPageStateKey);
+            if (pageState) {
+                restorePageState(pageState);
+            }
+            else {
+                readSearchTextFieldWidth();
+                setSearchTextFieldWidth();
+            }
+        });
 
         removeOriginPage();
 
@@ -202,16 +212,14 @@ var Search = (function () {
         }
     }
 
-    function restoreSearchText() {
-        var page = getOriginPage();
-        if (page && page === searchResultPage) {
-            var searchText = getValueFromCache(searchTextKey);
-            if (searchText) {
-                //console.log('Add cached search text: ', searchText);
+    function restorePageState(pageState) {
+        if (pageState) {
+            pageState = stringToJson(pageState);
+            searchTextFieldWidth = pageState.searchTextFieldWidth;
 
-                addToElement('searchTextField', searchText);
-                removeValueFromCache(searchTextKey);
-            }
+            setSearchTextFieldWidth();
+            addToElement('searchTextField', pageState.searchText);
+            removeValueFromCache(searchPageStateKey);
         }
     }
 
@@ -261,9 +269,14 @@ var Search = (function () {
                 else if (key === 'search' && value && value.length > 0) {
                     //console.log('Search text: ', value);
 
-                    cacheValue(searchTextKey, value);
                     removeEventListeners();
 
+                    var pageState = {
+                        searchText: value,
+                        searchTextFieldWidth: searchTextFieldWidth
+                    };
+
+                    cacheValue(searchPageStateKey, jsonToString(pageState));
                     toPage(searchResultPage, searchPage);
                 }
             }
@@ -314,6 +327,20 @@ var Search = (function () {
         return width;
     }
 
+    function readSearchTextFieldWidth() {
+        var elem = getElementById('searchTextField');
+        if (elem) {
+            searchTextFieldWidth = elem.offsetWidth - 40;
+        }
+    }
+
+    function setSearchTextFieldWidth() {
+        var elem = getElementById('searchTextField');
+        if (elem) {
+            elem.style.width = searchTextFieldWidth + 'px';
+        }
+    }
+
     function initSearchVariables() {
         iconBtnIndex = 0;
         keyboardType = 1;
@@ -324,6 +351,7 @@ var Search = (function () {
         keyWidthAndHeight = 0;
         keyFontSize = 0;
         iconWidth = 0;
+        searchTextFieldWidth = 0;
     }
 
     function registerHandlebarsHelpers() {

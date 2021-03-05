@@ -126,8 +126,8 @@ var favoritesPageStateKey = 'favoritesPageStateKey';
 var categoriesPageStateKey = 'categoriesPageStateKey';
 var seriesPageStateKey = 'seriesPageStateKey';
 var guidePageStateKey = 'guidePageStateKey';
+var searchPageStateKey = 'searchPageStateKey';
 var selectedCategoryKey = 'selectedCategoryKey';
-var searchTextKey = 'searchTextKey';
 var favoritesDataKey = 'favoritesDataKey';
 var visiblePageKey = 'visiblePageKey';
 

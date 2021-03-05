@@ -1,3 +1,14 @@
+# 05.03.2021 18:40
+
+### Bug Fixes
+
+* Fixed text field width bug on search page.
+
+### Features
+
+* New version 2.0.3.
+
+
 # 04.03.2021 15:00
 
 ### Bug Fixes

@@ -547,6 +547,7 @@ function deletePageStates() {
 	removeValueFromCache(categoriesPageStateKey);
 	removeValueFromCache(seriesPageStateKey);
 	removeValueFromCache(guidePageStateKey);
+	removeValueFromCache(searchPageStateKey);
 	removeValueFromCache(favoritesPageStateKey);
 }
 
