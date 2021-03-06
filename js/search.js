@@ -252,17 +252,22 @@ var Search = (function () {
                 else if (key === 'clear') {
                     value = '';
                 }
-                else if (key === 'search' && value && value.length > 0) {
-                    //console.log('Search text: ', value);
+                else if (key === 'search') {
+                    if (value && value.length > 0) {
+                        //console.log('Search text: ', value);
 
-                    removeEventListeners();
+                        removeEventListeners();
 
-                    var pageState = {
-                        searchText: value
-                    };
+                        var pageState = {
+                            searchText: value
+                        };
 
-                    cacheValue(searchPageStateKey, jsonToString(pageState));
-                    toPage(searchResultPage, searchPage);
+                        cacheValue(searchPageStateKey, jsonToString(pageState));
+                        toPage(searchResultPage, searchPage);
+                    }
+                    else {
+                        searchTextField.style.backgroundColor = '#fadbd8';
+                    }
                 }
             }
             else {
@@ -276,7 +281,9 @@ var Search = (function () {
                 else if (value === '&gt;') {
                     value = '>';
                 }
+
                 value = searchTextField.value + value;
+                searchTextField.style.backgroundColor = '#fafafa';
             }
 
             searchTextField.value = value;
