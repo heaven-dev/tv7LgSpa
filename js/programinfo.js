@@ -94,6 +94,31 @@ var ProgramInfo = (function () {
                 setFavoriteIcon(favoriteSelectedIcon);
             }
 
+            var videoStatus = getSavedValue(videoStatusDataKey);
+            if (videoStatus) {
+                videoStatus = stringToJson(videoStatus);
+                //console.log('Video statuses: ', videoStatus);
+
+                var id = selectedProgram.id;
+
+                var videoItem = null;
+                for (var i = 0; i < videoStatus.length; i++) {
+                    if (videoStatus[i].id === id) {
+                        videoItem = videoStatus[i];
+                        break;
+                    }
+                }
+
+                if (videoItem) {
+                    console.log('Video status: ', videoItem);
+
+                    var elem = getElementById('videoStatusBar');
+                    if (elem) {
+                        elem.style.width = videoItem.p + '%';
+                    }
+                }
+            }
+
             addProgramDetails();
         }
 

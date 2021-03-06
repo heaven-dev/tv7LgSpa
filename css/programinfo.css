@@ -152,6 +152,20 @@
 	box-shadow: 5px 5px 24px 5px #000000;
 }
 
+.piVideoStatusBarContainer {
+	position: absolute;
+	bottom: 4px;
+	height: 16px;
+	width: calc(100% - 10px);
+	line-height: 16px;
+}
+
+.piVideoStatusBar {
+	height: 100%;
+	width: 0;
+	background-color: #0099CC;
+}
+
 @-webkit-keyframes piTextFadeOut { 
 	0% {
 		opacity: 1;

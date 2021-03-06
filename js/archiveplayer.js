@@ -11,6 +11,7 @@ var ArchivePlayer = (function () {
     var videoCurrenTimeLabel = null;
 
     var selectedProgram = null;
+    var videoStatus = null;
     var controlsVisible = false;
 
     var seeking = false;
@@ -32,6 +33,8 @@ var ArchivePlayer = (function () {
         initArchivePlayerVariables();
 
         selectedProgram = stringToJson(getValueFromCache(selectedArchiveProgramKey));
+
+        videoStatus = getVideoStatus();
 
         var archiveLanguage = getArchiveLanguage();
         var videoUrl = getVideoUrl(archiveLanguage);
@@ -74,6 +77,14 @@ var ArchivePlayer = (function () {
                     this.play();
                 });
 
+                this.on('loadedmetadata', function () {
+                    videojs.log('Video loadedmetadata!');
+
+                    if (videoStatus && videoStatus.p < 100) {
+                        player.currentTime(videoStatus.c);
+                    }
+                });
+
                 this.on('timeupdate', function () {
                     if (controlsVisible && player) {
                         if (!videoDuration) {
@@ -86,6 +97,7 @@ var ArchivePlayer = (function () {
 
                 this.on('ended', function () {
                     videojs.log('Video end!');
+                    saveVideoStatus();
 
                     disposePlayer();
                     toPreviousPage(programInfoPage);
@@ -227,7 +239,9 @@ var ArchivePlayer = (function () {
                 playPlayer();
             }
             else {
+                saveVideoStatus();
                 disposePlayer();
+                
                 toPreviousPage(programInfoPage);
             }
         }
@@ -261,6 +275,65 @@ var ArchivePlayer = (function () {
                 elem.classList.remove('apPlayPauseIconFadeOut');
             }, iconAnimationDuration)
         }
+    }
+
+    function getVideoStatus() {
+        var videoItem = null;
+
+        var vs = getSavedValue(videoStatusDataKey);
+        if (vs) {
+            vs = stringToJson(vs);
+
+            var id = selectedProgram.id;
+
+            for (var i = 0; i < vs.length; i++) {
+                if (vs[i].id === id) {
+                    videoItem = vs[i];
+                    break;
+                }
+            }
+        }
+
+        return videoItem;
+    }
+
+    function saveVideoStatus() {
+        var vs = getSavedValue(videoStatusDataKey);
+        if (vs) {
+            vs = stringToJson(vs);
+        }
+        else {
+            vs = [];
+        }
+
+        var id = selectedProgram.id;
+
+        for (var i = 0; i < vs.length; i++) {
+            if (vs[i].id === id) {
+                vs.splice(i, 1);
+                break;
+            }
+        }
+
+        var p = 0;
+        var c = player.currentTime();
+        var d = player.duration();
+
+        if (d - c <= 60) {
+            p = 100;
+        }
+        else {
+            p = Math.round(c / d * 100);
+            if (p < 0) {
+                p = 0;
+            }
+            if (p > 100) {
+                p = 100;
+            }
+        }
+
+        vs.push({ id: id, c: Math.round(c), p: p });
+        saveValue(videoStatusDataKey, jsonToString(vs));
     }
 
     function currentTime() {
@@ -412,6 +485,7 @@ var ArchivePlayer = (function () {
         videoCurrenTimeLabel = null;
 
         selectedProgram = null;
+        videoStatus = null;
         controlsVisible = false;
 
         seeking = false;

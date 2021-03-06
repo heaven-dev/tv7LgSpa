@@ -1,3 +1,15 @@
+# 06.03.2021 11:20
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Program info page shows now video watch status bar.
+* New version 2.0.4.
+
+
 # 06.03.2021 08:20
 
 ### Bug Fixes

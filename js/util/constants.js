@@ -129,6 +129,7 @@ var guidePageStateKey = 'guidePageStateKey';
 var searchPageStateKey = 'searchPageStateKey';
 var selectedCategoryKey = 'selectedCategoryKey';
 var favoritesDataKey = 'favoritesDataKey';
+var videoStatusDataKey = 'videoStatusDataKey';
 var visiblePageKey = 'visiblePageKey';
 
 var archiveCacheExpTimeMs = 1800000;
