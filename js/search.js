@@ -13,7 +13,6 @@ var Search = (function () {
     var keyWidthAndHeight = 0;
     var keyFontSize = 0;
     var iconWidth = 0;
-    var searchTextFieldWidth = 0;
 
     Search.prototype.initSearch = function () {
         showElementById('toolbarContainer');
@@ -36,16 +35,10 @@ var Search = (function () {
 
         focusToElement(defaultRowCol);
 
-        setTimeout(function () {
-            var pageState = getValueFromCache(searchPageStateKey);
-            if (pageState) {
-                restorePageState(pageState);
-            }
-            else {
-                readSearchTextFieldWidth();
-                setSearchTextFieldWidth();
-            }
-        });
+        var pageState = getValueFromCache(searchPageStateKey);
+        if (pageState) {
+            restorePageState(pageState);
+        }
 
         removeOriginPage();
 
@@ -215,10 +208,12 @@ var Search = (function () {
     function restorePageState(pageState) {
         if (pageState) {
             pageState = stringToJson(pageState);
-            searchTextFieldWidth = pageState.searchTextFieldWidth;
 
-            setSearchTextFieldWidth();
-            addToElement('searchTextField', pageState.searchText);
+            var elem = getElementById('searchTextField');
+            if (elem) {
+                elem.value = pageState.searchText;
+            }
+
             removeValueFromCache(searchPageStateKey);
         }
     }
@@ -230,21 +225,12 @@ var Search = (function () {
 
             var key = element.getAttribute('key');
             if (key) {
-                var value = searchTextField.innerHTML;
+                var value = searchTextField.value;
                 if (key === 'space') {
                     value += ' ';
                 }
                 else if (key === 'backSpace') {
-                    if (stringEndsWith(value, '&amp;')) {
-                        value = value.substring(0, value.lastIndexOf('&amp;'));
-                    }
-                    else if (stringEndsWith(value, '&lt;')) {
-                        value = value.substring(0, value.lastIndexOf('&lt;'));
-                    }
-                    else if (stringEndsWith(value, '&gt;')) {
-                        value = value.substring(0, value.lastIndexOf('&gt;'));
-                    }
-                    else if (value && value.length > 0) {
+                    if (value && value.length > 0) {
                         value = value.slice(0, -1);
                     }
                 }
@@ -272,8 +258,7 @@ var Search = (function () {
                     removeEventListeners();
 
                     var pageState = {
-                        searchText: value,
-                        searchTextFieldWidth: searchTextFieldWidth
+                        searchText: value
                     };
 
                     cacheValue(searchPageStateKey, jsonToString(pageState));
@@ -282,10 +267,19 @@ var Search = (function () {
             }
             else {
                 var value = element.innerHTML;
-                value = searchTextField.innerHTML + value;
+                if (value === '&amp;') {
+                    value = '&';
+                }
+                else if (value === '&lt;') {
+                    value = '<';
+                }
+                else if (value === '&gt;') {
+                    value = '>';
+                }
+                value = searchTextField.value + value;
             }
 
-            addToElement('searchTextField', value);
+            searchTextField.value = value;
         }
     }
 
@@ -327,20 +321,6 @@ var Search = (function () {
         return width;
     }
 
-    function readSearchTextFieldWidth() {
-        var elem = getElementById('searchTextField');
-        if (elem) {
-            searchTextFieldWidth = elem.offsetWidth - 40;
-        }
-    }
-
-    function setSearchTextFieldWidth() {
-        var elem = getElementById('searchTextField');
-        if (elem) {
-            elem.style.width = searchTextFieldWidth + 'px';
-        }
-    }
-
     function initSearchVariables() {
         iconBtnIndex = 0;
         keyboardType = 1;
@@ -351,7 +331,6 @@ var Search = (function () {
         keyWidthAndHeight = 0;
         keyFontSize = 0;
         iconWidth = 0;
-        searchTextFieldWidth = 0;
     }
 
     function registerHandlebarsHelpers() {
