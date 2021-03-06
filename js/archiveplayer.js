@@ -46,7 +46,7 @@ var ArchivePlayer = (function () {
             muted: false,
             fluid: true,
             html5: {
-                hls: {
+                vhs: {
                     overrideNative: true
                 },
                 nativeAudioTracks: false,
@@ -59,7 +59,7 @@ var ArchivePlayer = (function () {
         var sdkVersion = sessionStorage.getItem(sdkVersionKey);
         if (sdkVersion) {
             if (videoNotOverrideNative.indexOf(sdkVersion) !== -1) {
-                options.html5.hls.overrideNative = false;
+                options.html5.vhs.overrideNative = false;
                 options.html5.nativeAudioTracks = true;
                 options.html5.nativeVideoTracks = true;
             }
@@ -73,8 +73,6 @@ var ArchivePlayer = (function () {
 
                 player.ready(function () {
                     videojs.log('Player is ready!');
-
-                    this.play();
                 });
 
                 this.on('loadedmetadata', function () {

@@ -110,7 +110,7 @@ var ProgramInfo = (function () {
                 }
 
                 if (videoItem) {
-                    console.log('Video status: ', videoItem);
+                    //console.log('Video status: ', videoItem);
 
                     var elem = getElementById('videoStatusBar');
                     if (elem) {

@@ -30,7 +30,7 @@ var TvPlayer = (function () {
             muted: false,
             fluid: true,
             html5: {
-                hls: {
+                vhs: {
                     overrideNative: true
                 },
                 nativeAudioTracks: false,
@@ -43,7 +43,7 @@ var TvPlayer = (function () {
         var sdkVersion = sessionStorage.getItem(sdkVersionKey);
         if (sdkVersion) {
             if (videoNotOverrideNative.indexOf(sdkVersion) !== -1) {
-                options.html5.hls.overrideNative = false;
+                options.html5.vhs.overrideNative = false;
                 options.html5.nativeAudioTracks = true;
                 options.html5.nativeVideoTracks = true;
             }

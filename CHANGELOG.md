@@ -7,6 +7,7 @@
 ### Features
 
 * Program info page shows now video watch status bar.
+* video-js upgraded to 7.11.4.
 * New version 2.0.4.
 
 
