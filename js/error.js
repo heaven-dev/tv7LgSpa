@@ -13,7 +13,7 @@ var Error = (function () {
             var networkError = network === noKey;
 
             if (networkError) {
-                let elem = getElementById('somethingWentWrongText');
+                var elem = getElementById('somethingWentWrongText');
                 if (elem) {
                     elem.innerHTML = 'No network connection :-(';
                 }

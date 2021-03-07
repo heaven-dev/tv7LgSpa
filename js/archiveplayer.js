@@ -117,7 +117,7 @@ var ArchivePlayer = (function () {
                     videojs.log('Video play!');
                 });
 
-                this.on('error', () => {
+                this.on('error', function () {
                     if (player) {
                         saveVideoStatus();
 
