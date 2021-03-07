@@ -8,6 +8,15 @@ window.onload = function () {
 }
 
 function init() {
+	initNetworkStateListeners();
+
+	var isConnected = isConnectedToGateway();
+	cacheValue(networkKey, isConnected ? yesKey : noKey);
+
+	if (!isConnected) {
+		toPage(errorPage, null);
+	}
+
 	initSidebar();
 	initToolbar();
 
@@ -30,6 +39,15 @@ function init() {
 				});
 			});
 		});
+	});
+}
+
+function initNetworkStateListeners() {
+	window.addEventListener('online', function () {
+		cacheValue(networkKey, yesKey);
+	});
+	window.addEventListener('offline', function () {
+		cacheValue(networkKey, noKey);
 	});
 }
 

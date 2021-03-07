@@ -25,6 +25,7 @@ var searchPage = 'search.html';
 var searchResultPage = 'searchresult.html';
 var seriesPage = 'series.html';
 var tvPlayerPage = 'tvplayer.html';
+var errorPage = 'error.html'
 
 var get_ = 'get_';
 
@@ -132,10 +133,15 @@ var favoritesDataKey = 'favoritesDataKey';
 var videoStatusDataKey = 'videoStatusDataKey';
 var visiblePageKey = 'visiblePageKey';
 
+var networkKey = 'networkKey';
+var yesKey = 'yesKey';
+var noKey = 'noKey';
+
 var archiveCacheExpTimeMs = 1800000;
 
 var mainPageUpdateInterval = 10000;
 var tvPlayerControlsUpdateInterval = 10000;
+var streamErrorInterval = 5000;
 var archivePlayerControlsVisibleTimeout = 6000;
 
 var programListMinSize = 22;

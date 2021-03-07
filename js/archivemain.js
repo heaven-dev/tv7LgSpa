@@ -35,6 +35,11 @@ var ArchiveMain = (function () {
 		showElementById('toolbarContainer');
 		showElementById('sidebar');
 
+		var isConnected = isConnectedToGateway();
+		if (!isConnected) {
+			toPage(errorPage, null);
+		}
+
 		setLocaleText('toolbarText');
 		setSelectedSidebarIcon(archiveIconContainer, [tvIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
 

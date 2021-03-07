@@ -18,12 +18,20 @@ var ArchivePlayer = (function () {
     var seekingStep = 10;
 
     var timeout = null;
+    var errorInterval = null;
+    var streamPosition = 0;
+    var streamStopCounter = 0;
 
     var iconAnimationDuration = 1400;
 
     ArchivePlayer.prototype.initArchivePlayer = function () {
         hideElementById('toolbarContainer');
         hideElementById('sidebar');
+
+        var isConnected = isConnectedToGateway();
+        if (!isConnected) {
+            toPage(errorPage, null);
+        }
 
         var elem = getElementById('archivePlayer');
         if (elem) {
@@ -109,12 +117,18 @@ var ArchivePlayer = (function () {
                     videojs.log('Video play!');
                 });
 
-                this.on('error', function () {
-                    videojs.log('Error loading video!');
+                this.on('error', () => {
+                    if (player) {
+                        saveVideoStatus();
+
+                        disposePlayer();
+                        toPage(errorPage, null);
+                    }
                 });
             });
         });
 
+        addErrorInterval();
 
         // add eventListener for keydown
         document.addEventListener('keydown', apKeyDownEventListener);
@@ -239,7 +253,7 @@ var ArchivePlayer = (function () {
             else {
                 saveVideoStatus();
                 disposePlayer();
-                
+
                 toPreviousPage(programInfoPage);
             }
         }
@@ -371,6 +385,7 @@ var ArchivePlayer = (function () {
 
     function disposePlayer() {
         removeEventListeners();
+        stopErrorInterval();
 
         if (player) {
             player.dispose();
@@ -443,6 +458,36 @@ var ArchivePlayer = (function () {
         }
     }
 
+    function addErrorInterval() {
+        errorInterval = setInterval(function () {
+            if (player) {
+                var currentTime = Math.round(player.currentTime());
+                //console.log('Stream currentTime: ', currentTime);
+
+                if (currentTime <= streamPosition) {
+                    // stream stopped
+                    if (streamStopCounter === 3) {
+                        saveVideoStatus();
+
+                        disposePlayer();
+                        toPage(errorPage, null);
+                    }
+
+                    streamStopCounter++;
+                }
+
+                streamPosition = currentTime;
+            }
+        }, streamErrorInterval);
+    }
+
+    function stopErrorInterval() {
+        if (errorInterval) {
+            clearInterval(errorInterval);
+            errorInterval = null;
+        }
+    }
+
     function getLanguageTag(archiveLanguage) {
         var langTag = 'fi';
         if (archiveLanguage === 'ET1') {
@@ -490,6 +535,9 @@ var ArchivePlayer = (function () {
         seekingStep = 10;
 
         timeout = null;
+        errorInterval = null;
+        streamPosition = 0;
+        streamStopCounter = 0;
 
         iconAnimationDuration = 1400;
     }

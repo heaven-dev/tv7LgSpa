@@ -9,11 +9,19 @@ var TvPlayer = (function () {
     var programIndex = 0;
     var programData = null;
     var ongoingProgramIndex = 0;
-    var interval = null;
+    var controlsInterval = null;
+    var errorInterval = null;
+    var streamPosition = 0;
+    var streamStopCounter = 0;
 
     TvPlayer.prototype.initTvPlayer = function () {
         hideElementById('toolbarContainer');
         hideElementById('sidebar');
+
+        var isConnected = isConnectedToGateway();
+        if (!isConnected) {
+            toPage(errorPage, null);
+        }
 
         var elem = getElementById('tvPlayer');
         if (elem) {
@@ -71,7 +79,14 @@ var TvPlayer = (function () {
             });
 
             this.on('error', function () {
-                videojs.log('Error loading video!');
+                if (player) {
+                    player.dispose();
+
+                    removeEventListeners();
+                    stopControlsInterval();
+                    stopErrorInterval();
+                    this.commonService.toPage(errorPage, null);
+                }
             });
         });
 
@@ -83,6 +98,8 @@ var TvPlayer = (function () {
             programData = JSON.parse(programData);
             //console.log('Program count: ', programData.length);
         }
+
+        addErrorInterval();
     }
 
     function removeEventListeners() {
@@ -144,25 +161,59 @@ var TvPlayer = (function () {
         }
 
         removeEventListeners();
-        stopInterval();
+        stopControlsInterval();
+        stopErrorInterval();
         toPreviousPage(tvMainPage);
     }
 
-    function addInterval() {
+    function addControlsInterval() {
         ongoingProgramIndex = getOngoingProgramIndex(programData);
 
         // Update controls (status bar, date time)
-        interval = setInterval(function () {
+        controlsInterval = setInterval(function () {
             if (controlsVisible) {
                 updateProgramDetails(true);
             }
         }, tvPlayerControlsUpdateInterval);
     }
 
-    function stopInterval() {
-        if (interval) {
-            clearInterval(interval);
-            interval = null;
+    function stopControlsInterval() {
+        if (controlsInterval) {
+            clearInterval(controlsInterval);
+            controlsInterval = null;
+        }
+    }
+
+    function addErrorInterval() {
+        errorInterval = setInterval(function () {
+            if (player) {
+                var currentTime = Math.round(player.currentTime());
+                //console.log('Stream currentTime: ', currentTime);
+
+                if (currentTime <= streamPosition) {
+                    // stream stopped
+                    if (streamStopCounter === 3) {
+                        player.dispose();
+
+                        removeEventListeners();
+                        stopControlsInterval();
+                        stopErrorInterval();
+
+                        toPage(errorPage, null);
+                    }
+
+                    streamStopCounter++;
+                }
+
+                streamPosition = currentTime;
+            }
+        }, streamErrorInterval);
+    }
+
+    function stopErrorInterval() {
+        if (errorInterval) {
+            clearInterval(errorInterval);
+            errorInterval = null;
         }
     }
 
@@ -223,13 +274,13 @@ var TvPlayer = (function () {
 
         controlsVisible = true;
 
-        addInterval();
+        addControlsInterval();
     }
 
     function hideControls() {
         hideElementById('programDetails');
 
-        stopInterval();
+        stopControlsInterval();
 
         programIndex = 0;
         controlsVisible = false;
@@ -241,7 +292,10 @@ var TvPlayer = (function () {
         programIndex = 0;
         programData = null;
         ongoingProgramIndex = 0;
-        interval = null;
+        controlsInterval = null;
+        errorInterval = null;
+        streamPosition = 0;
+        streamStopCounter = 0;
     }
 
     return TvPlayer;

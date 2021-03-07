@@ -19,6 +19,11 @@ var ProgramInfo = (function () {
         showElementById('toolbarContainer');
         showElementById('sidebar');
 
+        var isConnected = isConnectedToGateway();
+        if (!isConnected) {
+            toPage(errorPage, null);
+        }
+
         setLocaleText('toolbarText');
         setLocaleText('addedToFavoritesText');
         setLocaleText('removedFromFavoritesText');

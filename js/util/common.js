@@ -523,6 +523,10 @@ function toPage(toPage, fromPage) {
 			obj = new TvPlayer();
 			obj.initTvPlayer();
 		}
+		else if (toPage === errorPage) {
+			obj = new Error();
+			obj.initError();
+		}
 	});
 }
 
@@ -539,6 +543,15 @@ function sideMenuSelection(page) {
 	focusOutFromMenuEvent();
 	deletePageStates();
 	toPage(page);
+}
+
+function isConnectedToGateway() {
+	var result = false;
+	if (navigator) {
+		result = navigator.onLine;
+	}
+
+	return result;
 }
 
 function deletePageStates() {
