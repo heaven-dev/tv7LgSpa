@@ -28,11 +28,6 @@ var ArchivePlayer = (function () {
         hideElementById('toolbarContainer');
         hideElementById('sidebar');
 
-        var isConnected = isConnectedToGateway();
-        if (!isConnected) {
-            toPage(errorPage, null);
-        }
-
         var elem = getElementById('archivePlayer');
         if (elem) {
             elem.style.height = getWindowHeight() + 'px';

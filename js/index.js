@@ -10,13 +10,6 @@ window.onload = function () {
 function init() {
 	initNetworkStateListeners();
 
-	var isConnected = isConnectedToGateway();
-	cacheValue(networkKey, isConnected ? yesKey : noKey);
-
-	if (!isConnected) {
-		toPage(errorPage, null);
-	}
-
 	initSidebar();
 	initToolbar();
 

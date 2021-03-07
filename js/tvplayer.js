@@ -18,11 +18,6 @@ var TvPlayer = (function () {
         hideElementById('toolbarContainer');
         hideElementById('sidebar');
 
-        var isConnected = isConnectedToGateway();
-        if (!isConnected) {
-            toPage(errorPage, null);
-        }
-
         var elem = getElementById('tvPlayer');
         if (elem) {
             elem.style.height = getWindowHeight() + 'px';

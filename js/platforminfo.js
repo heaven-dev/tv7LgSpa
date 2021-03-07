@@ -8,11 +8,6 @@ var PlatformInfo = (function () {
         showElementById('toolbarContainer');
         showElementById('sidebar');
 
-        var isConnected = isConnectedToGateway();
-        if (!isConnected) {
-            toPage(errorPage, null);
-        }
-
         setLocaleText('toolbarText');
         setSelectedSidebarIcon(platformInfoIconContainer, [tvIconContainer, archiveIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer]);
 

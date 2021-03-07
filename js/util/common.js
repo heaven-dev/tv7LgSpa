@@ -475,58 +475,68 @@ function toPage(toPage, fromPage) {
 		cacheValue(visiblePageKey, toPage);
 
 		var obj = null;
-		if (toPage === tvMainPage) {
-			obj = new TvMain();
-			obj.initTvMain();
-		}
-		else if (toPage === archiveMainPage) {
-			obj = new ArchiveMain();
-			obj.initArchiveMain();
-		}
-		else if (toPage === archivePlayerPage) {
-			obj = new ArchivePlayer();
-			obj.initArchivePlayer();
-		}
-		else if (toPage === categoryProgramsPage) {
-			obj = new CategoryPrograms();
-			obj.initCategoryPrograms();
-		}
-		else if (toPage === favoritesPage) {
-			obj = new Favorites();
-			obj.initFavorites();
-		}
-		else if (toPage === guidePage) {
-			obj = new Guide();
-			obj.initGuide();
-		}
-		else if (toPage === platformInfoPage) {
-			obj = new PlatformInfo();
-			obj.initPlatformInfo();
-		}
-		else if (toPage === programInfoPage) {
-			obj = new ProgramInfo();
-			obj.initProgramInfo();
-		}
-		else if (toPage === searchPage) {
-			obj = new Search();
-			obj.initSearch();
-		}
-		else if (toPage === searchResultPage) {
-			obj = new SearchResult();
-			obj.initSearchResult();
-		}
-		else if (toPage === seriesPage) {
-			obj = new SeriesPrograms();
-			obj.initSeriesPrograms();
-		}
-		else if (toPage === tvPlayerPage) {
-			obj = new TvPlayer();
-			obj.initTvPlayer();
-		}
-		else if (toPage === errorPage) {
-			obj = new Error();
-			obj.initError();
-		}
+		isConnectedToGateway(function (isConnected) {
+			cacheValue(networkKey, isConnected ? yesKey : noKey);
+			
+			if (!isConnected) {
+				obj = new Error();
+				obj.initError();
+			}
+			else {
+				if (toPage === tvMainPage) {
+					obj = new TvMain();
+					obj.initTvMain();
+				}
+				else if (toPage === archiveMainPage) {
+					obj = new ArchiveMain();
+					obj.initArchiveMain();
+				}
+				else if (toPage === archivePlayerPage) {
+					obj = new ArchivePlayer();
+					obj.initArchivePlayer();
+				}
+				else if (toPage === categoryProgramsPage) {
+					obj = new CategoryPrograms();
+					obj.initCategoryPrograms();
+				}
+				else if (toPage === favoritesPage) {
+					obj = new Favorites();
+					obj.initFavorites();
+				}
+				else if (toPage === guidePage) {
+					obj = new Guide();
+					obj.initGuide();
+				}
+				else if (toPage === platformInfoPage) {
+					obj = new PlatformInfo();
+					obj.initPlatformInfo();
+				}
+				else if (toPage === programInfoPage) {
+					obj = new ProgramInfo();
+					obj.initProgramInfo();
+				}
+				else if (toPage === searchPage) {
+					obj = new Search();
+					obj.initSearch();
+				}
+				else if (toPage === searchResultPage) {
+					obj = new SearchResult();
+					obj.initSearchResult();
+				}
+				else if (toPage === seriesPage) {
+					obj = new SeriesPrograms();
+					obj.initSeriesPrograms();
+				}
+				else if (toPage === tvPlayerPage) {
+					obj = new TvPlayer();
+					obj.initTvPlayer();
+				}
+				else if (toPage === errorPage) {
+					obj = new Error();
+					obj.initError();
+				}
+			}
+		});
 	});
 }
 
@@ -545,13 +555,31 @@ function sideMenuSelection(page) {
 	toPage(page);
 }
 
-function isConnectedToGateway() {
-	var result = false;
-	if (navigator) {
-		result = navigator.onLine;
+function isConnectedToGateway(cb) {
+	if (!runOnBrowser) {
+		webOS.service.request('luna://com.palm.connectionmanager', {
+			method: 'getStatus',
+			onSuccess: function (response) {
+				if (response) {
+					cb(response.isInternetConnectionAvailable);
+				}
+				else {
+					cb(true);
+				}
+			},
+			onFailure: function (error) {
+				cb(true);
+			}
+		});
 	}
+	else {
+		var result = false;
+		if (navigator) {
+			result = navigator.onLine;
+		}
 
-	return result;
+		cb(result);
+	}
 }
 
 function deletePageStates() {
