@@ -304,13 +304,21 @@ var SeriesPrograms = (function () {
 		if (seriesData && seriesData[row]) {
 			showElementById('seriesBusyLoader');
 
-			getProgramInfo(seriesData[row].id, function (program) {
-				cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+			isConnectedToGateway(function (isConnected) {
+				if (!isConnected) {
+					hideElementById('seriesBusyLoader');
+					toPage(errorPage, null);
+				}
+				else {
+					getProgramInfo(seriesData[row].id, function (program) {
+						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-				savePageState(row);
+						savePageState(row);
 
-				hideElementById('seriesBusyLoader');
-				toPage(programInfoPage, seriesPage);
+						hideElementById('seriesBusyLoader');
+						toPage(programInfoPage, seriesPage);
+					});
+				}
 			});
 		}
 	}

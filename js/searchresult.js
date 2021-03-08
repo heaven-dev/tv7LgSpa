@@ -271,11 +271,20 @@ var SearchResult = (function () {
 			}
 			else {
 				showElementById('searchResultBusyLoader');
-				getProgramInfo(data.id, function (program) {
-					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-					hideElementById('searchResultBusyLoader');
-					toPage(programInfoPage, searchResultPage);
+				isConnectedToGateway(function (isConnected) {
+					if (!isConnected) {
+						hideElementById('searchResultBusyLoader');
+						toPage(errorPage, null);
+					}
+					else {
+						getProgramInfo(data.id, function (program) {
+							cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
+							hideElementById('searchResultBusyLoader');
+							toPage(programInfoPage, searchResultPage);
+						});
+					}
 				});
 			}
 		}

@@ -214,11 +214,20 @@ var Favorites = (function () {
 			var id = favoritesData[row].id;
 
 			showElementById('favoritesBusyLoader');
-			getProgramInfo(id, function (program) {
-				cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+			
+			isConnectedToGateway(function (isConnected) {
+				if (!isConnected) {
+					hideElementById('favoritesBusyLoader');
+					toPage(errorPage, null);
+				}
+				else {
+					getProgramInfo(id, function (program) {
+						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-				hideElementById('favoritesBusyLoader');
-				toPage(programInfoPage, favoritesPage);
+						hideElementById('favoritesBusyLoader');
+						toPage(programInfoPage, favoritesPage);
+					});
+				}
 			});
 		}
 	}

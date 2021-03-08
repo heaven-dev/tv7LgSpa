@@ -640,11 +640,20 @@ var ArchiveMain = (function () {
 			savePageState(row, col);
 
 			showElementById('commonBusyLoader');
-			getProgramInfo(data.id, function (program) {
-				cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-				hideElementById('commonBusyLoader');
-				toPage(programInfoPage, archiveMainPage);
+			isConnectedToGateway(function (isConnected) {
+				if (!isConnected) {
+					hideElementById('commonBusyLoader');
+					toPage(errorPage, null);
+				}
+				else {
+					getProgramInfo(data.id, function (program) {
+						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
+						hideElementById('commonBusyLoader');
+						toPage(programInfoPage, archiveMainPage);
+					});
+				}
 			});
 		}
 	}

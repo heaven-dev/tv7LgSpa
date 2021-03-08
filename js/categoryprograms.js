@@ -268,12 +268,20 @@ var CategoryPrograms = (function () {
 			else {
 				showElementById('categoryProgramsBusyLoader');
 
-				getProgramInfo(categoryProgramData[row].id, function (program) {
-					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+				isConnectedToGateway(function (isConnected) {
+					if (!isConnected) {
+						hideElementById('categoryProgramsBusyLoader');
+						toPage(errorPage, null);
+					}
+					else {
+						getProgramInfo(categoryProgramData[row].id, function (program) {
+							cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-					hideElementById('categoryProgramsBusyLoader');
+							hideElementById('categoryProgramsBusyLoader');
 
-					toPage(programInfoPage, categoryProgramsPage);
+							toPage(programInfoPage, categoryProgramsPage);
+						});
+					}
 				});
 			}
 		}

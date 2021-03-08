@@ -313,13 +313,21 @@ var Guide = (function () {
     function toItemPage(row) {
         showElementById('guideBusyLoader');
 
-        getProgramInfo(guideDateData[row].id, function (program) {
-            cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+        isConnectedToGateway(function (isConnected) {
+            if (!isConnected) {
+                hideElementById('guideBusyLoader');
+                toPage(errorPage, null);
+            }
+            else {
+                getProgramInfo(guideDateData[row].id, function (program) {
+                    cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
 
-            savePageState(row);
+                    savePageState(row);
 
-            hideElementById('guideBusyLoader');
-            toPage(programInfoPage, guidePage);
+                    hideElementById('guideBusyLoader');
+                    toPage(programInfoPage, guidePage);
+                });
+            }
         });
     }
 

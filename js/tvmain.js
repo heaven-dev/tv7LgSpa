@@ -240,26 +240,27 @@ var TvMain = (function () {
 		var count = guideData.length - getOngoingProgramIndex(guideData);
 		if (count <= programListMinSize) {
 			isConnectedToGateway(function (isConnected) {
-	
+
 				if (!isConnected) {
 					removeEventListeners();
 					stopInterval();
-					
+
 					toPage(errorPage, null);
 				}
+				else {
+					// get today and tomorrow guide and update the page
+					getGuideByDate(getTodayDate(), function (gToday) {
+						gToday = gToday.data;
 
-				// get today and tomorrow guide and update the page
-				getGuideByDate(getTodayDate(), function (gToday) {
-					gToday = gToday.data;
+						getGuideByDate(getTomorrowDate(), function (gTomorrow) {
+							guideData = gToday.concat(gTomorrow.data);
 
-					getGuideByDate(getTomorrowDate(), function (gTomorrow) {
-						guideData = gToday.concat(gTomorrow.data);
+							cacheValue(programScheduleDataKey, JSON.stringify(guideData));
 
-						cacheValue(programScheduleDataKey, JSON.stringify(guideData));
-
-						updatePage(true);
+							updatePage(true);
+						});
 					});
-				});
+				}
 			});
 		}
 	}
