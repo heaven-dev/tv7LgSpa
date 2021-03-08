@@ -343,31 +343,39 @@ var Guide = (function () {
 
         showElementById('guideBusyLoader');
 
-        getGuideByDate(date, function (guideData) {
-            //console.log('Guide by date data: ', guideData);
-
-            guideDateData = guideData.data;
-
-            addData(guideData.data, 'guideTemplate', 'guideContainer', false);
-
-            selectDate(col);
-            selectedDateIndex = col;
-
-            var element = getElementById('guideContainer');
-            if (element && isDateToday(date)) {
-                ongoingProgramIndex = guideData.ongoingProgramIndex;
-                setTodayPosition(element, ongoingProgramIndex);
-                showElementById('ongoingProgram_' + ongoingProgramIndex);
+        isConnectedToGateway(function (isConnected) {
+            if (!isConnected) {
+                removeEventListeners();
+                toPage(errorPage, null);
             }
             else {
-                element.style.bottom = '0px';
-            }
+                getGuideByDate(date, function (guideData) {
+                    //console.log('Guide by date data: ', guideData);
 
-            if (element && !firstLoad) {
-                animateRows(element);
-            }
+                    guideDateData = guideData.data;
 
-            hideElementById('guideBusyLoader');
+                    addData(guideData.data, 'guideTemplate', 'guideContainer', false);
+
+                    selectDate(col);
+                    selectedDateIndex = col;
+
+                    var element = getElementById('guideContainer');
+                    if (element && isDateToday(date)) {
+                        ongoingProgramIndex = guideData.ongoingProgramIndex;
+                        setTodayPosition(element, ongoingProgramIndex);
+                        showElementById('ongoingProgram_' + ongoingProgramIndex);
+                    }
+                    else {
+                        element.style.bottom = '0px';
+                    }
+
+                    if (element && !firstLoad) {
+                        animateRows(element);
+                    }
+
+                    hideElementById('guideBusyLoader');
+                });
+            }
         });
     }
 
