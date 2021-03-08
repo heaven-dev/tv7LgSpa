@@ -345,6 +345,7 @@ var Guide = (function () {
 
         isConnectedToGateway(function (isConnected) {
             if (!isConnected) {
+                hideElementById('guideBusyLoader');
                 removeEventListeners();
                 toPage(errorPage, null);
             }
