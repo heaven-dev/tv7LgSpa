@@ -239,16 +239,24 @@ var TvMain = (function () {
 
 		var count = guideData.length - getOngoingProgramIndex(guideData);
 		if (count <= programListMinSize) {
-			// get today and tomorrow guide and update the page
-			getGuideByDate(getTodayDate(), function (gToday) {
-				gToday = gToday.data;
+			isConnectedToGateway(function (isConnected) {
+	
+				if (!isConnected) {
+					stopInterval();
+					toPage(errorPage, null);
+				}
 
-				getGuideByDate(getTomorrowDate(), function (gTomorrow) {
-					guideData = gToday.concat(gTomorrow.data);
+				// get today and tomorrow guide and update the page
+				getGuideByDate(getTodayDate(), function (gToday) {
+					gToday = gToday.data;
 
-					cacheValue(programScheduleDataKey, JSON.stringify(guideData));
+					getGuideByDate(getTomorrowDate(), function (gTomorrow) {
+						guideData = gToday.concat(gTomorrow.data);
 
-					updatePage(true);
+						cacheValue(programScheduleDataKey, JSON.stringify(guideData));
+
+						updatePage(true);
+					});
 				});
 			});
 		}
