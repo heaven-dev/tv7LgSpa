@@ -242,7 +242,9 @@ var TvMain = (function () {
 			isConnectedToGateway(function (isConnected) {
 	
 				if (!isConnected) {
+					removeEventListeners();
 					stopInterval();
+					
 					toPage(errorPage, null);
 				}
 
