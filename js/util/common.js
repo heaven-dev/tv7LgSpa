@@ -559,7 +559,10 @@ function isConnectedToGateway(cb) {
 			method: 'getStatus',
 			onSuccess: function (response) {
 				if (response) {
-					cb(response.isInternetConnectionAvailable);
+					var connected = response.isInternetConnectionAvailable;
+
+					cacheValue(networkKey, connected ? yesKey : noKey);
+					cb(connected);
 				}
 				else {
 					cb(true);
