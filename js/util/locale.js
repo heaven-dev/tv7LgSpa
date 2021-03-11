@@ -13,7 +13,7 @@ var appName = 'Taivas TV7';
 /**
  * Updated by gulp script during a build of the app.
  */
-var appVersion = '2.0.4';
+var appVersion = '2.0.6';
 
 var logoTaivas = 'images/logo_taivas.png';
 var logoTaevas = 'images/logo_taevas.png';

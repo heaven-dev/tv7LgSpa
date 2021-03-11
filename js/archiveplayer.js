@@ -470,6 +470,9 @@ var ArchivePlayer = (function () {
 
                     streamStopCounter++;
                 }
+                else {
+                    streamStopCounter = 0;
+                }
 
                 streamPosition = currentTime;
             }

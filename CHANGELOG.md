@@ -1,3 +1,14 @@
+# 11.03.2021 07:40
+
+### Bug Fixes
+
+* Fixed network detect issue in TV palayer and archive player.
+
+### Features
+
+* New version number.
+
+
 # 08.03.2021 11:34
 
 ### Bug Fixes
