@@ -69,58 +69,66 @@ var ArchivePlayer = (function () {
         }
 
         getTranslation(selectedProgram.id, langTag, function (data) {
-            createTrackElement(data);
+            if (data !== null) {
+                if (data.lang) {
+                    createTrackElement(data.lang);
+                }
+                
+                player = videojs('videoPlayer', options, function onPlayerReady() {
+                    player.src({ type: streamType, src: videoUrl });
 
-            player = videojs('videoPlayer', options, function onPlayerReady() {
-                player.src({ type: streamType, src: videoUrl });
+                    player.ready(function () {
+                        videojs.log('Player is ready!');
+                    });
 
-                player.ready(function () {
-                    videojs.log('Player is ready!');
-                });
+                    this.on('loadedmetadata', function () {
+                        videojs.log('Video loadedmetadata!');
 
-                this.on('loadedmetadata', function () {
-                    videojs.log('Video loadedmetadata!');
-
-                    if (videoStatus && videoStatus.p < 100) {
-                        player.currentTime(videoStatus.c);
-                    }
-                });
-
-                this.on('timeupdate', function () {
-                    if (controlsVisible && player) {
-                        if (!videoDuration) {
-                            videoDuration = player.duration();
+                        if (videoStatus && videoStatus.p < 100) {
+                            player.currentTime(videoStatus.c);
                         }
+                    });
 
-                        updateControls(player.currentTime());
-                    }
-                });
+                    this.on('timeupdate', function () {
+                        if (controlsVisible && player) {
+                            if (!videoDuration) {
+                                videoDuration = player.duration();
+                            }
 
-                this.on('ended', function () {
-                    videojs.log('Video end!');
-                    saveVideoStatus();
+                            updateControls(player.currentTime());
+                        }
+                    });
 
-                    disposePlayer();
-                    toPreviousPage(programInfoPage);
-                });
-
-                this.on('pause', function () {
-                    videojs.log('Video paused!');
-                });
-
-                this.on('play', function () {
-                    videojs.log('Video play!');
-                });
-
-                this.on('error', function () {
-                    if (player) {
+                    this.on('ended', function () {
+                        videojs.log('Video end!');
                         saveVideoStatus();
 
                         disposePlayer();
-                        toPage(errorPage, null);
-                    }
+                        toPreviousPage(programInfoPage);
+                    });
+
+                    this.on('pause', function () {
+                        videojs.log('Video paused!');
+                    });
+
+                    this.on('play', function () {
+                        videojs.log('Video play!');
+                    });
+
+                    this.on('error', function () {
+                        if (player) {
+                            saveVideoStatus();
+
+                            disposePlayer();
+                            toPage(errorPage, null);
+                        }
+                    });
                 });
-            });
+            }
+            else {
+                removeEventListeners();
+                toPage(errorPage, null);
+            }
         });
 
         addErrorInterval();

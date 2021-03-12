@@ -641,18 +641,16 @@ var ArchiveMain = (function () {
 
 			showElementById('commonBusyLoader');
 
-			isConnectedToGateway(function (isConnected) {
-				if (!isConnected) {
+			getProgramInfo(data.id, function (program) {
+				if (program !== null) {
+					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
 					hideElementById('commonBusyLoader');
-					toPage(errorPage, null);
+					toPage(programInfoPage, archiveMainPage);
 				}
 				else {
-					getProgramInfo(data.id, function (program) {
-						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-						hideElementById('commonBusyLoader');
-						toPage(programInfoPage, archiveMainPage);
-					});
+					hideElementById('commonBusyLoader');
+					toPage(errorPage, null);
 				}
 			});
 		}
@@ -660,109 +658,149 @@ var ArchiveMain = (function () {
 
 	function readRecommendedPrograms(date, limit, offset, pageState) {
 		getRecommendedPrograms(date, limit, offset, function (data) {
-			recommended = data;
+			if (data !== null) {
+				recommended = data;
 
-			//console.log('readRecommendedPrograms(): response: ', recommended);
+				//console.log('readRecommendedPrograms(): response: ', recommended);
 
-			addData(recommended, 'recommendedTemplate', 'recommendedProgramsContainer');
+				addData(recommended, 'recommendedTemplate', 'recommendedProgramsContainer');
 
-			restoreRightMargin(pageState, 'recommendedPrograms', 0);
+				restoreRightMargin(pageState, 'recommendedPrograms', 0);
 
-			hideElementById('recommendedBusyLoader');
-			changeRowBackgroundColor('recommendedProgramsContainer', '#ffffff');
+				hideElementById('recommendedBusyLoader');
+				changeRowBackgroundColor('recommendedProgramsContainer', '#ffffff');
 
-			if (!pageState) {
-				focusToElement(defaultRowCol);
+				if (!pageState) {
+					focusToElement(defaultRowCol);
+				}
+			}
+			else {
+				removeEventListeners(true);
+				hideElementById('recommendedBusyLoader');
+
+				toPage(errorPage, null);
 			}
 		});
 	}
 
 	function readMostViewedPrograms(archiveLanguage, pageState) {
 		getMostViewedPrograms(archiveLanguage, function (data) {
-			mostViewed = data;
+			if (data !== null) {
+				mostViewed = data;
 
-			//console.log('readMostViewedPrograms(): response: ', mostViewed);
+				//console.log('readMostViewedPrograms(): response: ', mostViewed);
 
-			addData(mostViewed, 'mostViewedTemplate', 'mostViewedProgramsContainer');
+				addData(mostViewed, 'mostViewedTemplate', 'mostViewedProgramsContainer');
 
-			restoreRightMargin(pageState, 'mostViewedPrograms', 1);
+				restoreRightMargin(pageState, 'mostViewedPrograms', 1);
 
-			hideElementById('mostViewedBusyLoader');
-			changeRowBackgroundColor('mostViewedProgramsContainer', '#ffffff');
+				hideElementById('mostViewedBusyLoader');
+				changeRowBackgroundColor('mostViewedProgramsContainer', '#ffffff');
+			}
+			else {
+				removeEventListeners(true);
+				hideElementById('mostViewedBusyLoader');
+
+				toPage(errorPage, null);
+			}
 		});
 	}
 
 	function readNewestPrograms(date, limit, offset, category, pageState) {
 		getNewestPrograms(date, limit, offset, category, function (data) {
-			newest = data;
+			if (data !== null) {
+				newest = data;
 
-			//console.log('readNewestPrograms(): response: ', newest);
+				//console.log('readNewestPrograms(): response: ', newest);
 
-			addData(newest, 'newestTemplate', 'newestProgramsContainer');
+				addData(newest, 'newestTemplate', 'newestProgramsContainer');
 
-			restoreRightMargin(pageState, 'newestPrograms', 2);
+				restoreRightMargin(pageState, 'newestPrograms', 2);
 
-			hideElementById('newestBusyLoader');
-			changeRowBackgroundColor('newestProgramsContainer', '#ffffff');
+				hideElementById('newestBusyLoader');
+				changeRowBackgroundColor('newestProgramsContainer', '#ffffff');
+			}
+			else {
+				removeEventListeners(true);
+				hideElementById('newestBusyLoader');
+
+				toPage(errorPage, null);
+			}
 		});
 	}
 
 	function readParentCategories(pageState, pageLoad, cb) {
 		getParentCategories(function (data) {
-			categories = data;
+			if (data !== null) {
+				categories = data;
 
-			//console.log('readParentCategories(): response: ', categories);
+				//console.log('readParentCategories(): response: ', categories);
 
-			addData(categories, 'categoriesTemplate', 'categoriesContainer');
+				addData(categories, 'categoriesTemplate', 'categoriesContainer');
 
-			if (pageLoad) {
-				restoreRightMargin(pageState, 'categories', 3);
+				if (pageLoad) {
+					restoreRightMargin(pageState, 'categories', 3);
 
-				hideElementById('categoriesBusyLoader');
-				changeRowBackgroundColor('categoriesContainer', '#ffffff');
+					hideElementById('categoriesBusyLoader');
+					changeRowBackgroundColor('categoriesContainer', '#ffffff');
+				}
+				else {
+					focusToElement(categoryDefaultRowCol);
+				}
+
+				subCategoriesVisible = false;
+
+				if (cb) {
+					cb(categories);
+				}
 			}
 			else {
-				focusToElement(categoryDefaultRowCol);
-			}
+				removeEventListeners(true);
+				hideElementById('categoriesBusyLoader');
 
-			subCategoriesVisible = false;
-
-			if (cb) {
-				cb(categories);
+				toPage(errorPage, null);
 			}
 		});
 	}
 
 	function readSubCategories(pageState, pageLoad, cb) {
 		getSubCategories(function (data) {
-			if (!lastParentCategoryId && pageState) {
-				lastParentCategoryId = pageState.lastParentCategoryId;
-			}
+			if (data !== null) {
+				if (!lastParentCategoryId && pageState) {
+					lastParentCategoryId = pageState.lastParentCategoryId;
+				}
 
-			lastParentCategoryId = !lastParentCategoryId ? pageState.lastParentCategoryId : lastParentCategoryId;
+				lastParentCategoryId = !lastParentCategoryId ? pageState.lastParentCategoryId : lastParentCategoryId;
 
-			categories = filterSubCategories(data, lastParentCategoryId);
+				categories = filterSubCategories(data, lastParentCategoryId);
 
-			//console.log('readSubCategories(): filtered response: ', categories);
+				//console.log('readSubCategories(): filtered response: ', categories);
 
-			addData(categories, 'categoriesTemplate', 'categoriesContainer');
-			setLocaleText('categoryBackText');
+				addData(categories, 'categoriesTemplate', 'categoriesContainer');
+				setLocaleText('categoryBackText');
 
-			if (pageLoad) {
-				restoreRightMargin(pageState, 'categories', 3);
+				if (pageLoad) {
+					restoreRightMargin(pageState, 'categories', 3);
 
-				hideElementById('categoriesBusyLoader');
-				changeRowBackgroundColor('categoriesContainer', '#ffffff');
+					hideElementById('categoriesBusyLoader');
+					changeRowBackgroundColor('categoriesContainer', '#ffffff');
 
-				changeCategoriesTitleText(categories[0].parent_name);
+					changeCategoriesTitleText(categories[0].parent_name);
+				}
+				else {
+					if (cb) {
+						cb(categories);
+					}
+				}
+
+				subCategoriesVisible = true;
 			}
 			else {
-				if (cb) {
-					cb(categories);
-				}
+				removeEventListeners(true);
+				hideElementById('categoriesBusyLoader');
+				
+				toPage(errorPage, null);
 			}
-
-			subCategoriesVisible = true;
 		});
 	}
 

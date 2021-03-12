@@ -15,7 +15,7 @@ var Error = (function () {
             if (networkError) {
                 var elem = getElementById('somethingWentWrongText');
                 if (elem) {
-                    elem.innerHTML = 'No network connection :-(';
+                    elem.innerHTML = 'Network request failed :-(';
                 }
             }
         }

@@ -313,20 +313,18 @@ var Guide = (function () {
     function toItemPage(row) {
         showElementById('guideBusyLoader');
 
-        isConnectedToGateway(function (isConnected) {
-            if (!isConnected) {
+        getProgramInfo(guideDateData[row].id, function (program) {
+            if (program !== null) {
+                cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
+                savePageState(row);
+
                 hideElementById('guideBusyLoader');
-                toPage(errorPage, null);
+                toPage(programInfoPage, guidePage);
             }
             else {
-                getProgramInfo(guideDateData[row].id, function (program) {
-                    cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-                    savePageState(row);
-
-                    hideElementById('guideBusyLoader');
-                    toPage(programInfoPage, guidePage);
-                });
+                hideElementById('guideBusyLoader');
+                toPage(errorPage, null);
             }
         });
     }
@@ -343,39 +341,37 @@ var Guide = (function () {
 
         showElementById('guideBusyLoader');
 
-        isConnectedToGateway(function (isConnected) {
-            if (!isConnected) {
+        getGuideByDate(date, function (guideData) {
+            if (guideData !== null) {
+                //console.log('Guide by date data: ', guideData);
+
+                guideDateData = guideData.data;
+
+                addData(guideData.data, 'guideTemplate', 'guideContainer', false);
+
+                selectDate(col);
+                selectedDateIndex = col;
+
+                var element = getElementById('guideContainer');
+                if (element && isDateToday(date)) {
+                    ongoingProgramIndex = guideData.ongoingProgramIndex;
+                    setTodayPosition(element, ongoingProgramIndex);
+                    showElementById('ongoingProgram_' + ongoingProgramIndex);
+                }
+                else {
+                    element.style.bottom = '0px';
+                }
+
+                if (element && !firstLoad) {
+                    animateRows(element);
+                }
+
+                hideElementById('guideBusyLoader');
+            }
+            else {
                 hideElementById('guideBusyLoader');
                 removeEventListeners();
                 toPage(errorPage, null);
-            }
-            else {
-                getGuideByDate(date, function (guideData) {
-                    //console.log('Guide by date data: ', guideData);
-
-                    guideDateData = guideData.data;
-
-                    addData(guideData.data, 'guideTemplate', 'guideContainer', false);
-
-                    selectDate(col);
-                    selectedDateIndex = col;
-
-                    var element = getElementById('guideContainer');
-                    if (element && isDateToday(date)) {
-                        ongoingProgramIndex = guideData.ongoingProgramIndex;
-                        setTodayPosition(element, ongoingProgramIndex);
-                        showElementById('ongoingProgram_' + ongoingProgramIndex);
-                    }
-                    else {
-                        element.style.bottom = '0px';
-                    }
-
-                    if (element && !firstLoad) {
-                        animateRows(element);
-                    }
-
-                    hideElementById('guideBusyLoader');
-                });
             }
         });
     }

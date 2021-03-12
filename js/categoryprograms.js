@@ -268,21 +268,20 @@ var CategoryPrograms = (function () {
 			else {
 				showElementById('categoryProgramsBusyLoader');
 
-				isConnectedToGateway(function (isConnected) {
-					if (!isConnected) {
+				getProgramInfo(categoryProgramData[row].id, function (program) {
+					if (program !== null) {
+						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
+						hideElementById('categoryProgramsBusyLoader');
+
+						toPage(programInfoPage, categoryProgramsPage);
+					}
+					else {
 						hideElementById('categoryProgramsBusyLoader');
 						toPage(errorPage, null);
 					}
-					else {
-						getProgramInfo(categoryProgramData[row].id, function (program) {
-							cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-							hideElementById('categoryProgramsBusyLoader');
-
-							toPage(programInfoPage, categoryProgramsPage);
-						});
-					}
 				});
+
 			}
 		}
 	}
@@ -305,27 +304,35 @@ var CategoryPrograms = (function () {
 		showElementById('categoryProgramsBusyLoader');
 
 		getCategoryPrograms(selectedCategory.id, limit, offset, function (data) {
-			categoryProgramData = categoryProgramData.concat(data);
+			if (data !== null) {
+				categoryProgramData = categoryProgramData.concat(data);
 
-			//console.log('Category programs data: ', categoryProgramData);
+				//console.log('Category programs data: ', categoryProgramData);
 
-			if (data) {
-				if (data.length < limit) {
-					limit = -1;
-					offset = -1;
+				if (data) {
+					if (data.length < limit) {
+						limit = -1;
+						offset = -1;
+					}
+					else {
+						offset = offset + data.length;
+					}
 				}
-				else {
-					offset = offset + data.length;
-				}
+
+				addData(data, 'categoryProgramsTemplate', 'categoryProgramsContainer', true);
+
+				hideElementById('categoryProgramsBusyLoader');
+
+				focusToElement(focusElement);
+
+				loadingData = false;
 			}
+			else {
+				removeEventListeners();
+				hideElementById('categoryProgramsBusyLoader');
 
-			addData(data, 'categoryProgramsTemplate', 'categoryProgramsContainer', true);
-
-			hideElementById('categoryProgramsBusyLoader');
-
-			focusToElement(focusElement);
-
-			loadingData = false;
+				toPage(errorPage, null);
+			}
 		});
 	}
 

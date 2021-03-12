@@ -214,19 +214,17 @@ var Favorites = (function () {
 			var id = favoritesData[row].id;
 
 			showElementById('favoritesBusyLoader');
-			
-			isConnectedToGateway(function (isConnected) {
-				if (!isConnected) {
+
+			getProgramInfo(id, function (program) {
+				if (program !== null) {
+					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
 					hideElementById('favoritesBusyLoader');
-					toPage(errorPage, null);
+					toPage(programInfoPage, favoritesPage);
 				}
 				else {
-					getProgramInfo(id, function (program) {
-						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-						hideElementById('favoritesBusyLoader');
-						toPage(programInfoPage, favoritesPage);
-					});
+					hideElementById('favoritesBusyLoader');
+					toPage(errorPage, null);
 				}
 			});
 		}

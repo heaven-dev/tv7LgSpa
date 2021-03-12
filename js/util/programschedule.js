@@ -2,78 +2,92 @@
 
 function getGuideByDate(date, cb) {
     var url = getArchiveUrl() + guideMethod + '?' + dateParam + '=' + date;
-    
+
     console.log('Guide by date URL: ', url);
 
-    runGuideByDateQuery(url, function(data) {
-        data = stringToJson(data);
+    runGuideByDateQuery(url, function (data) {
+        if (data !== null) {
+            data = stringToJson(data);
 
-        var rootProp = guideMethod.replace(get_, '');
+            var rootProp = guideMethod.replace(get_, '');
 
-        data = data[rootProp];
+            data = data[rootProp];
 
-        var currentTime = Date.now();
+            var currentTime = Date.now();
 
-        var ongoingProgramIndex = 0;
-        for(var i = 0; i < data.length; i++) {
-            var item = data[i];
+            var ongoingProgramIndex = 0;
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
 
-            var time = Number(item.time);
-            var endTime = Number(item.end_time);
+                var time = Number(item.time);
+                var endTime = Number(item.end_time);
 
-            item.time = time;
-            item.endTime = endTime;
-            item.duration = endTime - time;
+                item.time = time;
+                item.endTime = endTime;
+                item.duration = endTime - time;
 
-            item.localStartTime = getLocalTimeByUtcTime(time);
-            item.localEndTime = getLocalTimeByUtcTime(endTime);
+                item.localStartTime = getLocalTimeByUtcTime(time);
+                item.localEndTime = getLocalTimeByUtcTime(endTime);
 
-            item.startEndLocal = item.localStartTime + ' - ' + item.localEndTime;
+                item.startEndLocal = item.localStartTime + ' - ' + item.localEndTime;
 
-            item.localStartDate = getLocalDateByUtcTime(time);
-            item.localEndDate = getLocalDateByUtcTime(endTime);
+                item.localStartDate = getLocalDateByUtcTime(time);
+                item.localEndDate = getLocalDateByUtcTime(endTime);
 
-            item.duration_time = getTimeStampByDuration(item.duration);
-            item.broadcast_date_time = getDateTimeByTimeInMs(time);
+                item.duration_time = getTimeStampByDuration(item.duration);
+                item.broadcast_date_time = getDateTimeByTimeInMs(time);
 
-            var nameDesc = item.series;
-            var name = item.name;
-            if (nameDesc && nameDesc.length && name && name.length) {
-                nameDesc += (' | ' + name);
+                var nameDesc = item.series;
+                var name = item.name;
+                if (nameDesc && nameDesc.length && name && name.length) {
+                    nameDesc += (' | ' + name);
+                }
+
+                if (!nameDesc || nameDesc.length === 0) {
+                    nameDesc = name;
+                }
+
+                item.name_desc = nameDesc;
+
+                if (item.is_visible_on_vod && item.visible_on_vod_since) {
+                    item.is_visible_on_vod = isPastTime(parseInt(item.visible_on_vod_since)) ? '2' : '0';
+                }
+                else {
+                    item.is_visible_on_vod = '-1';
+                }
+
+                var s = new Date(time).getTime();
+                var e = new Date(endTime).getTime();
+
+                if ((currentTime >= s && currentTime <= e) || e < currentTime) {
+                    ongoingProgramIndex = i;
+                }
             }
 
-            if (!nameDesc || nameDesc.length === 0) {
-                nameDesc = name;
-            }
-
-            item.name_desc = nameDesc;
-
-            if (item.is_visible_on_vod && item.visible_on_vod_since) {
-                item.is_visible_on_vod = isPastTime(parseInt(item.visible_on_vod_since)) ? '2' : '0';
-            }
-            else {
-                item.is_visible_on_vod = '-1';
-            }
-            
-            var s = new Date(time).getTime();
-            var e = new Date(endTime).getTime();
-
-            if ((currentTime >= s && currentTime <= e) || e < currentTime) {
-                ongoingProgramIndex = i;
-            }
+            cb({ ongoingProgramIndex: ongoingProgramIndex, data: data });
         }
-
-        cb({ongoingProgramIndex: ongoingProgramIndex, data: data});
+        else {
+            cb(data);
+        }
     });
 }
 
 function runGuideByDateQuery(url, cb) {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            cb(xhttp.responseText);
-        }
+    xhttp.onload = function (e) {
+        //console.log('Response: ', this.responseText);
+        cacheValue(networkKey, yesKey);
+
+        cb(this.responseText);
     };
+
+    xhttp.onerror = function (e) {
+        //console.log('Network request failed: ', e);
+        cacheValue(networkKey, noKey);
+
+        cb(null);
+    };
+
     xhttp.open('GET', url, true);
     xhttp.send();
 }
@@ -97,7 +111,7 @@ function getProgramByIndex(data, index) {
 
             if (index === 0) {
                 // calculate status bar percent
-                
+
                 p.passed = current - new Date(start).getTime();
                 p.passedPercent = validatePercentValue(Math.round(p.passed / p.duration * 100));
             }
@@ -122,7 +136,7 @@ function isOngoingProgram(data, index) {
     if (p) {
         var s = new Date(p.time).getTime();
         var e = new Date(p.endTime).getTime();
-    
+
         if (currentUtcTime >= s && currentUtcTime <= e) {
             return true;
         }
@@ -136,7 +150,7 @@ function getOngoingAndComingPrograms(data, count) {
     var current = getUtcTimeStamp();
     var index = getOngoingProgramIndex(data);
 
-    for(var i = index; i < data.length; i++) {
+    for (var i = index; i < data.length; i++) {
         // If count is null => take all
         if (count != null && retData.length === count) {
             break;
@@ -151,7 +165,7 @@ function getOngoingAndComingPrograms(data, count) {
 
             if (i === index) {
                 // calculate status bar percent
-                
+
                 p.passed = current - new Date(start).getTime();
                 p.passedPercent = validatePercentValue(Math.round(p.passed / p.duration * 100));
             }
@@ -178,7 +192,7 @@ function getOngoingProgramIndex(data) {
     var index = 0;
 
     var currentUtcTime = getUtcTimeStamp();
-    for(var i = 0; data && i < data.length; i++) {
+    for (var i = 0; data && i < data.length; i++) {
         var p = data[i];
 
         if (p) {
@@ -200,7 +214,7 @@ function getGuideData(data, startIndex, count) {
     var index = getOngoingProgramIndex(data) + startIndex;
 
     var p = null;
-    for(var i = index; i < data.length; i++) {
+    for (var i = index; i < data.length; i++) {
         if (retData.length === count) {
             break;
         }
@@ -249,6 +263,6 @@ function isStartDateToday(time) {
 function getLocalDateTime() {
     var d = new Date();
 
-    return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + '  ' 
+    return d.getDate() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear() + '  '
         + prependZero(d.getHours()) + ':' + prependZero(d.getMinutes());
 }

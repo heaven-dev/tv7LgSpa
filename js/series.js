@@ -272,11 +272,11 @@ var SeriesPrograms = (function () {
 		showElementById('seriesBusyLoader');
 
 		getSeriesPrograms(seriesId, limit, offset, function (data) {
-			seriesData = seriesData.concat(data);
+			if (data !== null) {
+				seriesData = seriesData.concat(data);
 
-			//console.log('Series data: ', seriesData);
+				//console.log('Series data: ', seriesData);
 
-			if (data) {
 				if (data.length < limit) {
 					limit = -1;
 					offset = -1;
@@ -288,15 +288,21 @@ var SeriesPrograms = (function () {
 				if (firstLoad) {
 					setTitleText();
 				}
+
+				addData(data, 'seriesTemplate', 'seriesProgramsContainer', true);
+
+				hideElementById('seriesBusyLoader');
+
+				focusToElement(focusElement);
+
+				loadingData = false;
 			}
+			else {
+				removeEventListeners();
+				hideElementById('seriesBusyLoader');
 
-			addData(data, 'seriesTemplate', 'seriesProgramsContainer', true);
-
-			hideElementById('seriesBusyLoader');
-
-			focusToElement(focusElement);
-
-			loadingData = false;
+				toPage(errorPage, null);
+			}
 		});
 	}
 
@@ -304,20 +310,18 @@ var SeriesPrograms = (function () {
 		if (seriesData && seriesData[row]) {
 			showElementById('seriesBusyLoader');
 
-			isConnectedToGateway(function (isConnected) {
-				if (!isConnected) {
+			getProgramInfo(seriesData[row].id, function (program) {
+				if (program !== null) {
+					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
+					savePageState(row);
+
 					hideElementById('seriesBusyLoader');
-					toPage(errorPage, null);
+					toPage(programInfoPage, seriesPage);
 				}
 				else {
-					getProgramInfo(seriesData[row].id, function (program) {
-						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-						savePageState(row);
-
-						hideElementById('seriesBusyLoader');
-						toPage(programInfoPage, seriesPage);
-					});
+					hideElementById('seriesBusyLoader');
+					toPage(errorPage, null);
 				}
 			});
 		}

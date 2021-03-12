@@ -13,32 +13,35 @@ function init() {
 	initSidebar();
 	initToolbar();
 
-	isConnectedToGateway(function (isConnected) {
-		if (!isConnected) {
-			toPage(errorPage, null);
-		}
-		else {
-			loadPageTemplate(landingPage, function (tpl) {
-				initLandingPage();
+	loadPageTemplate(landingPage, function (tpl) {
+		initLandingPage();
 
-				// read device info
-				readSystemInfo(function () {
+		// read device info
+		readSystemInfo(function () {
 
-					// get today and tomorrow guide
-					getGuideByDate(getTodayDate(), function (gd) {
-						var guide = gd.data;
+			// get today and tomorrow guide
+			getGuideByDate(getTodayDate(), function (gd) {
+				if (gd !== null) {
+					var guide = gd.data;
 
-						getGuideByDate(getTomorrowDate(), function (gd) {
+					getGuideByDate(getTomorrowDate(), function (gd) {
+						if (gd !== null) {
 							guide = guide.concat(gd.data);
 
 							cacheValue(programScheduleDataKey, JSON.stringify(guide));
 
 							toPage(tvMainPage);
-						});
+						}
+						else {
+							toPage(errorPage, null);
+						}
 					});
-				});
+				}
+				else {
+					toPage(errorPage, null);
+				}
 			});
-		}
+		});
 	});
 }
 

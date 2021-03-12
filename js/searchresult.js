@@ -229,7 +229,7 @@ var SearchResult = (function () {
 		showElementById('searchResultBusyLoader');
 
 		searchPrograms(queryString, function (data) {
-			if (data) {
+			if (data !== null) {
 				//console.log('Search result: ', data);
 
 				hitCount = 0;
@@ -254,6 +254,12 @@ var SearchResult = (function () {
 					showNoHitsText();
 				}
 			}
+			else {
+				removeEventListeners();
+				hideElementById('searchResultBusyLoader');
+
+				toPage(errorPage, null);
+			}
 		});
 	}
 
@@ -272,18 +278,16 @@ var SearchResult = (function () {
 			else {
 				showElementById('searchResultBusyLoader');
 
-				isConnectedToGateway(function (isConnected) {
-					if (!isConnected) {
+				getProgramInfo(data.id, function (program) {
+					if (program !== null) {
+						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+
 						hideElementById('searchResultBusyLoader');
-						toPage(errorPage, null);
+						toPage(programInfoPage, searchResultPage);
 					}
 					else {
-						getProgramInfo(data.id, function (program) {
-							cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
-
-							hideElementById('searchResultBusyLoader');
-							toPage(programInfoPage, searchResultPage);
-						});
+						hideElementById('searchResultBusyLoader');
+						toPage(errorPage, null);
 					}
 				});
 			}

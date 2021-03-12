@@ -80,7 +80,7 @@ var TvPlayer = (function () {
                     removeEventListeners();
                     stopControlsInterval();
                     stopErrorInterval();
-                    this.commonService.toPage(errorPage, null);
+                    toPage(errorPage, null);
                 }
             });
         });

@@ -471,70 +471,62 @@ function toPage(toPage, fromPage) {
 
 	console.log('*****toPage: ', toPage, ' fromPage: ', fromPage);
 
-	isConnectedToGateway(function (isConnected) {
-		cacheValue(networkKey, isConnected ? yesKey : noKey);
-		
-		if (!isConnected) {
-			toPage = errorPage;
+	loadPageTemplate(toPage, function (tpl) {
+		cacheValue(visiblePageKey, toPage);
+
+		var obj = null;
+		if (toPage === tvMainPage) {
+			obj = new TvMain();
+			obj.initTvMain();
 		}
-
-		loadPageTemplate(toPage, function (tpl) {
-			cacheValue(visiblePageKey, toPage);
-
-			var obj = null;
-			if (toPage === tvMainPage) {
-				obj = new TvMain();
-				obj.initTvMain();
-			}
-			else if (toPage === archiveMainPage) {
-				obj = new ArchiveMain();
-				obj.initArchiveMain();
-			}
-			else if (toPage === archivePlayerPage) {
-				obj = new ArchivePlayer();
-				obj.initArchivePlayer();
-			}
-			else if (toPage === categoryProgramsPage) {
-				obj = new CategoryPrograms();
-				obj.initCategoryPrograms();
-			}
-			else if (toPage === favoritesPage) {
-				obj = new Favorites();
-				obj.initFavorites();
-			}
-			else if (toPage === guidePage) {
-				obj = new Guide();
-				obj.initGuide();
-			}
-			else if (toPage === platformInfoPage) {
-				obj = new PlatformInfo();
-				obj.initPlatformInfo();
-			}
-			else if (toPage === programInfoPage) {
-				obj = new ProgramInfo();
-				obj.initProgramInfo();
-			}
-			else if (toPage === searchPage) {
-				obj = new Search();
-				obj.initSearch();
-			}
-			else if (toPage === searchResultPage) {
-				obj = new SearchResult();
-				obj.initSearchResult();
-			}
-			else if (toPage === seriesPage) {
-				obj = new SeriesPrograms();
-				obj.initSeriesPrograms();
-			}
-			else if (toPage === tvPlayerPage) {
-				obj = new TvPlayer();
-				obj.initTvPlayer();
-			}
-			else if (toPage === errorPage) {
-				obj = new Error();
-				obj.initError();
-			}
-		});
+		else if (toPage === archiveMainPage) {
+			obj = new ArchiveMain();
+			obj.initArchiveMain();
+		}
+		else if (toPage === archivePlayerPage) {
+			obj = new ArchivePlayer();
+			obj.initArchivePlayer();
+		}
+		else if (toPage === categoryProgramsPage) {
+			obj = new CategoryPrograms();
+			obj.initCategoryPrograms();
+		}
+		else if (toPage === favoritesPage) {
+			obj = new Favorites();
+			obj.initFavorites();
+		}
+		else if (toPage === guidePage) {
+			obj = new Guide();
+			obj.initGuide();
+		}
+		else if (toPage === platformInfoPage) {
+			obj = new PlatformInfo();
+			obj.initPlatformInfo();
+		}
+		else if (toPage === programInfoPage) {
+			obj = new ProgramInfo();
+			obj.initProgramInfo();
+		}
+		else if (toPage === searchPage) {
+			obj = new Search();
+			obj.initSearch();
+		}
+		else if (toPage === searchResultPage) {
+			obj = new SearchResult();
+			obj.initSearchResult();
+		}
+		else if (toPage === seriesPage) {
+			obj = new SeriesPrograms();
+			obj.initSeriesPrograms();
+		}
+		else if (toPage === tvPlayerPage) {
+			obj = new TvPlayer();
+			obj.initTvPlayer();
+		}
+		else if (toPage === errorPage) {
+			obj = new Error();
+			obj.initError();
+		}
 	});
 }
 
