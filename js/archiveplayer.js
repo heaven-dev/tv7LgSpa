@@ -469,7 +469,7 @@ var ArchivePlayer = (function () {
 
                 if (currentTime <= streamPosition) {
                     // stream stopped
-                    if (streamStopCounter === 3) {
+                    if (streamStopCounter === 5) {
                         saveVideoStatus();
 
                         disposePlayer();

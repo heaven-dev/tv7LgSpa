@@ -187,7 +187,7 @@ var TvPlayer = (function () {
 
                 if (currentTime <= streamPosition) {
                     // stream stopped
-                    if (streamStopCounter === 3) {
+                    if (streamStopCounter === 5) {
                         player.dispose();
 
                         removeEventListeners();
