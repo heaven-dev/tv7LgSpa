@@ -373,6 +373,15 @@ function runQuery(url, cb) {
         cb(null);
     };
 
+    xhttp.ontimeout = function (e) {
+        //console.log('Network request timeout: ', e);
+        xhttp.abort();
+
+        cacheValue(errorTextKey, networkRequestFailedText);
+        cb(null);
+    }
+
+    xhttp.timeout = 30000;
     xhttp.open('GET', url, true);
     xhttp.send();
 }

@@ -1,3 +1,15 @@
+# 13.03.2021 16:49
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Added timeout to the XMLHttpRequest.
+* New version number.
+
+
 # 13.03.2021 13:25
 
 ### Bug Fixes
