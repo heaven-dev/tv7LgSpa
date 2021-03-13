@@ -377,7 +377,7 @@ function runQuery(url, cb) {
         //console.log('Network request timeout: ', e);
         xhttp.abort();
 
-        cacheValue(errorTextKey, networkRequestFailedText);
+        cacheValue(errorTextKey, networkRequestTimeoutText);
         cb(null);
     }
 

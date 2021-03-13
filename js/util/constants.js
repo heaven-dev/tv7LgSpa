@@ -137,6 +137,7 @@ var errorTextKey = 'errorTextKey';
 var somethingWentWrongText = 'Something went wrong :-(';
 var noNetworkConnectionText = 'No network connection :-(';
 var networkRequestFailedText = 'Network request failed :-(';
+var networkRequestTimeoutText = 'Network request timeout :-(';
 
 var archiveCacheExpTimeMs = 1800000;
 
