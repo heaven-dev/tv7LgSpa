@@ -1,6 +1,6 @@
 'use strict';
 
-var runOnBrowser = true;
+var runOnBrowser = false;
 
 // Platform version not to override native video. Example string value: '4.0'
 var videoNotOverrideNative = [];
