@@ -47,10 +47,10 @@ function init() {
 
 function initNetworkStateListeners() {
 	window.addEventListener('online', function () {
-		cacheValue(networkKey, yesKey);
+		removeValueFromCache(errorTextKey);
 	});
 	window.addEventListener('offline', function () {
-		cacheValue(networkKey, noKey);
+		cacheValue(errorTextKey, noNetworkConnectionText);
 	});
 }
 

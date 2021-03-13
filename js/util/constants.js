@@ -1,6 +1,6 @@
 'use strict';
 
-var runOnBrowser = false;
+var runOnBrowser = true;
 
 // Platform version not to override native video. Example string value: '4.0'
 var videoNotOverrideNative = [];
@@ -133,9 +133,10 @@ var favoritesDataKey = 'favoritesDataKey';
 var videoStatusDataKey = 'videoStatusDataKey';
 var visiblePageKey = 'visiblePageKey';
 
-var networkKey = 'networkKey';
-var yesKey = 'yesKey';
-var noKey = 'noKey';
+var errorTextKey = 'errorTextKey';
+var somethingWentWrongText = 'Something went wrong :-(';
+var noNetworkConnectionText = 'No network connection :-(';
+var networkRequestFailedText = 'Network request failed :-(';
 
 var archiveCacheExpTimeMs = 1800000;
 

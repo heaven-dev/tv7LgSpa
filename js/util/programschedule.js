@@ -6,7 +6,7 @@ function getGuideByDate(date, cb) {
     console.log('Guide by date URL: ', url);
 
     runGuideByDateQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = guideMethod.replace(get_, '');
@@ -67,7 +67,7 @@ function getGuideByDate(date, cb) {
             cb({ ongoingProgramIndex: ongoingProgramIndex, data: data });
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -76,14 +76,13 @@ function runGuideByDateQuery(url, cb) {
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function (e) {
         //console.log('Response: ', this.responseText);
-        cacheValue(networkKey, yesKey);
 
         cb(this.responseText);
     };
 
     xhttp.onerror = function (e) {
         //console.log('Network request failed: ', e);
-        cacheValue(networkKey, noKey);
+        cacheValue(errorTextKey, networkRequestFailedText);
 
         cb(null);
     };

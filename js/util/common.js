@@ -552,8 +552,9 @@ function isConnectedToGateway(cb) {
 			onSuccess: function (response) {
 				if (response) {
 					var connected = response.isInternetConnectionAvailable;
-
-					cacheValue(networkKey, connected ? yesKey : noKey);
+					if (!connected) {
+						cacheValue(errorTextKey, noNetworkConnectionText);
+					}
 					cb(connected);
 				}
 				else {

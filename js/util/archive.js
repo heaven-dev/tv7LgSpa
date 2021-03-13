@@ -15,7 +15,7 @@ function getRecommendedPrograms(date, limit, offset, cb) {
         console.log('Recommended URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 var rootProp = recommendedProgramsMethod.replace(get_, '');
@@ -38,7 +38,7 @@ function getRecommendedPrograms(date, limit, offset, cb) {
                 }
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -59,7 +59,7 @@ function getBroadcastRecommendationsPrograms(date, limit, offset, cb) {
         console.log('Broadcast recommendations URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 var rootProp = broadcastRecommendationsProgramsMethod.replace(get_, '');
@@ -74,7 +74,7 @@ function getBroadcastRecommendationsPrograms(date, limit, offset, cb) {
                 cb(data);
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -99,7 +99,7 @@ function getNewestPrograms(date, limit, offset, category, cb) {
         console.log('Newest URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 var rootProp = newestProgramsMethod.replace(get_, '');
@@ -114,7 +114,7 @@ function getNewestPrograms(date, limit, offset, category, cb) {
                 cb(data);
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -134,7 +134,7 @@ function getMostViewedPrograms(archiveLanguage, cb) {
         console.log('Most viewed URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 data = data[mostViewedProgramsMethod];
@@ -147,7 +147,7 @@ function getMostViewedPrograms(archiveLanguage, cb) {
                 cb(data);
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -165,7 +165,7 @@ function getParentCategories(cb) {
         console.log('Parent categories URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 var rootProp = parentCategoriesMethod.replace(get_, '');
@@ -179,7 +179,7 @@ function getParentCategories(cb) {
                 cb(data);
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -197,7 +197,7 @@ function getSubCategories(cb) {
         console.log('Sub categories URL: ', url);
 
         runQuery(url, function (data) {
-            if (data !== null) {
+            if (data) {
                 data = stringToJson(data);
 
                 var rootProp = subCategoriesMethod.replace(get_, '');
@@ -211,7 +211,7 @@ function getSubCategories(cb) {
                 cb(data);
             }
             else {
-                cb(data);
+                cb(null);
             }
         });
     }
@@ -224,7 +224,7 @@ function getCategoryPrograms(categoryId, limit, offset, cb) {
     console.log('Category programs URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = categoryProgramsMethod.replace(get_, '');
@@ -236,7 +236,7 @@ function getCategoryPrograms(categoryId, limit, offset, cb) {
             cb(data);
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -247,7 +247,7 @@ function getProgramInfo(programId, cb) {
     console.log('Program info URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = programInfoMethod.replace(get_, '');
@@ -259,7 +259,7 @@ function getProgramInfo(programId, cb) {
             cb(data);
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -270,7 +270,7 @@ function getSeriesInfo(seriesId, cb) {
     console.log('Series info URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = seriesInfoMethod.replace(get_, '');
@@ -280,7 +280,7 @@ function getSeriesInfo(seriesId, cb) {
             cb(data);
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -292,7 +292,7 @@ function getSeriesPrograms(seriesId, limit, offset, cb) {
     console.log('Series programs URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = seriesProgramsMethod.replace(get_, '');
@@ -304,7 +304,7 @@ function getSeriesPrograms(seriesId, limit, offset, cb) {
             cb(data);
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -315,7 +315,7 @@ function getTranslation(id, lang, cb) {
     console.log('Translations URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var rootProp = translationMethod.replace(get_, '');
@@ -330,10 +330,10 @@ function getTranslation(id, lang, cb) {
                 }
             }
 
-            cb({lang: tLang});
+            cb({ lang: tLang });
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -344,7 +344,7 @@ function searchPrograms(queryString, cb) {
     console.log('Search data URL: ', url);
 
     runQuery(url, function (data) {
-        if (data !== null) {
+        if (data) {
             data = stringToJson(data);
 
             var hitCount = data['hit_count'];
@@ -353,7 +353,7 @@ function searchPrograms(queryString, cb) {
             cb({ hit_count: hitCount, results: data });
         }
         else {
-            cb(data);
+            cb(null);
         }
     });
 }
@@ -362,14 +362,13 @@ function runQuery(url, cb) {
     var xhttp = new XMLHttpRequest();
     xhttp.onload = function (e) {
         //console.log('Response: ', this.responseText);
-        cacheValue(networkKey, yesKey);
 
         cb(this.responseText);
     };
 
     xhttp.onerror = function (e) {
         //console.log('Network request failed: ', e);
-        cacheValue(networkKey, noKey);
+        cacheValue(errorTextKey, networkRequestFailedText);
 
         cb(null);
     };

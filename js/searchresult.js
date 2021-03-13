@@ -272,7 +272,7 @@ var SearchResult = (function () {
 			savePageState(row);
 
 			if (data.series_id && data.series_id !== '' && data.series_id !== nullValue && data.type === 'series') {
-				cacheData(selectedArchiveProgramKey, jsonToString(data));
+				cacheValue(selectedArchiveProgramKey, jsonToString(data));
 				toPage(seriesPage, searchResultPage);
 			}
 			else {

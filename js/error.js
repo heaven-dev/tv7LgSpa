@@ -8,21 +8,20 @@ var Error = (function () {
         hideElementById('toolbarContainer');
         hideElementById('sidebar');
 
-        var network = getValueFromCache(networkKey);
-        if (network) {
-            var networkError = network === noKey;
-
-            if (networkError) {
-                var elem = getElementById('somethingWentWrongText');
-                if (elem) {
-                    elem.innerHTML = 'Network request failed :-(';
-                }
+        var elem = getElementById('errorText');
+        if (elem) {
+            var errorText = getValueFromCache(errorTextKey);
+            if (errorText) {
+                elem.innerHTML = errorText;
             }
-        }
+            else {
+                elem.innerHTML = somethingWentWrongText;
+            }
 
-        var closeButton = getElementById('closeButton');
-        if (closeButton) {
-            closeButton.focus();
+            var closeButton = getElementById('closeButton');
+            if (closeButton) {
+                closeButton.focus();
+            }
         }
 
         // add eventListener for keydown
