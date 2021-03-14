@@ -347,7 +347,7 @@ var ArchivePlayer = (function () {
             }
         }
 
-        vs.push({ id: id, c: Math.round(c), p: p });
+        vs.unshift({ id: id, c: Math.round(c), p: p });
         saveValue(videoStatusDataKey, jsonToString(vs));
     }
 
@@ -469,7 +469,7 @@ var ArchivePlayer = (function () {
 
                 if (currentTime <= streamPosition) {
                     // stream stopped
-                    if (streamStopCounter === 5) {
+                    if (streamStopCounter === 9) {
                         saveVideoStatus();
 
                         disposePlayer();
