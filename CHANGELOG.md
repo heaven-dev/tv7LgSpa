@@ -1,3 +1,15 @@
+# 15.03.2021 08:18
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Minor fix to error and landing pages.
+* New version number.
+
+
 # 14.03.2021 15:24
 
 ### Bug Fixes
