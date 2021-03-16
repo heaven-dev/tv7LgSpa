@@ -308,7 +308,13 @@ var TvMain = (function () {
 
 				var elem = getElementById('contentImage');
 				if (elem) {
-					elem.src = program.image_path;
+					if (program.image_path && program.image_path.length > 0) {
+						elem.src = program.image_path;
+					}
+					else {
+						elem.src = 'images/tv7logo.png';
+					}
+
 					showElement(elem);
 				}
 
@@ -348,7 +354,12 @@ var TvMain = (function () {
 
 					elem = getElementById(elemIdImg);
 					if (elem) {
-						elem.src = programs[i].image_path;
+						if (programs[i].image_path && programs[i].image_path.length > 0) {
+							elem.src = programs[i].image_path;
+						}
+						else {
+							elem.src = 'images/tv7logo.png';
+						}
 					}
 
 					if (programs[i].series) {

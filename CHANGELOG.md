@@ -1,3 +1,15 @@
+# 16.03.2021 18:34
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Added fallback image.
+* New version number.
+
+
 # 15.03.2021 08:28
 
 ### Bug Fixes

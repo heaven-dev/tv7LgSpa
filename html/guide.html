@@ -33,7 +33,7 @@
 		<script id="guideTemplate" type="text/x-handlebars-template">
 			{{#each this}}
 				<div id="{{@index}}_c" class="guGuideItem" style="height: {{rowItemHeight}}px" onclick="guProgramItemClicked(this)" tabindex="0">
-					<img class="guGuideImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<img class="guGuideImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt=""/>
 					<div class="guInfoArea" style="left: {{rowImageWidth}}px">	
 						<div class="guTitleContainer">
 							<div id="ongoingProgram_{{@index}}" class="guOngoingProgram guOngoingBlink"></div>

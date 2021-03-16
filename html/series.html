@@ -24,7 +24,7 @@
 		<script id="seriesTemplate" type="text/x-handlebars-template">
 			{{#each this}}
 				<div id="{{rowidindex}}_c" class="siSeriesItem" style="height: {{rowItemHeight}}px" onclick="siItemClicked(this)" tabindex="0">
-					<img class="siSeriesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<img class="siSeriesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt=""/>
 					<div class="siInfoArea" style="left: {{rowImageWidth}}px">
 						<div class="siTitleContainer">
 							<img class="siTypeIcon" src="images/episode.svg" alt=""/>

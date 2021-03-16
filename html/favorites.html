@@ -26,7 +26,7 @@
 		<script id="favoritesTemplate" type="text/x-handlebars-template">
 			{{#each this}}
 				<div id="{{rowidindex}}_c" class="faFavoritesItem" style="height: {{rowItemHeight}}px" onclick="faItemClicked(this)" tabindex="0">
-					<img class="faFavoritesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<img class="faFavoritesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt=""/>
 					<div class="faInfoArea" style="left: {{rowImageWidth}}px">
 						<div class="faTitleContainer">
 							<img class="faTypeIcon" src="images/episode.svg" alt=""/>

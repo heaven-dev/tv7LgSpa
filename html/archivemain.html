@@ -86,7 +86,7 @@
 				<div id="0_{{@index}}" class="amProgramItem recommendedItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
-					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
 			{{/each}}
@@ -99,7 +99,7 @@
 				<div id="1_{{@index}}" class="amProgramItem mostViewedItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
-					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
 			{{/each}}
@@ -112,7 +112,7 @@
 				<div id="2_{{@index}}" class="amProgramItem newestItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
-					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" alt="" />
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
 			{{/each}}

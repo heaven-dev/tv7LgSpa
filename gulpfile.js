@@ -92,6 +92,7 @@ gulp.task('copyToDist', () =>
         'images/specialchar.svg', 
         'images/arrow_up_down.png',
         'images/logo.png',
+        'images/tv7logo.png',
         'images/' + channelImage,
         'images/' + categoryImage,
         'index.html',

@@ -24,7 +24,7 @@
 		<script id="categoryProgramsTemplate" type="text/x-handlebars-template">
 			{{#each this}}
 				<div id="{{rowidindex}}_c" class="cpCategoryProgramItem" style="height: {{rowItemHeight}}px" onclick="cpItemClicked(this)" tabindex="0">
-					<img class="cpCategoryProgramImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" alt=""/>
+					<img class="cpCategoryProgramImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt=""/>
 					<div class="cpInfoArea" style="left: {{rowImageWidth}}px">	
 						<div class="cpTitleContainer">
 							{{#if (isSeries sid)}}

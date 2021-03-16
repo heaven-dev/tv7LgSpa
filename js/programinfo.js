@@ -257,8 +257,11 @@ var ProgramInfo = (function () {
 
     function addProgramDetails() {
         if (selectedProgram) {
-            if (selectedProgram.image_path) {
+            if (selectedProgram.image_path && selectedProgram.image_path.length > 0) {
                 addValueToAttribute('backgroundImage', 'src', selectedProgram.image_path);
+            }
+            else {
+                addValueToAttribute('backgroundImage', 'src', 'images/tv7logo.png');
             }
 
             if (selectedProgram.name_desc) {
