@@ -117,5 +117,6 @@ It is easier to develop and test the application if the application is capable t
 
 ### License
  - [MIT](https://github.com/heaven-dev/tv7LgSpa/blob/master/LICENSE.md)
+ - __Unauthorized publication of programs or subtitles is prohibited.__
 
  
