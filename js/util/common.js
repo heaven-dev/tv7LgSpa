@@ -571,6 +571,7 @@ function toPreviousPage(alternativePage) {
 function sideMenuSelection(page) {
 	focusOutFromMenuEvent();
 	deletePageStates();
+	removeOriginPage();
 	toPage(page);
 }
 
