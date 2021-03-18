@@ -26,7 +26,16 @@ var CategoryPrograms = (function () {
 		initCategoryProgramVariables();
 
 		setLocaleText('toolbarText');
-		setSelectedSidebarIcon(archiveIconContainer, [tvIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+		setSelectedSidebarIcon(archiveIconContainer,
+			[
+				tvIconContainer,
+				guideIconContainer,
+				searchIconContainer,
+				favoritesIconContainer,
+				channelInfoIconContainer,
+				platformInfoIconContainer
+			]
+		);
 
 		registerHandlebarsHelpers();
 
@@ -157,6 +166,9 @@ var CategoryPrograms = (function () {
 			}
 			else if (contentId === favoritesIconContainer) {
 				sideMenuSelection(favoritesPage);
+			}
+			else if (contentId === channelInfoIconContainer) {
+				sideMenuSelection(channelInfoPage);
 			}
 			else if (contentId === platformInfoIconContainer) {
 				sideMenuSelection(platformInfoPage);

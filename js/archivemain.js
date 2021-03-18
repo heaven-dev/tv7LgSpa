@@ -36,7 +36,16 @@ var ArchiveMain = (function () {
 		showElementById('sidebar');
 
 		setLocaleText('toolbarText');
-		setSelectedSidebarIcon(archiveIconContainer, [tvIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+		setSelectedSidebarIcon(archiveIconContainer,
+			[
+				tvIconContainer,
+				guideIconContainer,
+				searchIconContainer,
+				favoritesIconContainer,
+				channelInfoIconContainer,
+				platformInfoIconContainer
+			]
+		);
 
 		setLocaleText('recommendedProgramsText');
 		setLocaleText('mostViewedProgramsText');
@@ -223,6 +232,9 @@ var ArchiveMain = (function () {
 				}
 				else if (contentId === favoritesIconContainer) {
 					sideMenuSelection(favoritesPage);
+				}
+				else if (contentId === channelInfoIconContainer) {
+					sideMenuSelection(channelInfoPage);
 				}
 				else if (contentId === platformInfoIconContainer) {
 					sideMenuSelection(platformInfoPage);
@@ -798,7 +810,7 @@ var ArchiveMain = (function () {
 			else {
 				removeEventListeners(true);
 				hideElementById('categoriesBusyLoader');
-				
+
 				toPage(errorPage, null);
 			}
 		});

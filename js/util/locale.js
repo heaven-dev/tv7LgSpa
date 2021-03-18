@@ -13,7 +13,7 @@ var appName = 'Taivas TV7';
 /**
  * Updated by gulp script during a build of the app.
  */
-var appVersion = '2.0.11';
+var appVersion = '2.1.0';
 
 var logoTaivas = 'images/logo_taivas.png';
 var logoTaevas = 'images/logo_taevas.png';
@@ -40,6 +40,11 @@ var archiveLanguageEt = 'ET1';
 var archiveLanguageRu = 'RU1';
 var archiveLanguageSv = 'SV1';
 
+var localeFi = 'fi';
+var localeEt = 'et';
+var localeRu = 'ru';
+var localeSv = 'sv';
+
 /*
 * UI texts and methods to update texts to the UI.
 */
@@ -56,6 +61,7 @@ var localeTextFi = [
     { id: 'searchIconText', text: 'Haku' },
     { id: 'guideIconText', text: 'TV-opas' },
     { id: 'favoritesIconText', text: 'Suosikit' },
+    { id: 'channelInfoIconText', text: 'Taivas TV7' },
     { id: 'platformInfoIconText', text: 'Tietoja' },
     { id: 'searchText', text: 'Hae' },
     { id: 'searchResultText', text: 'Haku tulokset' },
@@ -75,7 +81,8 @@ var localeTextFi = [
     { id: 'noHitsText', text: 'Ei hakuosumia' },
     { id: 'addedToFavoritesText', text: 'Lisätty suosikkeihin' },
     { id: 'removedFromFavoritesText', text: 'Poistettu suosikeista' },
-    { id: 'aspectRatioText', text: 'Kuvasuhde' }
+    { id: 'aspectRatioText', text: 'Kuvasuhde' },
+    { id: 'copyrightText', text: 'Copyright Taivas TV7. Unauthorized publication of programs or subtitles is prohibited.' }
 ];
 
 var localeTextEt = [
@@ -91,6 +98,7 @@ var localeTextEt = [
     { id: 'searchIconText', text: 'Otsing' },
     { id: 'guideIconText', text: 'Saatekava' },
     { id: 'favoritesIconText', text: 'Lemmikud' },
+    { id: 'channelInfoIconText', text: 'Taevas TV7' },
     { id: 'platformInfoIconText', text: 'Infot' },
     { id: 'searchText', text: 'Otsi' },
     { id: 'searchResultText', text: 'Otsingu tulemused' },
@@ -110,7 +118,8 @@ var localeTextEt = [
     { id: 'noHitsText', text: 'Otsingutulemusi pole' },
     { id: 'addedToFavoritesText', text: 'Lisatud lemmikutesse' },
     { id: 'removedFromFavoritesText', text: 'Lemmikutest eemaldatud' },
-    { id: 'aspectRatioText', text: 'Kuvasuhe' }
+    { id: 'aspectRatioText', text: 'Kuvasuhe' },
+    { id: 'copyrightText', text: 'Copyright Taevas TV7. Unauthorized publication of programs or subtitles is prohibited.' }
 ];
 
 var localeTextRu = [
@@ -126,6 +135,7 @@ var localeTextRu = [
     { id: 'searchIconText', text: 'Поиск' },
     { id: 'guideIconText', text: 'Телепрограмму' },
     { id: 'favoritesIconText', text: 'Избранные' },
+    { id: 'channelInfoIconText', text: 'Небеса ТВ7' },
     { id: 'platformInfoIconText', text: 'Информация' },
     { id: 'searchText', text: 'Найти' },
     { id: 'searchResultText', text: 'Результаты поиска' },
@@ -145,7 +155,8 @@ var localeTextRu = [
     { id: 'noHitsText', text: 'Ничего не найдено' },
     { id: 'addedToFavoritesText', text: 'Добавлено в Избранные' },
     { id: 'removedFromFavoritesText', text: 'Удалено из Избранных' },
-    { id: 'aspectRatioText', text: 'Соотношение сторон' }
+    { id: 'aspectRatioText', text: 'Соотношение сторон' },
+    { id: 'copyrightText', text: 'Copyright Небеса ТВ7. Unauthorized publication of programs or subtitles is prohibited.' }
 ];
 
 var localeTextSv = [
@@ -161,6 +172,7 @@ var localeTextSv = [
     { id: 'searchIconText', text: 'Sök' },
     { id: 'guideIconText', text: 'Tablå' },
     { id: 'favoritesIconText', text: 'Favoriter' },
+    { id: 'channelInfoIconText', text: 'Himlen TV7' },
     { id: 'platformInfoIconText', text: 'Information' },
     { id: 'searchText', text: 'Sök' },
     { id: 'searchResultText', text: 'Sökresultat' },
@@ -180,7 +192,8 @@ var localeTextSv = [
     { id: 'noHitsText', text: 'Inga sökträffar' },
     { id: 'addedToFavoritesText', text: 'Tillagd bland favoriter' },
     { id: 'removedFromFavoritesText', text: 'Borttagen från favoriter' },
-    { id: 'aspectRatioText', text: 'Bildförhållande' }
+    { id: 'aspectRatioText', text: 'Bildförhållande' },
+    { id: 'copyrightText', text: 'Copyright Himlen TV7. Unauthorized publication of programs or subtitles is prohibited.' }
 ];
 
 var keyboardLetters = {
@@ -418,6 +431,10 @@ var keyboardNumberSpecialRu = {
         { n: '&' },
     ]
 };
+
+function getSelectedLocale() {
+    return selectedLocale;
+}
 
 function getLocaleTextById(id) {
     var text = '';

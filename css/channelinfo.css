@@ -1,0 +1,77 @@
+.ciMainView {
+    height: calc(100% - 90px);
+}
+
+.ciChannelInfoContentContainer {
+    height: 100%;
+	outline: none;
+    overflow: hidden;
+}
+
+.ciChannelInfoTextContainer {
+    height: 100%;
+	margin: 20px 20px 20px 10px;
+	position: absolute;
+	z-index: -1;
+}
+
+.ciChannelInfoBusyLoader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 100;
+	display: none;
+}
+
+.ciTitle {
+	color: #0099CC;
+	background-color: #eeeeee;
+	font-size: 44px;
+	padding: 6px 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.ciTitle:not(:first-child) {
+	margin-top: 40px;
+}
+
+.ciSubTitle {
+	color: #0099CC;
+	background-color: #eeeeee;
+	font-size: 36px;
+	padding: 4px 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.ciChapter {
+	color: #444444;
+	font-size: 34px;
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-bottom: 20px;
+}
+
+.ciBulletItem {
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+.ciBulletList .ciBulletItem:first-child {
+	margin-top: -10px;
+}
+
+.ciLocaleText {
+	display: none;
+}
+
+.ciEndImageContainer {
+	text-align: center;
+}
+
+.ciEndImage {
+	width: 80px;
+}

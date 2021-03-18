@@ -20,7 +20,16 @@ var Favorites = (function () {
 		showElementById('sidebar');
 
 		setLocaleText('toolbarText');
-		setSelectedSidebarIcon(favoritesIconContainer, [tvIconContainer, archiveIconContainer, guideIconContainer, searchIconContainer, platformInfoIconContainer]);
+		setSelectedSidebarIcon(favoritesIconContainer,
+			[
+				tvIconContainer,
+				archiveIconContainer,
+				guideIconContainer,
+				searchIconContainer,
+				channelInfoIconContainer,
+				platformInfoIconContainer
+			]
+		);
 
 		setLocaleText('favoritesText');
 
@@ -59,7 +68,7 @@ var Favorites = (function () {
 
 		document.removeEventListener('keydown', faKeyDownEventListener);
 		if (contentRows) {
-			document.removeEventListener('mousewheel', faMouseWheelListener);
+			contentRows.removeEventListener('mousewheel', faMouseWheelListener);
 		}
 	}
 
@@ -168,6 +177,9 @@ var Favorites = (function () {
 			}
 			else if (contentId === guideIconContainer) {
 				sideMenuSelection(guidePage);
+			}
+			else if (contentId === channelInfoIconContainer) {
+				sideMenuSelection(channelInfoPage);
 			}
 			else if (contentId === searchIconContainer) {
 				sideMenuSelection(searchPage);

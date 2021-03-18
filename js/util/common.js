@@ -45,6 +45,12 @@ function focusInToMenuEvent(element) {
 		setLocaleText('favoritesIconText');
 	}
 
+	var channelInfoIconText = getElementById('channelInfoIconText');
+	if (channelInfoIconText) {
+		showElement(channelInfoIconText);
+		setLocaleText('channelInfoIconText');
+	}
+
 	var platformInfoIconText = getElementById('platformInfoIconText');
 	if (platformInfoIconText) {
 
@@ -55,6 +61,7 @@ function focusInToMenuEvent(element) {
 				'guideIconText',
 				'searchIconText',
 				'favoritesIconText',
+				'channelInfoIconText',
 				'platformInfoIconText'
 			];
 
@@ -97,6 +104,11 @@ function focusOutFromMenuEvent() {
 		hideElement(favoritesIconText);
 	}
 
+	var channelInfoIconText = getElementById('channelInfoIconText');
+	if (channelInfoIconText) {
+		hideElement(channelInfoIconText);
+	}
+
 	var platformInfoIconText = getElementById('platformInfoIconText');
 	if (platformInfoIconText) {
 		hideElement(platformInfoIconText);
@@ -105,6 +117,9 @@ function focusOutFromMenuEvent() {
 
 function menuMoveUp(contentId) {
 	if (contentId === platformInfoIconContainer) {
+		focusToElement(channelInfoIconContainer);
+	}
+	else if (contentId === channelInfoIconContainer) {
 		focusToElement(favoritesIconContainer);
 	}
 	else if (contentId === favoritesIconContainer) {
@@ -135,6 +150,9 @@ function menuMoveDown(contentId) {
 		focusToElement(favoritesIconContainer);
 	}
 	else if (contentId === favoritesIconContainer) {
+		focusToElement(channelInfoIconContainer);
+	}
+	else if (contentId === channelInfoIconContainer) {
 		focusToElement(platformInfoIconContainer);
 	}
 }
@@ -159,6 +177,9 @@ function sidebarMenuClicked(event, item) {
 		}
 		else if (id === favoritesIconContainer) {
 			sideMenuSelection(favoritesPage);
+		}
+		else if (id === channelInfoIconContainer) {
+			sideMenuSelection(channelInfoPage);
 		}
 		else if (id === platformInfoIconContainer) {
 			sideMenuSelection(platformInfoPage);
@@ -185,6 +206,9 @@ function removePageEventListeners() {
 		}
 		else if (page === guidePage) {
 			guRemoveEventListeners();
+		}
+		else if (page === channelInfoPage) {
+			ciRemoveEventListeners();
 		}
 		else if (page === platformInfoPage) {
 			pliRemoveEventListeners();
@@ -411,7 +435,8 @@ function elementExist(element) {
 
 function isSideBarMenuActive(contentId) {
 	return contentId === tvIconContainer || contentId === archiveIconContainer || contentId === guideIconContainer
-		|| contentId === searchIconContainer || contentId === favoritesIconContainer || contentId === platformInfoIconContainer;
+		|| contentId === searchIconContainer || contentId === favoritesIconContainer || contentId === channelInfoIconContainer
+		|| contentId === platformInfoIconContainer;
 }
 
 function cacheValue(key, value) {
@@ -494,6 +519,10 @@ function toPage(toPage, fromPage) {
 		else if (toPage === favoritesPage) {
 			obj = new Favorites();
 			obj.initFavorites();
+		}
+		else if (toPage === channelInfoPage) {
+			obj = new ChannelInfo();
+			obj.initChannelInfo();
 		}
 		else if (toPage === guidePage) {
 			obj = new Guide();

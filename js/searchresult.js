@@ -21,7 +21,16 @@ var SearchResult = (function () {
 		showElementById('sidebar');
 
 		setLocaleText('toolbarText');
-		setSelectedSidebarIcon(searchIconContainer, [tvIconContainer, archiveIconContainer, guideIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+		setSelectedSidebarIcon(searchIconContainer,
+			[
+				tvIconContainer,
+				archiveIconContainer,
+				guideIconContainer,
+				favoritesIconContainer,
+				channelInfoIconContainer,
+				platformInfoIconContainer
+			]
+		);
 
 		setLocaleText('searchResultText');
 
@@ -155,6 +164,9 @@ var SearchResult = (function () {
 			}
 			else if (contentId === favoritesIconContainer) {
 				sideMenuSelection(favoritesPage);
+			}
+			else if (contentId === channelInfoIconContainer) {
+				sideMenuSelection(channelInfoPage);
 			}
 			else if (contentId === platformInfoIconContainer) {
 				sideMenuSelection(platformInfoPage);

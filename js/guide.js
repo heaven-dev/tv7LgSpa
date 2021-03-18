@@ -23,7 +23,16 @@ var Guide = (function () {
         showElementById('sidebar');
 
         setLocaleText('toolbarText');
-        setSelectedSidebarIcon(guideIconContainer, [tvIconContainer, archiveIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+        setSelectedSidebarIcon(guideIconContainer,
+            [
+                tvIconContainer,
+                archiveIconContainer,
+                searchIconContainer,
+                favoritesIconContainer,
+                channelInfoIconContainer,
+                platformInfoIconContainer
+            ]
+        );
 
         initGuideVariables();
 
@@ -167,6 +176,9 @@ var Guide = (function () {
                 }
                 else if (contentId === favoritesIconContainer) {
                     sideMenuSelection(favoritesPage);
+                }
+                else if (contentId === channelInfoIconContainer) {
+                    sideMenuSelection(channelInfoPage);
                 }
                 else if (contentId === platformInfoIconContainer) {
                     sideMenuSelection(platformInfoPage);

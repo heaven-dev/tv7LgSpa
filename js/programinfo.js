@@ -23,7 +23,16 @@ var ProgramInfo = (function () {
         setLocaleText('addedToFavoritesText');
         setLocaleText('removedFromFavoritesText');
 
-        setSelectedSidebarIcon(archiveIconContainer, [tvIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+        setSelectedSidebarIcon(archiveIconContainer,
+            [
+                tvIconContainer,
+                guideIconContainer,
+                searchIconContainer,
+                favoritesIconContainer,
+                channelInfoIconContainer,
+                platformInfoIconContainer
+            ]
+        );
 
         initProgramInfoVariables();
 
@@ -218,6 +227,9 @@ var ProgramInfo = (function () {
             }
             else if (contentId === favoritesIconContainer) {
                 sideMenuSelection(favoritesPage);
+            }
+            else if (contentId === channelInfoIconContainer) {
+                sideMenuSelection(channelInfoPage);
             }
             else if (contentId === favoriteIconContainer) {
                 if (programFavoritesIndex === -1) {

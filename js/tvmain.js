@@ -18,7 +18,16 @@ var TvMain = (function () {
 		showElementById('sidebar');
 
 		setLocaleText('toolbarText');
-		setSelectedSidebarIcon(tvIconContainer, [archiveIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer, platformInfoIconContainer]);
+		setSelectedSidebarIcon(tvIconContainer,
+			[
+				archiveIconContainer,
+				guideIconContainer,
+				searchIconContainer,
+				favoritesIconContainer,
+				channelInfoIconContainer,
+				platformInfoIconContainer
+			]
+		);
 
 		setLocaleText('nextProgramsText');
 
@@ -163,6 +172,10 @@ var TvMain = (function () {
 				}
 				else if (contentId === favoritesIconContainer) {
 					sideMenuSelection(favoritesPage);
+					stopInterval();
+				}
+				else if (contentId === channelInfoIconContainer) {
+					sideMenuSelection(channelInfoPage);
 					stopInterval();
 				}
 				else if (contentId === platformInfoIconContainer) {

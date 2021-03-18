@@ -9,7 +9,18 @@ var PlatformInfo = (function () {
         showElementById('sidebar');
 
         setLocaleText('toolbarText');
-        setSelectedSidebarIcon(platformInfoIconContainer, [tvIconContainer, archiveIconContainer, guideIconContainer, searchIconContainer, favoritesIconContainer]);
+        setLocaleText('copyrightText');
+
+        setSelectedSidebarIcon(platformInfoIconContainer,
+            [
+                tvIconContainer,
+                archiveIconContainer,
+                guideIconContainer,
+                searchIconContainer,
+                favoritesIconContainer,
+                channelInfoIconContainer
+            ]
+        );
 
         var elem = getElementById('appName');
         if (elem) {
@@ -127,6 +138,9 @@ var PlatformInfo = (function () {
                 }
                 else if (contentId === favoritesIconContainer) {
                     sideMenuSelection(favoritesPage);
+                }
+                else if (contentId === channelInfoIconContainer) {
+                    sideMenuSelection(channelInfoPage);
                 }
             }
         }

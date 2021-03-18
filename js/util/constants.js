@@ -25,6 +25,7 @@ var searchPage = 'search.html';
 var searchResultPage = 'searchresult.html';
 var seriesPage = 'series.html';
 var tvPlayerPage = 'tvplayer.html';
+var channelInfoPage = 'channelinfo.html';
 var errorPage = 'error.html'
 
 var get_ = 'get_';
@@ -77,6 +78,7 @@ var archiveIconContainer = 'archiveIconContainer';
 var guideIconContainer = 'guideIconContainer';
 var searchIconContainer = 'searchIconContainer';
 var favoritesIconContainer = 'favoritesIconContainer';
+var channelInfoIconContainer = 'channelInfoIconContainer';
 var platformInfoIconContainer = 'platformInfoIconContainer';
 var mainActiveElementId = 'mainActiveElementId';
 var backIconContainer = 'backIconContainer';

@@ -13,6 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="css/videojs/video-js.7.11.4.min.css"/>
 		
 		<link rel="stylesheet" type="text/css" href="css/error.css"/>
+		<link rel="stylesheet" type="text/css" href="css/channelinfo.css"/>
 		<link rel="stylesheet" type="text/css" href="css/tvplayer.css"/>
 		<link rel="stylesheet" type="text/css" href="css/series.css"/>
 		<link rel="stylesheet" type="text/css" href="css/searchresult.css"/>
@@ -93,6 +94,13 @@
 					</div>
 					<div id="favoritesIconText" class="favoritesIconText"></div>
 				</div>
+
+				<div id="channelInfoIconContainer" class="channelInfoIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
+					<div>
+						<img id="channelInfoIcon" class="channelInfoIcon" src="images/info.svg" alt=""/>
+					</div>
+					<div id="channelInfoIconText" class="channelInfoIconText"></div>
+				</div>
 		
 				<div id="platformInfoIconContainer" class="platformInfoIconContainer" onfocusin="focusInToMenuEvent(this)" onfocusout="focusOutFromMenuEvent(this)" onmousedown="sidebarMenuClicked(event, this)" tabindex="0">	
 					<div>
@@ -106,6 +114,7 @@
 		</div>
 
 		<script type="text/javascript" src="js/error.js"></script>
+		<script type="text/javascript" src="js/channelinfo.js"></script>
 		<script type="text/javascript" src="js/tvplayer.js"></script>
 		<script type="text/javascript" src="js/series.js"></script>
 		<script type="text/javascript" src="js/searchresult.js"></script>
