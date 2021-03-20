@@ -16,6 +16,7 @@ var ArchivePlayer = (function () {
 
     var seeking = false;
     var seekingStep = 10;
+    var paused = false;
 
     var timeout = null;
     var errorInterval = null;
@@ -265,6 +266,7 @@ var ArchivePlayer = (function () {
     function pausePlayer() {
         if (player && !player.paused()) {
             player.pause();
+            paused = true;
 
             showElementById('pauseIconContainer');
             showPlayPauseIcon('pauseIconContainer');
@@ -274,6 +276,7 @@ var ArchivePlayer = (function () {
     function playPlayer() {
         if (player && player.paused()) {
             player.play();
+            paused = false;
 
             showElementById('playIconContainer');
             showPlayPauseIcon('playIconContainer');
@@ -463,7 +466,7 @@ var ArchivePlayer = (function () {
 
     function addErrorInterval() {
         errorInterval = setInterval(function () {
-            if (player) {
+            if (player && !paused) {
                 var currentTime = Math.round(player.currentTime());
                 //console.log('Stream currentTime: ', currentTime);
 
@@ -539,6 +542,7 @@ var ArchivePlayer = (function () {
 
         seeking = false;
         seekingStep = 10;
+        paused = false;
 
         timeout = null;
         errorInterval = null;

@@ -1,3 +1,14 @@
+# 20.03.2021 17:28
+
+### Bug Fixes
+
+* Fixed error handling bug on archive player page.
+
+### Features
+
+* New version number.
+
+
 # 19.03.2021 10:30
 
 ### Bug Fixes
