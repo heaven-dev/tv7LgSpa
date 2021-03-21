@@ -34,7 +34,7 @@ var Error = (function () {
 
         var keyCode = e.keyCode;
 
-        if (keyCode === OK) {
+        if (keyCode === OK || keyCode === RETURN || keyCode === ESC) {
             // OK button
             console.log('Button clicked.');
 
