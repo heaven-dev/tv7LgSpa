@@ -1,3 +1,15 @@
+# 21.03.2021 19:48
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Smaller font and icon to error page.
+* New version number.
+
+
 # 20.03.2021 17:28
 
 ### Bug Fixes
