@@ -74,7 +74,7 @@ var ArchivePlayer = (function () {
                 if (data.lang) {
                     createTrackElement(data.lang);
                 }
-                
+
                 player = videojs('videoPlayer', options, function onPlayerReady() {
                     player.src({ type: streamType, src: videoUrl });
 
@@ -195,7 +195,7 @@ var ArchivePlayer = (function () {
                 updateControls(videoCurrentTime);
             }
         }
-        else if (keyCode === PAUSE || keyCode === STOP) {
+        else if (keyCode === PAUSE) {
             if (!player.paused()) {
                 stopTimeout();
                 updateControls(videoCurrentTime);
@@ -204,6 +204,12 @@ var ArchivePlayer = (function () {
                 addProgramDetails();
                 pausePlayer();
             }
+        }
+        else if (keyCode === STOP) {
+            saveVideoStatus();
+            disposePlayer();
+
+            toPreviousPage(programInfoPage);
         }
         else if (keyCode === PLAY) {
             if (player.paused()) {
