@@ -362,7 +362,7 @@ var ArchiveMain = (function () {
 				targets: element,
 				bottom: bottomMargin + 'px',
 				duration: 180,
-				easing: 'linear',
+				easing: 'easeInOutCirc',
 				complete: function() {
 					animationOngoing = false;
 				}
@@ -405,7 +405,7 @@ var ArchiveMain = (function () {
 					targets: element,
 					right: margin + 'px',
 					duration: 180,
-					easing: 'linear',
+					easing: 'easeInOutCirc',
 					complete: function () {
 						animationOngoing = false;
 					}

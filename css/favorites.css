@@ -1,5 +1,6 @@
 .faMainView {
 	height: calc(100% - 90px);
+	margin-left: 80px;
 }
 
 .faContentContainer {

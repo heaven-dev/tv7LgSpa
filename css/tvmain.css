@@ -1,6 +1,7 @@
 .tvMainContentContainer {
 	padding: 10px;
 	height: calc(100% - 40px);
+	margin-left: 80px;
 }
 
 .tvMainContentItem {

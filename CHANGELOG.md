@@ -1,3 +1,15 @@
+# 01.04.2021 12:14
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Changed sidebar to use absolute positioning.
+* New version number (2.1.3).
+
+
 # 21.03.2021 10:29
 
 ### Bug Fixes
