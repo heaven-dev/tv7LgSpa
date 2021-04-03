@@ -18,10 +18,7 @@ var Error = (function () {
                 elem.innerHTML = somethingWentWrongText;
             }
 
-            var closeButton = getElementById('closeButton');
-            if (closeButton) {
-                closeButton.focus();
-            }
+            focusToElement('restartButton');
         }
 
         // add eventListener for keydown
@@ -33,13 +30,35 @@ var Error = (function () {
         e.stopPropagation();
 
         var keyCode = e.keyCode;
+        var contentId = e.target.id;
 
-        if (keyCode === OK || keyCode === RETURN || keyCode === ESC) {
-            // OK button
-            console.log('Button clicked.');
-
+        if (keyCode === RETURN || keyCode === ESC) {
+            // RETURN button
             removeKeydownEventListener();
             window.close();
+        }
+        else if (keyCode === LEFT) {
+            // LEFT button
+            if (contentId === 'exitButton') {
+                focusToElement('restartButton');
+            }
+        }
+        else if (keyCode === RIGHT) {
+            // RIGHT button
+            if (contentId === 'restartButton') {
+                focusToElement('exitButton');
+            }
+        }
+        else if (keyCode === OK) {
+            // OK button
+            if (contentId === 'restartButton') {
+                removeKeydownEventListener();
+                window.open(indexPage, _self);
+            }
+            else if (contentId === 'exitButton') {
+                removeKeydownEventListener();
+                window.close();
+            }
         }
     };
 
@@ -47,9 +66,21 @@ var Error = (function () {
         document.removeEventListener('keydown', erKeyDownEventListener);
     }
 
+    Error.prototype.removeEventListener = function () {
+        removeKeydownEventListener();
+    }
+
     return Error;
 }());
 
-function erCloseBtnClicked() {
+function erRestartBtnClicked() {
+    var obj = new Error();
+    obj.removeEventListener();
+    window.open(indexPage, _self);
+}
+
+function erExitBtnClicked() {
+    var obj = new Error();
+    obj.removeEventListener();
     window.close();
 }

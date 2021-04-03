@@ -149,6 +149,8 @@ var ArchivePlayer = (function () {
                                 saveVideoStatus();
 
                                 disposePlayer();
+
+                                cacheValue(errorTextKey, videoCouldNotBeLoadedText);
                                 toPage(errorPage, null);
                             }
                         }
@@ -719,6 +721,8 @@ var ArchivePlayer = (function () {
                         saveVideoStatus();
 
                         disposePlayer();
+
+                        cacheValue(errorTextKey, errorReadingVideoStreamText);
                         toPage(errorPage, null);
                     }
 

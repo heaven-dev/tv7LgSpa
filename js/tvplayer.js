@@ -82,6 +82,8 @@ var TvPlayer = (function () {
                         removeEventListeners();
                         stopControlsInterval();
                         stopErrorInterval();
+
+                        cacheValue(errorTextKey, streamCouldNotBeLoadedText);
                         toPage(errorPage, null);
                     }
                 }
@@ -197,6 +199,7 @@ var TvPlayer = (function () {
                         stopControlsInterval();
                         stopErrorInterval();
 
+                        cacheValue(errorTextKey, errorReadingTvStreamText);
                         toPage(errorPage, null);
                     }
 

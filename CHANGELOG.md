@@ -1,3 +1,14 @@
+# 03.04.2021 15:22
+
+### Bug Fixes
+
+* Error page changes.
+
+### Features
+
+* New version number (2.1.6).
+
+
 # 03.04.2021 13:22
 
 ### Bug Fixes

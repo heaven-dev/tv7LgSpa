@@ -16,6 +16,7 @@
 }
 
 .erSomethingWentWrongText {
+	text-align: center;
     color: #444444;
     font-size: 44px;
 	white-space: nowrap;
@@ -28,9 +29,10 @@
 	margin-top: 80px;
 }
 
-.erCloseButton  {
-    margin-right: 20px;
-	padding: 6px 60px;
+.erRestartButton,
+.erExitButton  {
+	padding: 6px 0px;
+	width: 240px;
 	border: 5px solid #777777;
 	border-radius: 60px;
 	background-color: #777777;
@@ -42,9 +44,17 @@
 	cursor: pointer;
 }
 
-.erCloseButton:focus {
+.erRestartButton {
+	margin-right: 10px;
+}
+
+.erExitButton  {
+	margin-left: 10px;
+}
+
+.erRestartButton:focus,
+.erExitButton:focus {
 	background-color: #0099CC;
 	color: #ffffff;
 	border: 5px solid #0099CC;
 }
-

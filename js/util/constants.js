@@ -12,6 +12,7 @@ var searchUrl = 'https://edom.tv7.fi:8443/search1.2/SearchServlet';
 var _self = '_self';
 var _LINK_PATH_ = '_LINK_PATH_';
 
+var indexPage = 'index.html';
 var landingPage = 'landing.html';
 var tvMainPage = 'tvmain.html';
 var archiveMainPage = 'archivemain.html';
@@ -140,6 +141,10 @@ var somethingWentWrongText = 'Something went wrong :-(';
 var noNetworkConnectionText = 'No network connection :-(';
 var networkRequestFailedText = 'Network request failed :-(';
 var networkRequestTimeoutText = 'Network request timeout :-(';
+var errorReadingTvStreamText = 'Error reading TV stream from server :-(';
+var errorReadingVideoStreamText = 'Error reading video stream from server :-(';
+var videoCouldNotBeLoadedText = 'The video could not be loaded :-(';
+var streamCouldNotBeLoadedText = 'The stream could not be loaded :-(';
 
 var archiveCacheExpTimeMs = 1800000;
 
