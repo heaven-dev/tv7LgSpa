@@ -72,6 +72,8 @@ gulp.task('copyToDist', () =>
         'images/arrow_back.svg',
         'images/arrow_left.svg',
         'images/arrow_right.svg',
+        'images/arrow_down.svg',
+        'images/arrow_up.svg',
         'images/play.svg',
         'images/pause.svg',
         'images/tv.svg',

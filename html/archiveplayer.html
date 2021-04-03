@@ -13,6 +13,22 @@
         <div id="statusBarContainer" class="apStatusBarContainer">
             <div id="statusBar" class="apStatusBar"></div>
         </div>
+
+        <div id="arrowDownContainer" class="apArrowDownContainer">
+            <img id="arrowDownIcon" class="apArrowDownIcon" src="images/arrow_down.svg" alt="" />
+        </div>
+    </div>
+
+    <div id="otherVideos" class="apOtherVideos mainContentAnimationFadeIn">
+        <div id="gradient" class="apGradient"></div>
+
+        <div class="iconVideosContainer">
+            <div id="arrowUpContainer" class="apArrowUpContainer">
+                <img id="arrowUpIcon" class="apArrowUpIcon" src="images/arrow_up.svg" alt="" />
+            </div>
+
+            <div id="videosContainer" class="apVideosContainer"></div>
+        </div>
     </div>
 
     <div id="playIconContainer" class="apPlayPauseIconContainer">
@@ -23,7 +39,21 @@
         <img id="pauseIcon" class="apPlayPauseIcon" src="images/pause.svg" alt=""/>
     </div>
 
-    <div class="apVideoPlayerContainer">
-        <video id="videoPlayer" class="video-js" playsinline></video>
-    </div>
+    <div id="videoPlayerContainer" class="apVideoPlayerContainer"></div>
+
+	<script id="newestProgramsTemplate" type="text/x-handlebars-template">
+        {{#each this}}
+            <div id="0_{{@index}}" class="apVideoItem newestItem" style="min-width: {{rowItemWidth}}px" onclick="apOtherVideoClicked(this)" onfocus="apOtherVideoFocus({{@index}})" onfocusout="apOtherVideoFocusOut({{@index}})" tabindex="0">
+                <div class="apProgramDate">{{broadcast_date_time}}</div>
+                <div class="apProgramTime">{{duration_time}}</div>
+                <img class="apProgramImg" style="width: {{rowItemWidth}}px; height: {{rowItemHeight}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
+                <div class="apProgramDesc">{{name_desc}}</div>
+
+                <div id="playIconContainer_{{@index}}" class="apPlayIconContainer">
+                    <img class="apPlayIcon" src="images/play.svg" alt="image/svg+xml" />
+                </div>
+            </div>
+        {{/each}}
+	</script>
+
 </div>

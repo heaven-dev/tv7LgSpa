@@ -8,11 +8,11 @@ var ArchivePlayer = (function () {
     var videoDuration = null;
     var videoCurrentTime = null;
     var videoDurationLabel = null;
-    var videoCurrenTimeLabel = null;
+    var videoCurrentTimeLabel = null;
 
     var selectedProgram = null;
     var videoStatus = null;
-    var controlsVisible = false;
+    var controlsVisible = 0;
 
     var seeking = false;
     var seekingStep = 10;
@@ -22,6 +22,14 @@ var ArchivePlayer = (function () {
     var errorInterval = null;
     var streamPosition = 0;
     var streamStopCounter = 0;
+    var newestPrograms = null;
+    var programItemWidth = 0;
+    var programItemHeight = 0;
+    var animationOngoing = false;
+    var rightMargin = 0;
+    var archiveLanguage = null;
+    var videoUrl = null;
+    var playerOptions = null;
 
     var iconAnimationDuration = 1400;
 
@@ -35,20 +43,14 @@ var ArchivePlayer = (function () {
         }
 
         initArchivePlayerVariables();
+        registerHandlebarsHelpers();
 
-        selectedProgram = stringToJson(getValueFromCache(selectedArchiveProgramKey));
-
-        videoStatus = getVideoStatus();
-
-        var archiveLanguage = getArchiveLanguage();
-        var videoUrl = getVideoUrl(archiveLanguage);
-        var langTag = getLanguageTag(archiveLanguage);
-
-        var options = {
+        playerOptions = {
             preload: 'auto',
             autoplay: true,
             muted: false,
             fluid: true,
+            playsinline: true,
             html5: {
                 vhs: {
                     overrideNative: true
@@ -63,11 +65,32 @@ var ArchivePlayer = (function () {
         var sdkVersion = sessionStorage.getItem(sdkVersionKey);
         if (sdkVersion) {
             if (videoNotOverrideNative.indexOf(sdkVersion) !== -1) {
-                options.html5.vhs.overrideNative = false;
-                options.html5.nativeAudioTracks = true;
-                options.html5.nativeVideoTracks = true;
+                playerOptions.html5.vhs.overrideNative = false;
+                playerOptions.html5.nativeAudioTracks = true;
+                playerOptions.html5.nativeVideoTracks = true;
             }
         }
+
+        selectedProgram = stringToJson(getValueFromCache(selectedArchiveProgramKey));
+        archiveLanguage = getArchiveLanguage();
+        videoUrl = getVideoUrl(archiveLanguage);
+
+        preparePlayer();
+
+        readNewestPrograms();
+
+        // add eventListener for keydown
+        document.addEventListener('keydown', apKeyDownEventListener);
+
+        addErrorInterval();
+    }
+
+    function preparePlayer() {
+        createVideoElement();
+
+        videoStatus = getVideoStatus();
+
+        var langTag = getLanguageTag(archiveLanguage);
 
         getTranslation(selectedProgram.id, langTag, function (data) {
             if (data !== null) {
@@ -75,7 +98,10 @@ var ArchivePlayer = (function () {
                     createTrackElement(data.lang);
                 }
 
-                player = videojs('videoPlayer', options, function onPlayerReady() {
+                //console.log('Player options: ', playerOptions);
+                //console.log('Video URL: ', videoUrl);
+
+                player = videojs('videoPlayer', playerOptions, function onPlayerReady() {
                     player.src({ type: streamType, src: videoUrl });
 
                     player.ready(function () {
@@ -91,7 +117,7 @@ var ArchivePlayer = (function () {
                     });
 
                     this.on('timeupdate', function () {
-                        if (controlsVisible && player) {
+                        if (controlsVisible === 1 && player) {
                             if (!videoDuration) {
                                 videoDuration = player.duration();
                             }
@@ -118,10 +144,13 @@ var ArchivePlayer = (function () {
 
                     this.on('error', function () {
                         if (player) {
-                            saveVideoStatus();
+                            var error = player.error();
+                            if (error && error.code === 4 || error && error.code === 1) {
+                                saveVideoStatus();
 
-                            disposePlayer();
-                            toPage(errorPage, null);
+                                disposePlayer();
+                                toPage(errorPage, null);
+                            }
                         }
                     });
                 });
@@ -131,11 +160,19 @@ var ArchivePlayer = (function () {
                 toPage(errorPage, null);
             }
         });
+    }
 
-        addErrorInterval();
+    function createVideoElement() {
+        var videoElem = document.createElement('video');
+        if (videoElem) {
+            videoElem.setAttribute('id', 'videoPlayer');
+            videoElem.setAttribute('class', 'video-js');
 
-        // add eventListener for keydown
-        document.addEventListener('keydown', apKeyDownEventListener);
+            var container = getElementById('videoPlayerContainer');
+            if (container) {
+                container.appendChild(videoElem);
+            }
+        }
     }
 
     function removeEventListeners() {
@@ -148,16 +185,73 @@ var ArchivePlayer = (function () {
         e.stopPropagation();
 
         var keyCode = e.keyCode;
+        var contentId = e.target.id;
+
+        var row = null;
+        var col = null;
+
+        if (controlsVisible === 2) {
+            var split = contentId.split('_');
+            if (split.length > 1) {
+                row = parseInt(split[0]);
+                col = parseInt(split[1]);
+            }
+        }
 
         if (keyCode === UP) {
             // UP arrow
+            if (controlsVisible === 2) {
+                hideOtherVideos();
+                addTimeout();
+            }
         }
         else if (keyCode === DOWN) {
             // DOWN arrow
+            if (controlsVisible === 1 && newestPrograms) {
+                stopTimeout();
+                showOtherVideos();
+            }
         }
-        else if (keyCode === LEFT || keyCode === REWIND) {
+        else if (keyCode === LEFT) {
             // LEFT arrow
-            if (controlsVisible) {
+            if (controlsVisible === 1) {
+                if (!seeking && player) {
+                    stopTimeout();
+
+                    pausePlayer();
+                    currentTime();
+
+                    seeking = true;
+                }
+
+                videoCurrentTime -= seekingStep;
+                if (videoCurrentTime < 0) {
+                    videoCurrentTime = 0;
+                }
+
+                updateControls(videoCurrentTime);
+            }
+            else if (controlsVisible === 2) {
+                var newCol = col - 1;
+                var newFocus = row + '_' + newCol;
+                if (elementExist(newFocus) && !animationOngoing) {
+                    animationOngoing = true;
+
+                    rowMoveLeftRight(row, newCol, false);
+                    focusToElement(newFocus);
+                }
+            }
+        }
+        else if (keyCode === REWIND) {
+            // REWIND
+            if (controlsVisible === 0) {
+                addTimeout();
+                updateControls(videoCurrentTime);
+
+                showControls();
+                addProgramDetails();
+            }
+            else if (controlsVisible === 1) {
                 if (!seeking && player) {
                     stopTimeout();
 
@@ -175,9 +269,46 @@ var ArchivePlayer = (function () {
                 updateControls(videoCurrentTime);
             }
         }
-        else if (keyCode === RIGHT || keyCode === FORWARD) {
+        else if (keyCode === RIGHT) {
             // RIGHT arrow
-            if (controlsVisible) {
+            if (controlsVisible === 1) {
+                if (!seeking && player) {
+                    stopTimeout();
+
+                    pausePlayer();
+                    currentTime();
+
+                    seeking = true;
+                }
+
+                videoCurrentTime += seekingStep;
+                if (videoCurrentTime > videoDuration) {
+                    videoCurrentTime = videoDuration;
+                }
+
+                updateControls(videoCurrentTime);
+            }
+            else if (controlsVisible === 2) {
+                var newCol = col + 1;
+                var newFocus = row + '_' + newCol;
+                if (elementExist(newFocus) && !animationOngoing) {
+                    animationOngoing = true;
+
+                    rowMoveLeftRight(row, newCol, true);
+                    focusToElement(newFocus);
+                }
+            }
+        }
+        else if (keyCode === FORWARD) {
+            // FORWARD
+            if (controlsVisible === 0) {
+                addTimeout();
+                updateControls(videoCurrentTime);
+
+                showControls();
+                addProgramDetails();
+            }
+            else if (controlsVisible === 1) {
                 if (!seeking && player) {
                     stopTimeout();
 
@@ -223,7 +354,7 @@ var ArchivePlayer = (function () {
         }
         else if (keyCode === OK) {
             // OK button
-            if (controlsVisible) {
+            if (controlsVisible === 1) {
                 stopTimeout();
 
                 if (seeking) {
@@ -242,7 +373,10 @@ var ArchivePlayer = (function () {
                     }
                 }
             }
-            else {
+            else if (controlsVisible === 2) {
+                startOtherVideo(col);
+            }
+            else if (controlsVisible === 0) {
                 addTimeout();
                 updateControls(videoCurrentTime);
 
@@ -252,7 +386,7 @@ var ArchivePlayer = (function () {
         }
         else if (keyCode === RETURN || keyCode === ESC) {
             // RETURN button
-            if (controlsVisible) {
+            if (controlsVisible === 1) {
                 stopTimeout();
                 hideControls();
 
@@ -260,12 +394,95 @@ var ArchivePlayer = (function () {
 
                 playPlayer();
             }
-            else {
+            else if (controlsVisible === 2) {
+                hideOtherVideos();
+                hideControls();
+
+                if (player.paused()) {
+                    playPlayer();
+                }
+            }
+            else if (controlsVisible === 0) {
                 saveVideoStatus();
                 disposePlayer();
 
                 toPreviousPage(programInfoPage);
             }
+        }
+    }
+
+    function startOtherVideo(col) {
+        saveVideoStatus();
+
+        if (newestPrograms && newestPrograms[col]) {
+            selectedProgram = newestPrograms[col];
+            cacheValue(selectedArchiveProgramKey, jsonToString(selectedProgram));
+
+            videoUrl = getVideoUrl(archiveLanguage);
+
+            deletePageStates();
+            removeOriginPage();
+
+            hideOtherVideos();
+            hideControls();
+
+            videoDuration = null;
+            videoCurrentTime = null;
+            videoDurationLabel = null;
+            videoCurrentTimeLabel = null;
+
+            if (player) {
+                player.dispose();
+                player = null;
+            }
+
+            preparePlayer();
+        }
+    }
+
+    function rowMoveLeftRight(row, col, right) {
+        rightMargin = calculateRightMargin(col, right, rightMargin);
+
+        var element = getElementById('videosContainer');
+        if (element) {
+            //console.log('Right margin value: ', rightMargin);
+
+            anime({
+                targets: element,
+                right: rightMargin + 'px',
+                duration: 180,
+                easing: 'easeInOutCirc',
+                complete: function () {
+                    animationOngoing = false;
+                }
+            });
+        }
+    }
+
+    function calculateRightMargin(col, right, margin) {
+        var itemWidth = calculateItemWidth();
+        var itemWidthWithMargin = itemWidth + 10;
+
+        if (col > 1) {
+            if (col === 2 && right) {
+                margin -= Math.round(itemWidth / 10);
+            }
+
+            margin = right ? margin + itemWidthWithMargin : margin - itemWidthWithMargin;
+        }
+        else {
+            margin = 0;
+        }
+
+        return margin;
+    }
+
+    function resetRightMargin() {
+        rightMargin = 0;
+
+        var element = getElementById('videosContainer');
+        if (element) {
+            element.style.right = 0 + 'px';
         }
     }
 
@@ -341,23 +558,25 @@ var ArchivePlayer = (function () {
 
         var p = 0;
         var c = player.currentTime();
-        var d = player.duration();
+        if (c > 0) {
+            var d = player.duration();
 
-        if (d - c <= 60) {
-            p = 100;
-        }
-        else {
-            p = Math.round(c / d * 100);
-            if (p < 0) {
-                p = 0;
-            }
-            if (p > 100) {
+            if (d - c <= 60) {
                 p = 100;
             }
-        }
+            else {
+                p = Math.round(c / d * 100);
+                if (p < 0) {
+                    p = 0;
+                }
+                if (p > 100) {
+                    p = 100;
+                }
+            }
 
-        vs.unshift({ id: id, c: Math.round(c), p: p });
-        saveValue(videoStatusDataKey, jsonToString(vs));
+            vs.unshift({ id: id, c: Math.round(c), p: p });
+            saveValue(videoStatusDataKey, jsonToString(vs));
+        }
     }
 
     function currentTime() {
@@ -412,17 +631,35 @@ var ArchivePlayer = (function () {
 
         currentTime();
 
-        controlsVisible = true;
+        controlsVisible = 1;
         updateControls(videoCurrentTime);
     }
 
     function hideControls() {
         hideElementById('controls');
 
-        controlsVisible = false;
+        controlsVisible = 0;
         seeking = false;
 
         updateControls(0);
+    }
+
+    function showOtherVideos() {
+        resetRightMargin();
+
+        hideElementById('controls');
+        showElementById('otherVideos');
+        focusToElement(defaultRowCol);
+
+        controlsVisible = 2;
+    }
+
+    function hideOtherVideos() {
+        resetRightMargin();
+        hideElementById('otherVideos');
+        showElementById('controls');
+
+        controlsVisible = 1;
     }
 
     function addProgramDetails() {
@@ -443,9 +680,9 @@ var ArchivePlayer = (function () {
 
     function updateControls(currentTime) {
         videoDurationLabel = getTimeStampByDuration(videoDuration * 1000);
-        videoCurrenTimeLabel = getTimeStampByDuration(currentTime * 1000);
+        videoCurrentTimeLabel = getTimeStampByDuration(currentTime * 1000);
 
-        var timeAndDurationLabel = videoCurrenTimeLabel + ' / ' + videoDurationLabel;
+        var timeAndDurationLabel = videoCurrentTimeLabel + ' / ' + videoDurationLabel;
         addToElement('durationCurrentTime', timeAndDurationLabel);
 
         var percent = currentTime / videoDuration * 100;
@@ -457,7 +694,7 @@ var ArchivePlayer = (function () {
 
     function addTimeout() {
         timeout = setTimeout(function () {
-            if (controlsVisible) {
+            if (controlsVisible === 1) {
                 hideControls();
             }
         }, archivePlayerControlsVisibleTimeout);
@@ -473,7 +710,7 @@ var ArchivePlayer = (function () {
     function addErrorInterval() {
         errorInterval = setInterval(function () {
             if (player && !paused) {
-                var currentTime = Math.round(player.currentTime());
+                var currentTime = player.currentTime();
                 //console.log('Stream currentTime: ', currentTime);
 
                 if (currentTime <= streamPosition) {
@@ -535,16 +772,49 @@ var ArchivePlayer = (function () {
         }
     }
 
+    function readNewestPrograms(date, limit, offset, category) {
+        getNewestPrograms(date, limit, offset, category, function (data) {
+            if (data !== null) {
+                newestPrograms = data;
+                //console.log('readNewestPrograms(): response: ', newestPrograms);
+
+                addData(newestPrograms, 'newestProgramsTemplate', 'videosContainer');
+            }
+            else {
+                removeEventListeners();
+                toPage(errorPage, null);
+            }
+        });
+    }
+
+    function otherVideoFocus(index) {
+        showElementById('playIconContainer_' + index);
+    }
+
+    function otherVideoFocusOut(index) {
+        hideElementById('playIconContainer_' + index);
+    }
+
+    function calculateItemWidth() {
+        var width = getWindowWidth() - 40;
+        return Math.round(width / 3.2);
+    }
+
+    function calculateRowHeight() {
+        var height = getWindowHeight() - 180;
+        return Math.round(height / 2.5);
+    }
+
     function initArchivePlayerVariables() {
         player = null;
         videoDuration = null;
         videoCurrentTime = null;
         videoDurationLabel = null;
-        videoCurrenTimeLabel = null;
+        videoCurrentTimeLabel = null;
 
         selectedProgram = null;
         videoStatus = null;
-        controlsVisible = false;
+        controlsVisible = 0;
 
         seeking = false;
         seekingStep = 10;
@@ -555,8 +825,62 @@ var ArchivePlayer = (function () {
         streamPosition = 0;
         streamStopCounter = 0;
 
+        newestPrograms = null;
+        programItemWidth = 0;
+        programItemHeight = 0;
+        animationOngoing = false;
+        rightMargin = 0;
+        archiveLanguage = null;
+        videoUrl = null;
+        playerOptions = null;
+
         iconAnimationDuration = 1400;
+    }
+
+    function registerHandlebarsHelpers() {
+        Handlebars.registerHelper('rowItemWidth', function () {
+            if (programItemWidth === 0) {
+                programItemWidth = calculateItemWidth();
+            }
+            return programItemWidth - 20;
+        });
+
+        Handlebars.registerHelper('rowItemHeight', function () {
+            if (programItemHeight === 0) {
+                programItemHeight = calculateRowHeight();
+            }
+            return programItemHeight - 20;
+        });
+    }
+
+    ArchivePlayer.prototype.otherVideoClicked = function (item) {
+        var col = Number(item.id.split('_')[1]);
+        startOtherVideo(col)
+    }
+
+    ArchivePlayer.prototype.otherVideoFocus = function (index) {
+        otherVideoFocus(index);
+    }
+
+    ArchivePlayer.prototype.otherVideoFocusOut = function (index) {
+        otherVideoFocusOut(index);
     }
 
     return ArchivePlayer;
 }());
+
+
+function apOtherVideoClicked(item) {
+    var obj = new ArchivePlayer();
+    obj.otherVideoClicked(item);
+}
+
+function apOtherVideoFocus(index) {
+    var obj = new ArchivePlayer();
+    obj.otherVideoFocus(index);
+}
+
+function apOtherVideoFocusOut(index) {
+    var obj = new ArchivePlayer();
+    obj.otherVideoFocusOut(index);
+}

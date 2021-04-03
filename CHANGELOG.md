@@ -1,3 +1,14 @@
+# 03.04.2021 13:22
+
+### Bug Fixes
+
+* Added possibility to open other video on archive player page.
+
+### Features
+
+* New version number (2.1.5).
+
+
 # 01.04.2021 12:14
 
 ### Bug Fixes
