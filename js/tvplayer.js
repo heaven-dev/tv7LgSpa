@@ -75,12 +75,15 @@ var TvPlayer = (function () {
 
             this.on('error', function () {
                 if (player) {
-                    player.dispose();
+                    var error = player.error();
+                    if (error && error.code === 4 || error && error.code === 1) {
+                        player.dispose();
 
-                    removeEventListeners();
-                    stopControlsInterval();
-                    stopErrorInterval();
-                    toPage(errorPage, null);
+                        removeEventListeners();
+                        stopControlsInterval();
+                        stopErrorInterval();
+                        toPage(errorPage, null);
+                    }
                 }
             });
         });
