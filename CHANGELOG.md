@@ -1,3 +1,14 @@
+# 03.04.2021 18:32
+
+### Bug Fixes
+
+* Fallback image changed.
+
+### Features
+
+* New version number (2.1.7).
+
+
 # 03.04.2021 15:22
 
 ### Bug Fixes
