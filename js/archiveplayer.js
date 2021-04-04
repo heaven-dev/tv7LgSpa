@@ -414,11 +414,11 @@ var ArchivePlayer = (function () {
     }
 
     function startOtherVideo(col) {
-        saveVideoStatus();
-
         if (newestPrograms && newestPrograms[col]) {
             selectedProgram = newestPrograms[col];
             cacheValue(selectedArchiveProgramKey, jsonToString(selectedProgram));
+
+            saveVideoStatus();
 
             videoUrl = getVideoUrl(archiveLanguage);
 
@@ -432,6 +432,8 @@ var ArchivePlayer = (function () {
             videoCurrentTime = null;
             videoDurationLabel = null;
             videoCurrentTimeLabel = null;
+
+            controlsVisible = 0;
 
             if (player) {
                 player.dispose();
