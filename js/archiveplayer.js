@@ -333,6 +333,10 @@ var ArchivePlayer = (function () {
                 stopTimeout();
                 updateControls(videoCurrentTime);
 
+                if (controlsVisible === 2) {
+                    hideOtherVideos();
+                }
+
                 showControls();
                 addProgramDetails();
                 pausePlayer();
@@ -351,6 +355,11 @@ var ArchivePlayer = (function () {
                 }
 
                 playPlayer();
+
+                if (controlsVisible === 2) {
+                    hideOtherVideos();
+                }
+
                 hideControls();
             }
         }
@@ -415,10 +424,10 @@ var ArchivePlayer = (function () {
 
     function startOtherVideo(col) {
         if (newestPrograms && newestPrograms[col]) {
+            saveVideoStatus();
+
             selectedProgram = newestPrograms[col];
             cacheValue(selectedArchiveProgramKey, jsonToString(selectedProgram));
-
-            saveVideoStatus();
 
             videoUrl = getVideoUrl(archiveLanguage);
 
@@ -538,6 +547,8 @@ var ArchivePlayer = (function () {
                 }
             }
         }
+
+        //console.log('Video status - program id: ', id, ' Item: ', videoItem);
 
         return videoItem;
     }
