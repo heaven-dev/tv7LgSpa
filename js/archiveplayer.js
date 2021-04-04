@@ -209,7 +209,7 @@ var ArchivePlayer = (function () {
         }
         else if (keyCode === DOWN) {
             // DOWN arrow
-            if (controlsVisible === 1 && newestPrograms) {
+            if (controlsVisible === 1 && newestPrograms && newestPrograms.length > 0) {
                 stopTimeout();
                 showOtherVideos();
             }
@@ -782,7 +782,12 @@ var ArchivePlayer = (function () {
                 newestPrograms = data;
                 //console.log('readNewestPrograms(): response: ', newestPrograms);
 
-                addData(newestPrograms, 'newestProgramsTemplate', 'videosContainer');
+                if (newestPrograms.length > 0) {
+                    addData(newestPrograms, 'newestProgramsTemplate', 'videosContainer');
+                }
+                else {
+                    hideElementById('arrowDownContainer');
+                }
             }
             else {
                 removeEventListeners();
