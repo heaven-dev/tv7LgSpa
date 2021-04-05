@@ -6,6 +6,17 @@
 
 ### Features
 
+* New version number (2.2.0).
+
+
+# 03.04.2021 19:21
+
+### Bug Fixes
+
+* Fix to archive player page.
+
+### Features
+
 * New version number (2.1.9).
 
 

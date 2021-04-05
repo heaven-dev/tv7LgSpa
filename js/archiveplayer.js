@@ -444,6 +444,10 @@ var ArchivePlayer = (function () {
 
             controlsVisible = 0;
 
+            addToElement('nameDesc', '');
+            addToElement('caption', '');
+            addToElement('episodeNumber', '');
+
             if (player) {
                 player.dispose();
                 player = null;
