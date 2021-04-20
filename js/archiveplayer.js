@@ -446,6 +446,7 @@ var ArchivePlayer = (function () {
             videoCurrentTimeLabel = null;
 
             paused = false;
+            seeking = false;
             controlsVisible = 0;
 
             addToElement('nameDesc', '');
