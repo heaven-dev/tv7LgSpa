@@ -204,7 +204,10 @@ var ArchivePlayer = (function () {
             // UP arrow
             if (controlsVisible === 2) {
                 hideOtherVideos();
-                addTimeout();
+
+                if (!paused) {
+                    addTimeout();
+                }
             }
         }
         else if (keyCode === DOWN) {

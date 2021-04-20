@@ -2,6 +2,17 @@
 
 ### Bug Fixes
 
+* Fixed pause/play bug on archive player page.
+
+### Features
+
+* New version number (2.2.1).
+
+
+# 03.04.2021 19:21
+
+### Bug Fixes
+
 * Fix to archive player page.
 
 ### Features
