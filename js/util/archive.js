@@ -160,6 +160,9 @@ function getParentCategories(cb) {
         cb(parentCategories);
     }
     else {
+        // Read sub categories to cache
+        getSubCategories(function() {});
+
         var url = getArchiveUrl() + parentCategoriesMethod;
 
         console.log('Parent categories URL: ', url);
