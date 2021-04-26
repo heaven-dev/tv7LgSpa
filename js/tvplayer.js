@@ -31,7 +31,6 @@ var TvPlayer = (function () {
             preload: 'auto',
             autoplay: true,
             muted: false,
-            fluid: true,
             html5: {
                 vhs: {
                     overrideNative: true

@@ -49,7 +49,6 @@ var ArchivePlayer = (function () {
             preload: 'auto',
             autoplay: true,
             muted: false,
-            fluid: true,
             playsinline: true,
             html5: {
                 vhs: {
@@ -168,7 +167,7 @@ var ArchivePlayer = (function () {
         var videoElem = document.createElement('video');
         if (videoElem) {
             videoElem.setAttribute('id', 'videoPlayer');
-            videoElem.setAttribute('class', 'video-js');
+            videoElem.setAttribute('class', 'video-js vjs-16-9');
 
             var container = getElementById('videoPlayerContainer');
             if (container) {
