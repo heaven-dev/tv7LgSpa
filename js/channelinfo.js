@@ -66,9 +66,8 @@ var ChannelInfo = (function () {
 
     function ciMouseWheelListener(e) {
         setTimeout(function () {
-            var element = getElementById('channelInfoTextContainer');
-            if (element) {
-                scrollTop = element.scrollTop;
+            if (channelInfoTextContainer) {
+                scrollTop = channelInfoTextContainer.scrollTop;
             }
         });
     }
@@ -173,10 +172,13 @@ var ChannelInfo = (function () {
     }
 
     function moveUpDown(down) {
-        var element = getElementById('channelInfoTextContainer');
-        if (element) {
+        if (channelInfoTextContainer) {
             if (down) {
                 scrollTop += 50;
+                var maxScroll = channelInfoTextContainer.scrollHeight - channelInfoTextContainer.offsetHeight;
+                if (scrollTop > maxScroll) {
+                    scrollTop = maxScroll;
+                }
             }
             else {
                 scrollTop -= 50;
@@ -185,12 +187,7 @@ var ChannelInfo = (function () {
                 }
             }
 
-            var maxScroll = element.scrollHeight - element.offsetHeight;
-            if (scrollTop > maxScroll) {
-                scrollTop = maxScroll;
-            }
-
-            element.scrollTop = scrollTop;
+            channelInfoTextContainer.scrollTop = scrollTop;
         }
     }
 
