@@ -6,14 +6,12 @@
 .ciChannelInfoContentContainer {
     height: 100%;
 	outline: none;
-    overflow: hidden;
 }
 
 .ciChannelInfoTextContainer {
-    height: 100%;
 	margin: 20px 20px 20px 10px;
+	overflow-y: scroll;
 	position: absolute;
-	z-index: -1;
 }
 
 .ciChannelInfoBusyLoader {
@@ -69,10 +67,6 @@
 	display: none;
 }
 
-.ciEndImageContainer {
-	text-align: center;
-}
-
-.ciEndImage {
-	width: 80px;
+.ciChannelInfoTextContainer::-webkit-scrollbar {
+    display: none;
 }

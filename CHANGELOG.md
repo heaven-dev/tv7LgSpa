@@ -1,3 +1,14 @@
+# 29.04.2021 07:43
+
+### Bug Fixes
+
+* Fixed channel info page scroll bug.
+
+### Features
+
+* New version number (2.2.3).
+
+
 # 26.04.2021 18:40
 
 ### Bug Fixes

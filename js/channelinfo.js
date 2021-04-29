@@ -4,7 +4,7 @@ var ChannelInfo = (function () {
 
     function ChannelInfo() { }
 
-    var bottomMargin = 0;
+    var scrollTop = 0;
     var channelInfoTextContainer = null;
 
     ChannelInfo.prototype.initChannelInfo = function () {
@@ -47,6 +47,7 @@ var ChannelInfo = (function () {
 
         channelInfoTextContainer = getElementById('channelInfoTextContainer');
         if (channelInfoTextContainer) {
+            channelInfoTextContainer.style.height = (getWindowHeight() - 130) + 'px';
             channelInfoTextContainer.addEventListener('mousewheel', ciMouseWheelListener);
         }
 
@@ -64,12 +65,12 @@ var ChannelInfo = (function () {
     }
 
     function ciMouseWheelListener(e) {
-        if (e.deltaY > 0) {
-            moveUpDown(true);
-        }
-        else {
-            moveUpDown(false);
-        }
+        setTimeout(function () {
+            var element = getElementById('channelInfoTextContainer');
+            if (element) {
+                scrollTop = element.scrollTop;
+            }
+        });
     }
 
     function ciKeyDownEventListener(e) {
@@ -175,21 +176,26 @@ var ChannelInfo = (function () {
         var element = getElementById('channelInfoTextContainer');
         if (element) {
             if (down) {
-                bottomMargin += 50;
+                scrollTop += 50;
             }
             else {
-                bottomMargin -= 50;
-                if (bottomMargin < 0) {
-                    bottomMargin = 0;
+                scrollTop -= 50;
+                if (scrollTop < 0) {
+                    scrollTop = 0;
                 }
             }
 
-            element.style.bottom = bottomMargin === 0 ? null : bottomMargin + 'px';
+            var maxScroll = element.scrollHeight - element.offsetHeight;
+            if (scrollTop > maxScroll) {
+                scrollTop = maxScroll;
+            }
+
+            element.scrollTop = scrollTop;
         }
     }
 
     function initChannelInfoVariables() {
-        bottomMargin = 0;
+        scrollTop = 0;
         channelInfoTextContainer = null;
     }
 
