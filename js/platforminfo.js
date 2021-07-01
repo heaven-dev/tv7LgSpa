@@ -167,7 +167,8 @@ var PlatformInfo = (function () {
         var platformInfoTable = getElementById('platformInfoTable');
         if (platformInfoTable) {
             var tableElements = getElementsByClass(platformInfoTable, 'pliPlatformInfoTableText');
-            for (let e of tableElements) {
+            for (var i = 0; i < tableElements.length; i++) {
+                var e = tableElements[i];
                 if (e) {
                     e.style.fontSize = tableFontSize + 'px';
                 }
