@@ -1,3 +1,15 @@
+# 01.07.2021 12:40
+
+### Bug Fixes
+
+* none
+
+### Features
+
+* Font sizes calculated on the platform info page.
+* New version number (2.2.5).
+
+
 # 29.04.2021 08:01
 
 ### Bug Fixes

@@ -22,6 +22,8 @@ var PlatformInfo = (function () {
             ]
         );
 
+        setFontSizes(calculateTableFontSize());
+
         var elem = getElementById('appName');
         if (elem) {
             elem.innerHTML = getAppName();
@@ -154,6 +156,27 @@ var PlatformInfo = (function () {
                 removeEventListeners();
                 toPreviousPage(archiveMainPage);
             }
+        }
+    }
+
+    function calculateTableFontSize() {
+        return Math.ceil(50 / 100 * ((getWindowWidth() / 2.4) / 11));
+    }
+
+    function setFontSizes(tableFontSize) {
+        var platformInfoTable = getElementById('platformInfoTable');
+        if (platformInfoTable) {
+            var tableElements = getElementsByClass(platformInfoTable, 'pliPlatformInfoTableText');
+            for (let e of tableElements) {
+                if (e) {
+                    e.style.fontSize = tableFontSize + 'px';
+                }
+            }
+        }
+
+        var copyrightText = getElementById('copyrightText');
+        if (copyrightText) {
+            copyrightText.style.fontSize = (tableFontSize - 4) + 'px';
         }
     }
 
