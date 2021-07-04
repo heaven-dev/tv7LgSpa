@@ -387,7 +387,10 @@ var Search = (function () {
             searchText: searchText
         };
 
-        showHideSavedSearch();
+        if (savedSearchOverlayVisible) {
+            showHideSavedSearch();
+        }
+
         saveSearchValue(searchText);
 
         cacheValue(searchPageStateKey, jsonToString(pageState));
