@@ -48,6 +48,7 @@ var searchMethod = 'searchMethod';
 var defaultRowCol = '0_0';
 var categoryDefaultRowCol = '3_0';
 var categoryRowNumber = 3;
+var savedSearchKey = 'savedSearchKey';
 var searchKey = 'searchKey';
 var clearKey = 'clearKey';
 var nullValue = 'null';
@@ -109,7 +110,7 @@ var pnidParam = 'pnid';
 var audioIndexParam = 'audioindex';
 var programIdParam = 'program_id';
 
-var tvBrand = 'lg';
+var tvBrand = 'lgTV';
 
 var programScheduleDataKey = 'programScheduleDataKey';
 var sdkVersionKey = 'sdkVersionKey';
@@ -134,6 +135,7 @@ var searchPageStateKey = 'searchPageStateKey';
 var selectedCategoryKey = 'selectedCategoryKey';
 var favoritesDataKey = 'favoritesDataKey';
 var videoStatusDataKey = 'videoStatusDataKey';
+var savedSearchDataKey = 'savedSearchDataKey';
 var visiblePageKey = 'visiblePageKey';
 
 var errorTextKey = 'errorTextKey';

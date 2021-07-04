@@ -48,6 +48,12 @@ var SearchResult = (function () {
 			if (searchPageState) {
 				//console.log('Search Page state: ', searchPageState);
 				searchPageState = stringToJson(searchPageState);
+
+				var elem = getElementById('searchResultText');
+				if (elem) {
+					elem.innerHTML = elem.innerHTML + ' | ' + searchPageState.searchText;
+				}
+
 				searchByString(searchPageState.searchText);
 			}
 		}
@@ -362,6 +368,15 @@ var SearchResult = (function () {
 	function restorePageState(ps) {
 		if (ps) {
 			showElementById('searchResultBusyLoader');
+
+			var searchPageState = getValueFromCache(searchPageStateKey);
+			if (searchPageState) {
+				searchPageState = stringToJson(searchPageState);
+				var elem = getElementById('searchResultText');
+				if (elem) {
+					elem.innerHTML = elem.innerHTML + ' | ' + searchPageState.searchText;
+				}
+			}
 
 			bottomMargin = ps.bottomMargin;
 			var element = getElementById('searchResultContainer');

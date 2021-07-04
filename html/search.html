@@ -81,7 +81,29 @@
 		<script id="clearSearchRowTemplate" type="text/x-handlebars-template">
 			<div id="searchKey" class="seKey seTextKey keyboardAnimationFadeIn" style="height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" key="search" onclick="seKeyItemClicked(this)" tabindex="0">{{search}}</div>
 			<div id="clearKey" class="seKey seTextKey keyboardAnimationFadeIn" style="height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px; font-size: {{keyFontSize}}px" key="clear" onclick="seKeyItemClicked(this)" tabindex="0">{{clear}}</div>
+		
+			<div id="savedSearchKey" class="seKey seSavedSearchKey" style="width: {{keyWidthAndHeight}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" key="savedSearch" onclick="seKeyItemClicked(this)" tabindex="0">
+				<img id="spaceIcon" style="width: {{iconWidth}}px; height: {{keyWidthAndHeight}}px; line-height: {{keyWidthAndHeight}}px" src="images/saved_search.svg" />
+			</div>
 		</script>
 
+		<script id="savedSearchRowTemplate" type="text/x-handlebars-template">
+			<div id="savedSearchItems" class="seSavedSearchItems">
+				{{#each this}}
+					<div id="{{@index}}_ss" id="savedSearchItem" class="seSavedSearchItem" key="savedSearchItem" onclick="seKeyItemClicked(this)" tabindex="0">{{this}}</div>
+				{{/each}}
+			</div>
+		</script>
+
+		<div id="savedSearchBackground" class="seSavedSearchBackground" onclick="seSavedSearchBgClicked(this)"></div>
+
+		<div id="savedSearchContainer" class="seSavedSearchContainer">
+			<div class="seSavedSearchTitleContainer">
+				<img class="seSearchIcon" src="images/search.svg" />
+				<div id="savedSearchTitle" class="seSavedSearchTitle"></div>
+			</div>
+			
+			<div id="savedSearchRows"></div>
+		</div>
 	</div>
 </div>

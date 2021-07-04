@@ -14,6 +14,12 @@ var Search = (function () {
     var keyFontSize = 0;
     var iconWidth = 0;
 
+    var savedSearchOverlayVisible = false;
+    var savedSearches = [];
+    var savedSearchItemMaxCount = 12;
+
+    var savedSearchItems = null;
+
     Search.prototype.initSearch = function () {
         showElementById('toolbarContainer');
         showElementById('sidebar');
@@ -42,6 +48,14 @@ var Search = (function () {
 
         updateLetterRows();
 
+        var sKey = getSavedValue(getSavedSearchDataKey());
+        if (sKey) {
+            var elem = getElementById(savedSearchKey);
+            if (elem) {
+                elem.style.display = 'block';
+            }
+        }
+
         focusToElement(defaultRowCol);
 
         var pageState = getValueFromCache(searchPageStateKey);
@@ -57,7 +71,7 @@ var Search = (function () {
     }
 
     function removeEventListeners() {
-        console.log('***Remove search event listeners.');
+        console.log('***Remove event listeners.');
         document.removeEventListener('keydown', seKeyDownEventListener);
     }
 
@@ -88,6 +102,11 @@ var Search = (function () {
                     focusToElement(searchKey);
                 }
             }
+            else if (contentId === savedSearchKey) {
+                if (elementExist(clearKey)) {
+                    focusToElement(clearKey);
+                }
+            }
             else {
                 var newCol = col - 1;
                 var newFocus = row + '_' + newCol;
@@ -106,6 +125,11 @@ var Search = (function () {
                     focusToElement(clearKey);
                 }
             }
+            else if (contentId === clearKey) {
+                if (elementExist(savedSearchKey)) {
+                    focusToElement(savedSearchKey);
+                }
+            }
             else {
                 var newCol = col + 1;
                 var newFocus = row + '_' + newCol;
@@ -119,8 +143,15 @@ var Search = (function () {
             if (isSideBarMenuActive(contentId)) {
                 menuMoveUp(contentId);
             }
+            else if (savedSearchOverlayVisible) {
+                var newRow = row - 1;
+                var newFocus = newRow + '_ss';
+                if (elementExist(newFocus)) {
+                    focusToElement(newFocus);
+                }
+            }
             else {
-                if (contentId === searchKey || contentId === clearKey) {
+                if (contentId === searchKey || contentId === clearKey || contentId === savedSearchKey) {
                     var newFocus = '2_0';
                     if (elementExist(newFocus)) {
                         focusToElement(newFocus);
@@ -139,6 +170,13 @@ var Search = (function () {
             // DOWN arrow
             if (isSideBarMenuActive(contentId)) {
                 menuMoveDown(contentId);
+            }
+            else if (savedSearchOverlayVisible) {
+                var newRow = row + 1;
+                var newFocus = newRow + '_ss';
+                if (elementExist(newFocus)) {
+                    focusToElement(newFocus);
+                }
             }
             else {
                 if (row === 2) {
@@ -212,8 +250,13 @@ var Search = (function () {
                 focusToElement(defaultRowCol);
             }
             else {
-                removeEventListeners();
-                toPage(archiveMainPage);
+                if (savedSearchOverlayVisible) {
+                    showHideSavedSearch();
+                }
+                else {
+                    removeEventListeners();
+                    toPage(archiveMainPage);
+                }
             }
         }
     }
@@ -224,11 +267,18 @@ var Search = (function () {
 
             var elem = getElementById('searchTextField');
             if (elem) {
-                elem.value = pageState.searchText;
+                elem.value = validateChars(pageState.searchText);
             }
 
             removeValueFromCache(searchPageStateKey);
         }
+    }
+
+    function validateChars(value) {
+        value = value.replace('&amp;', '&');
+        value = value.replace('&lt;', '<');
+        value = value.replace('&gt;', '>');
+        return value;
     }
 
     function itemSelected(element) {
@@ -268,33 +318,22 @@ var Search = (function () {
                 else if (key === 'search') {
                     if (value && value.length > 0) {
                         //console.log('Search text: ', value);
-
-                        removeEventListeners();
-
-                        var pageState = {
-                            searchText: value
-                        };
-
-                        cacheValue(searchPageStateKey, jsonToString(pageState));
-                        toPage(searchResultPage, searchPage);
+                        search(value);
                     }
                     else {
                         searchTextField.style.backgroundColor = '#fadbd8';
                     }
                 }
+                else if (key === 'savedSearchItem') {
+                    //console.log('Saved search text: ', element.innerHTML);
+                    search(element.innerHTML);
+                }
+                else if (key === 'savedSearch') {
+                    showHideSavedSearch();
+                }
             }
             else {
-                var value = element.innerHTML;
-                if (value === '&amp;') {
-                    value = '&';
-                }
-                else if (value === '&lt;') {
-                    value = '<';
-                }
-                else if (value === '&gt;') {
-                    value = '>';
-                }
-
+                var value = validateChars(element.innerHTML);
                 value = searchTextField.value + value;
                 searchTextField.style.backgroundColor = '#fafafa';
             }
@@ -341,6 +380,152 @@ var Search = (function () {
         return width;
     }
 
+    function search(searchText) {
+        removeEventListeners();
+
+        var pageState = {
+            searchText: searchText
+        };
+
+        showHideSavedSearch();
+        saveSearchValue(searchText);
+
+        cacheValue(searchPageStateKey, jsonToString(pageState));
+        toPage(searchResultPage, searchPage);
+    }
+
+    function saveSearchValue(searchText) {
+        searchText = validateChars(searchText);
+
+        var savedSearchData = getSavedValue(getSavedSearchDataKey());
+        if (savedSearchData) {
+            savedSearchData = stringToJson(savedSearchData);
+
+            var idx = savedSearchData.indexOf(searchText);
+            if (idx !== -1) {
+                savedSearchData.splice(idx, 1);
+            }
+
+            savedSearchData.unshift(searchText);
+
+            if (savedSearchData.length > savedSearchItemMaxCount) {
+                savedSearchData.pop();
+            }
+
+            saveValue(getSavedSearchDataKey(), jsonToString(savedSearchData));
+        }
+        else {
+            savedSearchData = [];
+            savedSearchData.push(searchText);
+            saveValue(getSavedSearchDataKey(), jsonToString(savedSearchData));
+        }
+    }
+
+    function showHideSavedSearch() {
+        var sContainer = getElementById('savedSearchContainer');
+        var sBackground = getElementById('savedSearchBackground');
+        if (sContainer && sBackground) {
+            if (savedSearchOverlayVisible) {
+                sContainer.style.display = 'none';
+                sBackground.style.display = 'none';
+
+                focusToElement('savedSearchKey');
+                removeSavedSearchMouseWheelEventListener();
+            }
+            else {
+                var savedSearchData = getSavedValue(getSavedSearchDataKey());
+                if (savedSearchData) {
+                    savedSearches = stringToJson(savedSearchData);
+                    addData(savedSearches, 'savedSearchRowTemplate', 'savedSearchRows');
+                }
+
+                var height = getWindowHeight();
+
+                sContainer.style.display = 'block';
+                sBackground.style.display = 'block';
+                sBackground.style.height = (height - 90) + 'px';
+
+                setTimeout(function () {
+                    setLocaleText('savedSearchTitle');
+
+                    height -= 280;
+                    height /= savedSearchItemMaxCount;
+                    height = height;
+
+                    //console.log('Item height: ', height);
+
+                    var elems = getElementsByClass(sContainer, 'seSavedSearchItem');
+                    if (elems) {
+                        for (var i = 0; i < elems.length; i++) {
+                            var e = elems[i];
+                            if (e) {
+                                e.style.height = height + 'px';
+                                e.style.lineHeight = height + 'px';
+                                e.style.fontSize = Math.ceil(0.70 * height) + 'px';
+                            }
+                        }
+                    }
+
+                    focusToElement('0_ss');
+
+                    addSavedSearchMouseWheelEventListener();
+                });
+            }
+
+            savedSearchOverlayVisible = !savedSearchOverlayVisible;
+        }
+    }
+
+    function addSavedSearchMouseWheelEventListener() {
+        savedSearchItems = getElementById('savedSearchItems');
+        if (savedSearchItems) {
+            savedSearchItems.addEventListener('mousewheel', seMouseWheelListener);
+        }
+    }
+
+    function removeSavedSearchMouseWheelEventListener() {
+        if (savedSearchItems) {
+            savedSearchItems.removeEventListener('mousewheel', seMouseWheelListener);
+        }
+    }
+
+    function seMouseWheelListener(e) {
+        if (!e) {
+            return;
+        }
+
+        var focusedId = document.activeElement.id;
+        if (!focusedId) {
+            return;
+        }
+
+        var split = focusedId.split('_');
+        if (!split || split.length !== 2) {
+            return;
+        }
+
+        var row = parseInt(split[0]);
+
+        if (e.deltaY > 0) {
+            row++;
+            var newFocus = row + '_ss';
+            if (elementExist(newFocus)) {
+                focusToElement(newFocus)
+            }
+        }
+        else {
+            row--;
+            var newFocus = row + '_ss';
+            if (elementExist(newFocus)) {
+                focusToElement(newFocus)
+            }
+        }
+    }
+
+    function getSavedSearchDataKey() {
+        return savedSearchDataKey + getSelectedLocale();
+    }
+
     function initSearchVariables() {
         iconBtnIndex = 0;
         keyboardType = 1;
@@ -351,6 +536,12 @@ var Search = (function () {
         keyWidthAndHeight = 0;
         keyFontSize = 0;
         iconWidth = 0;
+
+        savedSearchOverlayVisible = false;
+        savedSearches = [];
+        savedSearchItemMaxCount = 12;
+
+        savedSearchItems = null;
     }
 
     function registerHandlebarsHelpers() {
@@ -401,6 +592,10 @@ var Search = (function () {
         }
     }
 
+    Search.prototype.savedSearchBgClicked = function () {
+        showHideSavedSearch();
+    }
+
     Search.prototype.seRemoveEventListeners = function () {
         removeEventListeners();
     }
@@ -411,6 +606,11 @@ var Search = (function () {
 function seKeyItemClicked(item) {
     var obj = new Search();
     obj.keyItemClicked(item);
+}
+
+function seSavedSearchBgClicked() {
+    var obj = new Search();
+    obj.savedSearchBgClicked();
 }
 
 function seRemoveEventListeners() {
