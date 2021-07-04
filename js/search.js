@@ -18,7 +18,7 @@ var Search = (function () {
     var savedSearches = [];
     var savedSearchItemMaxCount = 12;
 
-    var savedSearchItems = null;
+    var savedSearchContainer = null;
 
     Search.prototype.initSearch = function () {
         showElementById('toolbarContainer');
@@ -480,15 +480,15 @@ var Search = (function () {
     }
 
     function addSavedSearchMouseWheelEventListener() {
-        savedSearchItems = getElementById('savedSearchItems');
-        if (savedSearchItems) {
-            savedSearchItems.addEventListener('mousewheel', seMouseWheelListener);
+        savedSearchContainer = getElementById('savedSearchContainer');
+        if (savedSearchContainer) {
+            savedSearchContainer.addEventListener('mousewheel', seMouseWheelListener);
         }
     }
 
     function removeSavedSearchMouseWheelEventListener() {
-        if (savedSearchItems) {
-            savedSearchItems.removeEventListener('mousewheel', seMouseWheelListener);
+        if (savedSearchContainer) {
+            savedSearchContainer.removeEventListener('mousewheel', seMouseWheelListener);
         }
     }
 
@@ -544,7 +544,7 @@ var Search = (function () {
         savedSearches = [];
         savedSearchItemMaxCount = 12;
 
-        savedSearchItems = null;
+        savedSearchContainer = null;
     }
 
     function registerHandlebarsHelpers() {
