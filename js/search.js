@@ -275,9 +275,9 @@ var Search = (function () {
     }
 
     function validateChars(value) {
-        value = value.replace('&amp;', '&');
-        value = value.replace('&lt;', '<');
-        value = value.replace('&gt;', '>');
+        value = value.replace(/&amp;/g, '&');
+        value = value.replace(/&lt;/g, '<');
+        value = value.replace(/&gt;/g, '>');
         return value;
     }
 
@@ -381,6 +381,8 @@ var Search = (function () {
     }
 
     function search(searchText) {
+        searchText = validateChars(searchText);
+        
         removeEventListeners();
 
         var pageState = {
