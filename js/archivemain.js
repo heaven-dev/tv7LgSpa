@@ -1037,14 +1037,19 @@ var ArchiveMain = (function () {
 				newRightMargin -= Math.round(itemWidth / 10);
 			}
 
+			var height = calculateRowHeight() + 60;
+
 			if (row === 2 || row === 3) {
-				bottomMargin = calculateRowHeight() + 60;
+				bottomMargin = height;
+			}
+			else if (row === 4) {
+				bottomMargin = height * 3;
 			}
 			else {
 				bottomMargin = 0;
 			}
 
-			if (row !== 3) {
+			if (row === 0 || row === 1 || row === 2 || row === 4) {
 				if (row === 0) {
 					recommendedMargin = newRightMargin;
 				}
@@ -1054,13 +1059,22 @@ var ArchiveMain = (function () {
 				else if (row === 2) {
 					newestMargin = newRightMargin;
 				}
+				else if (row === 4) {
+					seriesMargin = newRightMargin;
+				}
 
 				rowMoveLeftRight(row, col, true, false);
 
 				savePageState(row, col);
-				toProgramInfoPage(row, col);
+
+				if (row === 4) {
+					toSeriesInfoPage(row, col);
+				}
+				else {
+					toProgramInfoPage(row, col);
+				}
 			}
-			else {
+			else if (row === 3) {
 				categoriesMargin = newRightMargin;
 				rowMoveLeftRight(row, col, true, false);
 				rowMoveUpDown(3, true);
