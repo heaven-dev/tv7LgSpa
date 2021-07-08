@@ -193,28 +193,28 @@ loadLocale = ((cb) => {
         appIconBig = 'taivas_130x130.png';
         appIconSmall = 'taivas_80x80.png';
         channelImage = 'logo_taivas.png';
-        categoryImage = 'category_logo_taivas.png';
+        categoryImage = 'archive_page_image_taivas.png';
         localeData = require('./locale/fi.json');
     }
     else if (lang === 'et') {
         appIconBig = 'taevas_130x130.png';
         appIconSmall = 'taevas_80x80.png';
         channelImage = 'logo_taevas.png';
-        categoryImage = 'category_logo_taevas.png';
+        categoryImage = 'archive_page_image_taevas.png';
         localeData = require('./locale/et.json');
     }
     else if (lang === 'sv') {
         appIconBig = 'himlen_130x130.png';
         appIconSmall = 'himlen_80x80.png';
         channelImage = 'logo_himlen.png';
-        categoryImage = 'category_logo_himlen.png';
+        categoryImage = 'archive_page_image_himlen.png';
         localeData = require('./locale/sv.json');
     }
     else if (lang === 'ru') {
         appIconBig = 'nebesa_130x130.png';
         appIconSmall = 'nebesa_80x80.png';
         channelImage = 'logo_nebesa.png';
-        categoryImage = 'category_logo_nebesa.png';
+        categoryImage = 'archive_page_image_nebesa.png';
         localeData = require('./locale/ru.json');
     }
 
