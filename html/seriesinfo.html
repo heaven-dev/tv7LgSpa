@@ -1,0 +1,38 @@
+<div id="mainView" class="seiMainView">
+    <div id="contentContainer" class="seiSeriesInfoContentContainer mainContentAnimationFadeIn">
+        <div id="seriesInfoBusyLoader" class="busyLoader seiSeriesInfoBusyLoader">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+        </div>
+
+        <div id="gradient" class="seiGradient"></div>
+        <img id="backgroundImage" class="seiBackgroundImage" src="images/tv7logo.png" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" tabindex="0" />
+
+        <div id="addedToFavoritesText" class="seiAddedToFavoritesText"></div>
+        <div id="removedFromFavoritesText" class="seiRemovedFromFavoritesText"></div>
+
+        <div id="favoriteIconContainer" class="seiFavoriteIconContainer" onclick="seiFavoritesItemClicked()" tabindex="0">
+            <img id="favoriteIcon" class="seiFavoriteIcon" src="images/favorites_not_selected.svg" alt="image/svg+xml" />
+        </div>
+
+        <div id="seriesIconContainer" class="seiSeriesIconContainer" onclick="seiSeriesItemClicked()" tabindex="0">
+            <img class="seiSeriesIcon" src="images/series.svg" alt="image/svg+xml" />
+        </div>
+
+        <div class="seiInfoArea">
+            <div id="seriesName" class="seiSeriesName"></div>
+            <div id="caption" class="seiCaption"></div>
+            <div id="description" class="seiDescription"></div>
+        </div>
+    </div>
+</div>

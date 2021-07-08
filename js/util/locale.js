@@ -13,17 +13,17 @@ var appName = 'Taivas TV7';
 /**
  * Updated by gulp script during a build of the app.
  */
-var appVersion = '2.2.6';
+var appVersion = '2.2.7';
 
 var logoTaivas = 'images/logo_taivas.png';
 var logoTaevas = 'images/logo_taevas.png';
 var logoNebesa = 'images/logo_nebesa.png';
 var logoHimlen = 'images/logo_himlen.png';
 
-var categoryLogoTaivas = 'images/category_logo_taivas.png';
-var categoryLogoTaevas = 'images/category_logo_taevas.png';
-var categoryLogoNebesa = 'images/category_logo_nebesa.png';
-var categoryLogoHimlen = 'images/category_logo_himlen.png';
+var archivePageImageTaivas = 'images/archive_page_image_taivas.png';
+var archivePageImageTaevas = 'images/archive_page_image_taevas.png';
+var archivePageImageNebesa = 'images/archive_page_image_nebesa.png';
+var archivePageImageHimlen = 'images/archive_page_image_himlen.png';
 
 var channelUrlFi = 'https://vod.tv7.fi:443/tv7-fi/_definst_/smil:tv7-fi.smil/playlist.m3u8';
 var channelUrlEt = 'https://vod.tv7.fi:443/tv7-ee/_definst_/smil:tv7-ee.smil/playlist.m3u8';
@@ -72,6 +72,7 @@ var localeTextFi = [
     { id: 'newestProgramsText', text: 'Uusimmat' },
     { id: 'categoryText', text: 'Kategoria' },
     { id: 'categoriesText', text: 'Kategoriat' },
+    { id: 'topicalSeriesText', text: 'Ajankohtaiset sarjat' },
     { id: 'categoryBackText', text: 'Takaisin' },
     { id: 'episodeText', text: 'Jakso' },
     { id: 'seriesText', text: 'Sarja' },
@@ -110,6 +111,7 @@ var localeTextEt = [
     { id: 'newestProgramsText', text: 'Kõige uuemad' },
     { id: 'categoryText', text: 'Kategooria' },
     { id: 'categoriesText', text: 'Kategooriad' },
+    { id: 'topicalSeriesText', text: 'Praegused sarjad' },
     { id: 'categoryBackText', text: 'Tagasi' },
     { id: 'episodeText', text: 'Osa' },
     { id: 'seriesText', text: 'Saatesari' },
@@ -148,6 +150,7 @@ var localeTextRu = [
     { id: 'newestProgramsText', text: 'Новые' },
     { id: 'categoryText', text: 'Категория' },
     { id: 'categoriesText', text: 'Категории' },
+    { id: 'topicalSeriesText', text: 'Текущая серия' },
     { id: 'categoryBackText', text: 'Обратно' },
     { id: 'episodeText', text: 'Выпуск' },
     { id: 'seriesText', text: 'Серия' },
@@ -186,6 +189,7 @@ var localeTextSv = [
     { id: 'newestProgramsText', text: 'Senaste' },
     { id: 'categoryText', text: 'Kategori' },
     { id: 'categoriesText', text: 'Kategorier' },
+    { id: 'topicalSeriesText', text: 'Aktuella serier' },
     { id: 'categoryBackText', text: 'Tillbaka' },
     { id: 'episodeText', text: 'Avsnitt' },
     { id: 'seriesText', text: 'Programserie' },
@@ -520,18 +524,18 @@ function getChannelLogo() {
     }
 }
 
-function getCategoryLogo() {
+function getArchivePageImage() {
     if (selectedLocale === 'fi') {
-        return categoryLogoTaivas;
+        return archivePageImageTaivas;
     }
     else if (selectedLocale === 'et') {
-        return categoryLogoTaevas;
+        return archivePageImageTaevas;
     }
     else if (selectedLocale === 'ru') {
-        return categoryLogoNebesa;
+        return archivePageImageNebesa;
     }
     else if (selectedLocale === 'sv') {
-        return categoryLogoHimlen;
+        return archivePageImageHimlen;
     }
 }
 

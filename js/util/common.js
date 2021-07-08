@@ -216,6 +216,9 @@ function removePageEventListeners() {
 		else if (page === programInfoPage) {
 			piRemoveEventListeners();
 		}
+		else if (page === seriesInfoPage) {
+			seiRemoveEventListeners();
+		}
 		else if (page === searchPage) {
 			seRemoveEventListeners();
 		}
@@ -532,6 +535,10 @@ function toPage(toPage, fromPage) {
 			obj = new PlatformInfo();
 			obj.initPlatformInfo();
 		}
+		else if (toPage === seriesInfoPage) {
+			obj = new SeriesInfo();
+			obj.initSeriesInfo();
+		}
 		else if (toPage === programInfoPage) {
 			obj = new ProgramInfo();
 			obj.initProgramInfo();
@@ -604,6 +611,13 @@ function isConnectedToGateway(cb) {
 
 		cb(result);
 	}
+}
+
+function addSeriesProperties(series, sid) {
+	series.sid = sid;
+	series.name_desc = series.name;
+	series.is_series = true;
+	return series;
 }
 
 function deletePageStates() {

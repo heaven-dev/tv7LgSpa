@@ -287,18 +287,34 @@ var SearchResult = (function () {
 
 			//console.log('Selected item: ', data);
 
+			showElementById('searchResultBusyLoader');
 			savePageState(row);
 
 			if (data.series_id && data.series_id !== '' && data.series_id !== nullValue && data.type === 'series') {
-				cacheValue(selectedArchiveProgramKey, jsonToString(data));
-				toPage(seriesPage, searchResultPage);
+				getSeriesInfo(data.series_id, function (series) {
+					if (series !== null) {
+						series = series[0];
+
+						series = addSeriesProperties(series, data.series_id);
+
+						cacheValue(selectedArchiveSeriesKey, jsonToString(series));
+
+						hideElementById('searchResultBusyLoader');
+
+						toPage(seriesInfoPage, searchResultPage);
+					}
+					else {
+						hideElementById('searchResultBusyLoader');
+						toPage(errorPage, null);
+					}
+				});
 			}
 			else {
-				showElementById('searchResultBusyLoader');
-
 				getProgramInfo(data.id, function (program) {
 					if (program !== null) {
-						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+						program = program[0];
+
+						cacheValue(selectedArchiveProgramKey, jsonToString(program));
 
 						hideElementById('searchResultBusyLoader');
 						toPage(programInfoPage, searchResultPage);

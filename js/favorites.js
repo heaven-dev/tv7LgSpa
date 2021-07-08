@@ -198,7 +198,7 @@ var Favorites = (function () {
 				sideMenuSelection(platformInfoPage);
 			}
 			else {
-				toProgramInfoPage(row);
+				toInfoPage(row);
 			}
 		}
 		else if (keyCode === RETURN || keyCode === ESC) {
@@ -219,26 +219,51 @@ var Favorites = (function () {
 		}
 	}
 
-	function toProgramInfoPage(row) {
-		if (favoritesData) {
+	function toInfoPage(row) {
+		if (favoritesData && favoritesData[row]) {
+			showElementById('favoritesBusyLoader');
+
 			savePageState(row);
 
 			var id = favoritesData[row].id;
+			var is_series = favoritesData[row].is_series;
+			var sid = favoritesData[row].sid;
 
-			showElementById('favoritesBusyLoader');
+			if (is_series) {
+				getSeriesInfo(sid, function (series) {
+					if (series !== null) {
+						series = series[0];
 
-			getProgramInfo(id, function (program) {
-				if (program !== null) {
-					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+						series = addSeriesProperties(series, sid);
 
-					hideElementById('favoritesBusyLoader');
-					toPage(programInfoPage, favoritesPage);
-				}
-				else {
-					hideElementById('favoritesBusyLoader');
-					toPage(errorPage, null);
-				}
-			});
+						cacheValue(selectedArchiveSeriesKey, jsonToString(series));
+
+						hideElementById('favoritesBusyLoader');
+
+						toPage(seriesInfoPage, favoritesPage);
+					}
+					else {
+						hideElementById('favoritesBusyLoader');
+						toPage(errorPage, null);
+					}
+				});
+			}
+			else {
+				getProgramInfo(id, function (program) {
+					if (program !== null) {
+						program = program[0];
+
+						cacheValue(selectedArchiveProgramKey, jsonToString(program));
+
+						hideElementById('favoritesBusyLoader');
+						toPage(programInfoPage, favoritesPage);
+					}
+					else {
+						hideElementById('favoritesBusyLoader');
+						toPage(errorPage, null);
+					}
+				});
+			}
 		}
 	}
 
@@ -438,6 +463,10 @@ var Favorites = (function () {
 			}
 			return rowItemHeight;
 		});
+
+		Handlebars.registerHelper('isSeries', function (value) {
+			return value === true;
+		});
 	}
 
 	Favorites.prototype.itemClicked = function (item) {
@@ -461,7 +490,7 @@ var Favorites = (function () {
 				bottomMargin = 0;
 			}
 
-			toProgramInfoPage(row);
+			toInfoPage(row);
 		}
 	}
 

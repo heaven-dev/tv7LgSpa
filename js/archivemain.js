@@ -10,6 +10,7 @@ var ArchiveMain = (function () {
 	var mostViewedMargin = 0;
 	var newestMargin = 0;
 	var categoriesMargin = 0;
+	var seriesMargin = 0;
 	var bottomMargin = 0;
 	var animationOngoing = false;
 
@@ -23,6 +24,7 @@ var ArchiveMain = (function () {
 	var mostViewed = null;
 	var newest = null;
 	var categories = null;
+	var series = null;
 	var categoryLogo = null;
 
 	var lastParentCategoryId = null;
@@ -51,6 +53,7 @@ var ArchiveMain = (function () {
 		setLocaleText('mostViewedProgramsText');
 		setLocaleText('newestProgramsText');
 		setLocaleText('categoriesText');
+		setLocaleText('topicalSeriesText');
 
 		initArchiveMainVariables();
 
@@ -77,6 +80,8 @@ var ArchiveMain = (function () {
 		else {
 			readParentCategories(pageState, true);
 		}
+
+		handleSeries(pageState);
 
 		// add event listener for mousewheel
 		contentContainer = getElementById('contentContainer');
@@ -243,6 +248,9 @@ var ArchiveMain = (function () {
 					if (row === categoryRowNumber) {
 						handleCategorySelection(row, col, pageState);
 					}
+					else if (row === seriesRowNumber) {
+						toSeriesInfoPage(row, col);
+					}
 					else {
 						toProgramInfoPage(row, col);
 					}
@@ -395,6 +403,11 @@ var ArchiveMain = (function () {
 			margin = calculateRightMargin(col, right, categoriesMargin);
 			categoriesMargin = margin;
 		}
+		else if (row === 4) {
+			rowElement = 'series';
+			margin = calculateRightMargin(col, right, seriesMargin);
+			seriesMargin = margin;
+		}
 
 		if (move) {
 			var element = getElementById(rowElement);
@@ -527,6 +540,9 @@ var ArchiveMain = (function () {
 				subCategoryId = categories[col].category_id;
 			}
 		}
+		else if (row === 4) {
+			margin = seriesMargin;
+		}
 
 		var ps = {
 			row: row,
@@ -569,6 +585,9 @@ var ArchiveMain = (function () {
 					else if (row === 3) {
 						categoriesMargin = marginValue;
 					}
+					else if (row === 4) {
+						seriesMargin = marginValue;
+					}
 
 					var focusElementId = pageState['focusElementId']
 					if (focusElementId) {
@@ -595,6 +614,7 @@ var ArchiveMain = (function () {
 		showElementById('mostViewedBusyLoader');
 		showElementById('newestBusyLoader');
 		showElementById('categoriesBusyLoader');
+		showElementById('seriesBusyLoader');
 	}
 
 	function changeRowBackgroundColor(elementId, color) {
@@ -636,6 +656,11 @@ var ArchiveMain = (function () {
 			if (element) {
 				element.style.height = rowHeight + 'px';
 			}
+
+			element = getElementById('seriesContainer');
+			if (element) {
+				element.style.height = rowHeight + 'px';
+			}
 		}
 	}
 
@@ -659,6 +684,35 @@ var ArchiveMain = (function () {
 
 					hideElementById('commonBusyLoader');
 					toPage(programInfoPage, archiveMainPage);
+				}
+				else {
+					hideElementById('commonBusyLoader');
+					toPage(errorPage, null);
+				}
+			});
+		}
+	}
+
+	function toSeriesInfoPage(row, col) {
+		if (series && series[col]) {
+			var sid = series[col].sid;
+
+			savePageState(row, col);
+
+			showElementById('commonBusyLoader');
+
+			getSeriesInfo(sid, function (series) {
+				if (series != null) {
+					series = series[0];
+
+					series = addSeriesProperties(series, sid);
+
+					//console.log('Selected series: ', series);
+
+					cacheValue(selectedArchiveSeriesKey, jsonToString(series));
+
+					hideElementById('commonBusyLoader');
+					toPage(seriesInfoPage, archiveMainPage);
 				}
 				else {
 					hideElementById('commonBusyLoader');
@@ -816,6 +870,61 @@ var ArchiveMain = (function () {
 		});
 	}
 
+	function handleSeries(pageState) {
+		series = removeDuplicates(stringToJson(getValueFromCache(programScheduleDataKey)));
+		if (series) {
+			//console.log('Series data: ', series);
+
+			console.log('Series data length: ', series.length);
+
+			addData(series, 'seriesTemplate', 'seriesContainer');
+
+			restoreRightMargin(pageState, 'series', 4);
+
+			hideElementById('seriesBusyLoader');
+			changeRowBackgroundColor('seriesContainer', '#ffffff');
+		}
+	}
+
+	function removeDuplicates(guide) {
+		var seen = [];
+		var retVal = [];
+		for (var i = 0; i < guide.length; i++) {
+
+			var sid = guide[i].sid;
+			var episode_number = guide[i].episode_number;
+			var is_visible_on_vod = guide[i].is_visible_on_vod;
+			var series = guide[i].series;
+			var image_path = guide[i].image_path;
+			var name_desc = guide[i].name_desc;
+			var localStartDate = guide[i].localStartDate;
+			var duration_time = guide[i].duration_time;
+
+			if (!validateValue(sid) || !validateValue(episode_number) || !validateValue(is_visible_on_vod)) {
+				continue;
+			}
+
+			if (Number(episode_number) > 1 && is_visible_on_vod !== '-1' && seen.indexOf(sid) === -1) {
+				retVal.push(
+					{
+						sid: sid,
+						series: series,
+						image_path: image_path,
+						name_desc: name_desc,
+						localStartDate: localStartDate,
+						duration_time: duration_time
+					});
+				seen.push(guide[i].sid);
+			}
+		}
+
+		return retVal;
+	}
+
+	function validateValue(value) {
+		return value && value !== '' && value !== nullValue;
+	}
+
 	function changeCategoriesTitleText(text) {
 		if (text) {
 			addToElement('categoriesText', text);
@@ -837,6 +946,7 @@ var ArchiveMain = (function () {
 		newestMargin = 0;
 		categoriesMargin = 0;
 		bottomMargin = 0;
+		seriesMargin = 0;
 		animationOngoing = false;
 
 		rowItemWidth = 0;
@@ -849,6 +959,7 @@ var ArchiveMain = (function () {
 		mostViewed = null;
 		newest = null;
 		categories = null;
+		series = null;
 		categoryLogo = null;
 
 		lastParentCategoryId = null;
@@ -876,6 +987,9 @@ var ArchiveMain = (function () {
 			else if (value === 'categories') {
 				itemCount = categories.length + 1;
 			}
+			else if (value === 'series') {
+				itemCount = series.length;
+			}
 
 			return itemWidth * itemCount;
 		});
@@ -896,7 +1010,7 @@ var ArchiveMain = (function () {
 
 		Handlebars.registerHelper('categoryLogo', function () {
 			if (categoryLogo === null) {
-				categoryLogo = getCategoryLogo();
+				categoryLogo = getArchivePageImage();
 			}
 			return categoryLogo;
 		});

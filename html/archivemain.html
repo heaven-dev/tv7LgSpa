@@ -74,9 +74,27 @@
 			</div>
 
 			<div id="categoriesText" class="amCategoriesText"></div>
-			<div id="categoriesContainer" class="amRowContainer">
+			<div id="categoriesContainer" class="amRowContainer"></div>
 
-			</div>	
+
+			<div id="seriesText" class="amSeriesText"></div>
+			<div id="seriesContainer" class="amRowContainer">
+				<div id="seriesBusyLoader" class="busyLoader archiveMainBusyLoader">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
@@ -160,6 +178,19 @@
 						</div>
 					{{/if}}
 				{{/if}}
+			{{/each}}
+		</div>
+	</script>
+
+	<script id="seriesTemplate" type="text/x-handlebars-template">
+		<div id="series" class="amSeries" style="width: {{rowWidth 'series'}}px">
+			{{#each this}}
+				<div id="4_{{@index}}" class="amProgramItem seriesItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+					<div class="amProgramDate">{{localStartDate}}</div>
+					<div class="amProgramTime">{{duration_time}}</div>
+					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
+					<div class="amProgramDesc">{{name_desc}}</div>
+				</div>
 			{{/each}}
 		</div>
 	</script>

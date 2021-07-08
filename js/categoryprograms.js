@@ -174,7 +174,7 @@ var CategoryPrograms = (function () {
 				sideMenuSelection(platformInfoPage);
 			}
 			else {
-				toItemPage(row);
+				toInfoPage(row);
 			}
 		}
 		else if (keyCode === RETURN || keyCode === ESC) {
@@ -269,20 +269,41 @@ var CategoryPrograms = (function () {
 		}
 	}
 
-	function toItemPage(row) {
+	function toInfoPage(row) {
 		if (categoryProgramData && categoryProgramData[row]) {
+			showElementById('categoryProgramsBusyLoader');
+
 			savePageState(row);
 
-			if (categoryProgramData[row].sid) {
-				cacheValue(selectedArchiveProgramKey, jsonToString(categoryProgramData[row]));
-				toPage(seriesPage, categoryProgramsPage);
+			var id = categoryProgramData[row].id;
+			var sid = categoryProgramData[row].sid;
+
+			if (sid && sid !== '' && sid !== nullValue) {
+				getSeriesInfo(sid, function (series) {
+					if (series !== null) {
+						series = series[0];
+
+						series = addSeriesProperties(series, sid);
+
+						cacheValue(selectedArchiveSeriesKey, jsonToString(series));
+
+						hideElementById('categoryProgramsBusyLoader');
+
+						toPage(seriesInfoPage, categoryProgramsPage);
+					}
+					else {
+						hideElementById('categoryProgramsBusyLoader');
+						toPage(errorPage, null);
+					}
+				});
+
 			}
 			else {
-				showElementById('categoryProgramsBusyLoader');
-
-				getProgramInfo(categoryProgramData[row].id, function (program) {
+				getProgramInfo(id, function (program) {
 					if (program !== null) {
-						cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+						program = program[0];
+
+						cacheValue(selectedArchiveProgramKey, jsonToString(program));
 
 						hideElementById('categoryProgramsBusyLoader');
 
@@ -293,7 +314,6 @@ var CategoryPrograms = (function () {
 						toPage(errorPage, null);
 					}
 				});
-
 			}
 		}
 	}
@@ -469,7 +489,7 @@ var CategoryPrograms = (function () {
 				bottomMargin = 0;
 			}
 
-			toItemPage(row);
+			toInfoPage(row);
 		}
 	}
 

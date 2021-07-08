@@ -29,7 +29,11 @@
 					<img class="faFavoritesImage" style="height: {{rowItemHeight}}px; width: {{rowImageWidth}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt=""/>
 					<div class="faInfoArea" style="left: {{rowImageWidth}}px">
 						<div class="faTitleContainer">
-							<img class="faTypeIcon" src="images/episode.svg" alt=""/>
+							{{#if (isSeries is_series)}}
+								<img class="faTypeIcon" src="images/series.svg" alt=""/>
+							{{else}}
+								<img class="faTypeIcon" src="images/episode.svg" alt=""/>
+							{{/if}}
 							<div id="nameDesc" class="faNameDesc">{{name_desc}}</div>
 						</div>
 						<div id="caption" class="faCaption">{{caption}}</div>
