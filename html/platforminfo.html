@@ -41,6 +41,36 @@
 			</table>
 		</div>
 
+        <div id="clearIconContainer" class="pliClearIconContainer" onclick="pliClearMenuIconClicked(this)" tabindex="0">
+            <img id="clearIcon" class="pliClearIcon" src="images/clear.svg" alt="image/svg+xml" />
+        </div>
+
+        <div id="clearMenuContainer" class="pliClearMenuContainer">
+			<div class="pliClearMenuTitleContainer">
+                <img class="pliClearMenuIcon" src="images/clear.svg" />
+				<div id="clearConfigurationText" class="pliClearMenuTitle"></div>
+			</div>
+
+            <div id="clearMenuItemsContainer"></div>
+
+            <div id="clearDataConfirmationContainer" class="pliClearDataConfirmationContainer">
+                <div id="confirmationQuestionText" class="pliConfirmationQuestionText"></div>
+                <div class="pliConfirmationButtons">
+                    <div id="confirmationOkButton" class="pliOkButton" onclick="pliClearMenuButtonClicked(this)" tabindex="0"></div>
+                    <div id="confirmationCancelButton" class="pliCancelButton" onclick="pliClearMenuButtonClicked(this)" tabindex="0"></div>
+                </div>
+            </div>
+        </div>
+
 		<div id="copyrightText" class="pliCopyrightText"></div>
 	</div>
+
+	<script id="clearConfigurationRowTemplate" type="text/x-handlebars-template">
+		<div class="pliClearMenuItems">
+			{{#each this}}
+				<div id="{{@index}}_cm" id="clearMenuItem" class="pliClearMenuItem" key="clearMenuItem" onclick="pliClearMenuItemClicked(this)" tabindex="0">{{this}}</div>
+			{{/each}}
+		</div>
+	</script>
+
 </div>

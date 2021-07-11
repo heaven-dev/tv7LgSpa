@@ -382,7 +382,7 @@ var Search = (function () {
 
     function search(searchText) {
         searchText = validateChars(searchText);
-        
+
         removeEventListeners();
 
         var pageState = {
@@ -513,17 +513,14 @@ var Search = (function () {
 
         if (e.deltaY > 0) {
             row++;
-            var newFocus = row + '_ss';
-            if (elementExist(newFocus)) {
-                focusToElement(newFocus)
-            }
         }
         else {
             row--;
-            var newFocus = row + '_ss';
-            if (elementExist(newFocus)) {
-                focusToElement(newFocus)
-            }
+        }
+
+        var newFocus = row + '_ss';
+        if (elementExist(newFocus)) {
+            focusToElement(newFocus)
         }
     }
 

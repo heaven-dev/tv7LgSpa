@@ -46,3 +46,142 @@
 	transform: translate(-50%);
 	white-space: nowrap;
 }
+
+.pliClearIconContainer {
+	position: absolute;
+	width: 80px;
+	height: 80px;
+	background-color: #ffffff;
+	opacity: 0.7;
+	border-radius: 50%;
+	outline: none;
+	z-index: 200;
+	top: 130px;
+	right: 40px;
+	padding: 8px;
+	border: 2px solid #000000;
+}
+
+.pliClearIconContainer:focus {
+	background-color: #0099CC;
+	opacity: 1;
+}
+
+.pliClearIcon {
+	width: 80px;
+	height: 80px;
+}
+
+.pliClearMenuContainer {
+	background-color: #ffffff;
+	height: calc(100% - 90px);
+	width: 50%;
+	right: 0;
+	position: absolute;
+	display: none;
+	z-index: 301;
+	opacity: 0.97;
+}
+
+.pliClearMenuItems {
+	padding: 0 20px 20px 20px;
+}
+
+.pliClearMenuItem {
+	font-size: 35px;
+	background-color: #eeeeee;
+	color: #444444;
+	border-radius: 4px;
+	padding-left: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	outline: none;
+	border: none;
+}
+
+.pliClearMenuItem:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.pliClearMenuItem:focus {
+	background-color: #0099CC;
+	color: #000000;
+}
+
+.pliClearMenuTitleContainer {
+	display: flex;
+	display: -webkit-flex;
+	align-items: center;
+}
+
+.pliClearMenuIcon {
+	height: 40px;
+	padding-left: 20px;
+}
+
+.pliClearMenuTitle {
+	background-color: #fff;
+	font-size: 32px;
+	font-weight: bold;
+	color: #444444;
+	height: 60px;
+	line-height: 60px;
+	padding-left: 10px;
+	white-space: nowrap;
+}
+
+.pliClearMenuKey {
+	display: none;
+}
+
+.pliClearDataConfirmationContainer {
+	position: absolute;
+	bottom: 40px;
+	width: 100%;
+	display: none;
+}
+
+.pliConfirmationQuestionText {
+	text-align: center;
+	font-size: 42px;
+	font-weight: bold;
+	color: #444444;
+	white-space: nowrap;
+}
+
+.pliConfirmationButtons {
+	display: -webkit-flex;
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.pliOkButton {
+	margin-right: 20px;
+}
+
+.pliCancelButton {
+	margin-left: 20px;
+}
+
+.pliOkButton,
+.pliCancelButton {
+	width: 250px;
+	height: 70px;
+	border-radius: 60px;
+	background-color: #777777;
+	color: #ffffff;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 70px;
+	font-size: 50px;
+	outline: none;
+	cursor: pointer;
+}
+
+.pliOkButton:focus, 
+.pliCancelButton:focus {
+	background-color: #0099CC;
+	color: #ffffff;
+}

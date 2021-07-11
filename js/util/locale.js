@@ -13,7 +13,7 @@ var appName = 'Taivas TV7';
 /**
  * Updated by gulp script during a build of the app.
  */
-var appVersion = '2.2.7';
+var appVersion = '2.2.8';
 
 var logoTaivas = 'images/logo_taivas.png';
 var logoTaevas = 'images/logo_taevas.png';
@@ -84,7 +84,15 @@ var localeTextFi = [
     { id: 'addedToFavoritesText', text: 'Lisätty suosikkeihin' },
     { id: 'removedFromFavoritesText', text: 'Poistettu suosikeista' },
     { id: 'aspectRatioText', text: 'Kuvasuhde' },
-    { id: 'copyrightText', text: 'Copyright © Taivas TV7. Unauthorized publication of programs or subtitles is prohibited.' }
+    { id: 'copyrightText', text: 'Copyright © Taivas TV7. Unauthorized publication of programs or subtitles is prohibited.' },
+    { id: 'clearConfigurationText', text: 'Clear configuration' },
+    { id: 'confirmationQuestionText', text: 'Clear configuration?' },
+    { id: 'videoStatusConfiguationText', text: 'Video status' },
+    { id: 'favoritesConfigurationText', text: 'Favorites' },
+    { id: 'searchHistoryConfigurationText', text: 'Search history' },
+    { id: 'confirmationOkButton', text: 'OK' },
+    { id: 'confirmationCancelButton', text: 'Cancel' },
+    { id: 'itemsText', text: 'items' }
 ];
 
 var localeTextEt = [
@@ -123,7 +131,15 @@ var localeTextEt = [
     { id: 'addedToFavoritesText', text: 'Lisatud lemmikutesse' },
     { id: 'removedFromFavoritesText', text: 'Lemmikutest eemaldatud' },
     { id: 'aspectRatioText', text: 'Kuvasuhe' },
-    { id: 'copyrightText', text: 'Copyright © Taevas TV7. Unauthorized publication of programs or subtitles is prohibited.' }
+    { id: 'copyrightText', text: 'Copyright © Taevas TV7. Unauthorized publication of programs or subtitles is prohibited.' },
+    { id: 'clearConfigurationText', text: 'Clear configuration' },
+    { id: 'confirmationQuestionText', text: 'Clear configuration?' },
+    { id: 'videoStatusConfiguationText', text: 'Video status' },
+    { id: 'favoritesConfigurationText', text: 'Favorites' },
+    { id: 'searchHistoryConfigurationText', text: 'Search history' },
+    { id: 'confirmationOkButton', text: 'OK' },
+    { id: 'confirmationCancelButton', text: 'Cancel' },
+    { id: 'itemsText', text: 'items' }
 ];
 
 var localeTextRu = [
@@ -162,7 +178,15 @@ var localeTextRu = [
     { id: 'addedToFavoritesText', text: 'Добавлено в Избранные' },
     { id: 'removedFromFavoritesText', text: 'Удалено из Избранных' },
     { id: 'aspectRatioText', text: 'Соотношение сторон' },
-    { id: 'copyrightText', text: 'Copyright © Небеса ТВ7. Unauthorized publication of programs or subtitles is prohibited.' }
+    { id: 'copyrightText', text: 'Copyright © Небеса ТВ7. Unauthorized publication of programs or subtitles is prohibited.' },
+    { id: 'clearConfigurationText', text: 'Clear configuration' },
+    { id: 'confirmationQuestionText', text: 'Clear configuration?' },
+    { id: 'videoStatusConfiguationText', text: 'Video status' },
+    { id: 'favoritesConfigurationText', text: 'Favorites' },
+    { id: 'searchHistoryConfigurationText', text: 'Search history' },
+    { id: 'confirmationOkButton', text: 'OK' },
+    { id: 'confirmationCancelButton', text: 'Cancel' },
+    { id: 'itemsText', text: 'items' }
 ];
 
 var localeTextSv = [
@@ -201,7 +225,15 @@ var localeTextSv = [
     { id: 'addedToFavoritesText', text: 'Tillagd bland favoriter' },
     { id: 'removedFromFavoritesText', text: 'Borttagen från favoriter' },
     { id: 'aspectRatioText', text: 'Bildförhållande' },
-    { id: 'copyrightText', text: 'Copyright © Himlen TV7. Unauthorized publication of programs or subtitles is prohibited.' }
+    { id: 'copyrightText', text: 'Copyright © Himlen TV7. Unauthorized publication of programs or subtitles is prohibited.' },
+    { id: 'clearConfigurationText', text: 'Clear configuration' },
+    { id: 'confirmationQuestionText', text: 'Clear configuration?' },
+    { id: 'videoStatusConfiguationText', text: 'Video status' },
+    { id: 'favoritesConfigurationText', text: 'Favorites' },
+    { id: 'searchHistoryConfigurationText', text: 'Search history' },
+    { id: 'confirmationOkButton', text: 'OK' },
+    { id: 'confirmationCancelButton', text: 'Cancel' },
+    { id: 'itemsText', text: 'items' }
 ];
 
 var keyboardLetters = {

@@ -87,6 +87,7 @@ var platformInfoIconContainer = 'platformInfoIconContainer';
 var mainActiveElementId = 'mainActiveElementId';
 var backIconContainer = 'backIconContainer';
 var playIconContainer = 'playIconContainer';
+var clearIconContainer = 'clearIconContainer';
 var favoriteIconContainer = 'favoriteIconContainer';
 var seriesIconContainer = 'seriesIconContainer';
 var contentContainer = 'contentContainer';
