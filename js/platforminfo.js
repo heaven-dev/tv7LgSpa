@@ -232,7 +232,7 @@ var PlatformInfo = (function () {
         createMenuTexts();
 
         setTimeout(function () {
-            setLocaleText('clearConfigurationText');
+            setLocaleText('deleteConfigurationsText');
 
             addData(clearMenuItems, 'clearConfigurationRowTemplate', 'clearMenuItemsContainer');
 
