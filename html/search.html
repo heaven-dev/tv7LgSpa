@@ -90,14 +90,14 @@
 		<script id="savedSearchRowTemplate" type="text/x-handlebars-template">
 			<div id="savedSearchItems" class="seSavedSearchItems">
 				{{#each this}}
-					<div id="{{@index}}_ss" id="savedSearchItem" class="seSavedSearchItem" key="savedSearchItem" onclick="seKeyItemClicked(this)" tabindex="0">{{this}}</div>
+					<div id="{{@index}}_ss" id="savedSearchItem" class="seSavedSearchItem" key="savedSearchItem" onclick="seMenuItemClicked(event, this)" tabindex="0">{{this}}</div>
 				{{/each}}
 			</div>
 		</script>
 
 		<div id="savedSearchBackground" class="seSavedSearchBackground" onclick="seSavedSearchBgClicked(this)"></div>
 
-		<div id="savedSearchContainer" class="seSavedSearchContainer">
+		<div id="savedSearchContainer" class="seSavedSearchContainer" onclick="seSavedSearchBgClicked(this)">
 			<div class="seSavedSearchTitleContainer">
 				<img class="seSearchIcon" src="images/search.svg" />
 				<div id="savedSearchTitle" class="seSavedSearchTitle"></div>

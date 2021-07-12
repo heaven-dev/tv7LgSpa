@@ -273,6 +273,8 @@ var PlatformInfo = (function () {
         removeClearMenuMouseWheelEventListener();
 
         clearMenuVisible = false;
+
+        focusToElement(clearIconContainer);
     }
 
     function showConfirmationButtons(row, col) {
@@ -386,7 +388,11 @@ var PlatformInfo = (function () {
         }
     }
 
-    PlatformInfo.prototype.clearMenuItemClicked = function (item) {
+    PlatformInfo.prototype.clearMenuItemClicked = function (event, item) {
+        if (event) {
+            event.stopPropagation();
+        }
+
         if (item) {
             //console.log('Item clicked: ', item);
 
@@ -420,6 +426,10 @@ var PlatformInfo = (function () {
         }
     }
 
+    PlatformInfo.prototype.clearConfigurationBgClicked = function () {
+        hideClearMenu();
+    }
+
     return PlatformInfo;
 }());
 
@@ -433,12 +443,17 @@ function pliClearMenuIconClicked() {
     obj.pliClearMenuIconClicked();
 }
 
-function pliClearMenuItemClicked(item) {
+function pliClearMenuItemClicked(event, item) {
     var obj = new PlatformInfo();
-    obj.clearMenuItemClicked(item);
+    obj.clearMenuItemClicked(event, item);
 }
 
 function pliClearMenuButtonClicked(item) {
     var obj = new PlatformInfo();
     obj.clearMenuButtonClicked(item);
+}
+
+function pliClearConfigurationBgClicked() {
+    var obj = new PlatformInfo();
+    obj.clearConfigurationBgClicked();
 }

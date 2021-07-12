@@ -610,6 +610,15 @@ function seKeyItemClicked(item) {
     obj.keyItemClicked(item);
 }
 
+function seMenuItemClicked(event, item) {
+    if (event) {
+        event.stopPropagation();
+    }
+
+    var obj = new Search();
+    obj.keyItemClicked(item);
+}
+
 function seSavedSearchBgClicked() {
     var obj = new Search();
     obj.savedSearchBgClicked();
