@@ -319,6 +319,13 @@ function isPastTime(time) {
 	return now > time;
 }
 
+function getYesterdayDate() {
+	var d = new Date();
+
+	d.setDate(d.getDate() - 1);
+	return d.getFullYear() + '-' + prependZero((d.getMonth() + 1)) + '-' + prependZero(d.getDate());
+}
+
 function getTodayDate() {
 	var d = new Date();
 

@@ -116,6 +116,7 @@ var programIdParam = 'program_id';
 var tvBrand = 'lgTV';
 
 var programScheduleDataKey = 'programScheduleDataKey';
+var programScheduleYesterdayDataKey = 'programScheduleYesterdayDataKey';
 var sdkVersionKey = 'sdkVersionKey';
 var platformInfoKey = 'platformInfoKey';
 

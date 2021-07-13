@@ -81,7 +81,7 @@ var ArchiveMain = (function () {
 			readParentCategories(pageState, true);
 		}
 
-		handleSeries(pageState);
+		readSeries(pageState);
 
 		// add event listener for mousewheel
 		contentContainer = getElementById('contentContainer');
@@ -870,19 +870,46 @@ var ArchiveMain = (function () {
 		});
 	}
 
-	function handleSeries(pageState) {
-		series = removeDuplicates(stringToJson(getValueFromCache(programScheduleDataKey)));
-		if (series) {
-			//console.log('Series data: ', series);
+	function readSeries(pageState) {
+		var yesterdayGuide = getValueFromCache(programScheduleYesterdayDataKey);
+		if (!yesterdayGuide) {
+			getGuideByDate(getYesterdayDate(), function (gd) {
+				if (gd !== null) {
+					cacheValue(programScheduleYesterdayDataKey, jsonToString(gd.data));
 
-			console.log('Series data length: ', series.length);
+					handleSeries(gd.data, pageState);
+				}
+				else {
+					hideElementById('seriesBusyLoader');
+					removeEventListeners(true);
 
-			addData(series, 'seriesTemplate', 'seriesContainer');
+					toPage(errorPage, null);
+				}
+			});
+		}
+		else {
+			console.log('**Return series data from cache.');
+			handleSeries(stringToJson(yesterdayGuide), pageState);
+		}
+	}
 
-			restoreRightMargin(pageState, 'series', 4);
+	function handleSeries(guide, pageState) {
+		if (guide) {
+			guide = guide.concat(stringToJson(getValueFromCache(programScheduleDataKey)));
 
-			hideElementById('seriesBusyLoader');
-			changeRowBackgroundColor('seriesContainer', '#ffffff');
+			series = removeDuplicates(guide);
+			if (series) {
+				//console.log('Series data: ', series);
+
+				console.log('Series data length: ', series.length);
+
+				addData(series, 'seriesTemplate', 'seriesContainer');
+
+				restoreRightMargin(pageState, 'series', 4);
+
+				hideElementById('seriesBusyLoader');
+				changeRowBackgroundColor('seriesContainer', '#ffffff');
+			}
 		}
 	}
 
