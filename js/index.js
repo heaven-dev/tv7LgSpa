@@ -20,11 +20,11 @@ function init() {
 		readSystemInfo(function () {
 
 			// get today and tomorrow guide
-			getGuideByDate(getTodayDate(), function (gd) {
+			getGuideByDate(getDateByDateIndex(dateIndexToday), function (gd) {
 				if (gd !== null) {
 					var guide = gd.data;
 
-					getGuideByDate(getTomorrowDate(), function (gd) {
+					getGuideByDate(getDateByDateIndex(dateIndexTomorrow), function (gd) {
 						if (gd !== null) {
 							guide = guide.concat(gd.data);
 

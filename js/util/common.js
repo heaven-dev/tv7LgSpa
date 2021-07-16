@@ -319,26 +319,15 @@ function isPastTime(time) {
 	return now > time;
 }
 
-function getYesterdayDate() {
+function getDateByDateIndex(dateIndex) {
 	var d = new Date();
 
-	d.setDate(d.getDate() - 1);
-	return d.getFullYear() + '-' + prependZero((d.getMonth() + 1)) + '-' + prependZero(d.getDate());
-}
-
-function getTodayDate() {
-	var d = new Date();
+	if (dateIndex != 0) {
+		d.setDate(d.getDate() + dateIndex);
+	}
 
 	return d.getFullYear() + '-' + prependZero((d.getMonth() + 1)) + '-' + prependZero(d.getDate());
 }
-
-function getTomorrowDate() {
-	var d = new Date();
-
-	d.setDate(d.getDate() + 1);
-	return d.getFullYear() + '-' + prependZero((d.getMonth() + 1)) + '-' + prependZero(d.getDate());
-}
-
 
 function getLocalDateByUtcTimestamp(time) {
 	return new Date(time);

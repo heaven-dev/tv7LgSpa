@@ -116,7 +116,7 @@ var programIdParam = 'program_id';
 var tvBrand = 'lgTV';
 
 var programScheduleDataKey = 'programScheduleDataKey';
-var programScheduleYesterdayDataKey = 'programScheduleYesterdayDataKey';
+var programSchedulePastDataKey = 'programSchedulePastDataKey';
 var sdkVersionKey = 'sdkVersionKey';
 var platformInfoKey = 'platformInfoKey';
 
@@ -142,6 +142,8 @@ var favoritesDataKey = 'favoritesDataKey';
 var videoStatusDataKey = 'videoStatusDataKey';
 var savedSearchDataKey = 'savedSearchDataKey';
 var visiblePageKey = 'visiblePageKey';
+var seriesDataKey = 'seriesDataKey';
+var dynamicRowDataKey = 'dynamicRowDataKey';
 
 var errorTextKey = 'errorTextKey';
 var somethingWentWrongText = 'Something went wrong :-(';
@@ -161,3 +163,8 @@ var streamErrorInterval = 5000;
 var archivePlayerControlsVisibleTimeout = 6000;
 
 var programListMinSize = 22;
+
+var dateIndexDayBeforeYesterday = -2;
+var dateIndexYesterday = -1;
+var dateIndexToday = 0;
+var dateIndexTomorrow = 1;

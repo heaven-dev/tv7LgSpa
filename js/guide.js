@@ -469,7 +469,7 @@ var Guide = (function () {
     }
 
     function isDateToday(date) {
-        return date === getTodayDate();
+        return date === getDateByDateIndex(dateIndexToday);
     }
 
     function createDates() {

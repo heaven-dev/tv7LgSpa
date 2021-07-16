@@ -253,11 +253,11 @@ var TvMain = (function () {
 		var count = guideData.length - getOngoingProgramIndex(guideData);
 		if (count <= programListMinSize) {
 			// get today and tomorrow guide and update the page
-			getGuideByDate(getTodayDate(), function (gToday) {
+			getGuideByDate(getDateByDateIndex(dateIndexToday), function (gToday) {
 				if (gToday !== null) {
 					gToday = gToday.data;
 
-					getGuideByDate(getTomorrowDate(), function (gTomorrow) {
+					getGuideByDate(getDateByDateIndex(dateIndexTomorrow), function (gTomorrow) {
 						if (gTomorrow !== null) {
 							guideData = gToday.concat(gTomorrow.data);
 

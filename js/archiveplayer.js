@@ -76,7 +76,7 @@ var ArchivePlayer = (function () {
 
         preparePlayer();
 
-        readNewestPrograms();
+        readNewestPrograms(getDateByDateIndex(dateIndexToday), 30, 0, null);
 
         // add eventListener for keydown
         document.addEventListener('keydown', apKeyDownEventListener);
