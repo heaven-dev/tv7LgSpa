@@ -6,6 +6,7 @@ var ArchiveMain = (function () {
 
 	var dynamicRowsMap = {};
 	var dynamicRowData = {};
+	var fourDaysGuide = [];
 
 	var modalVisible = false;
 
@@ -986,13 +987,12 @@ var ArchiveMain = (function () {
 		var seriesData = getValueFromCache(seriesDataKey);
 		if (!seriesData) {
 			getGuide(getDateByDateIndex(dateIndexDayBeforeYesterday), function (data) {
-				var guide = data;
+				fourDaysGuide = data;
 				getGuide(getDateByDateIndex(dateIndexYesterday), function (data) {
-					guide = guide.concat(data);
-					cacheValue(programSchedulePastDataKey, jsonToString(guide));
+					fourDaysGuide = fourDaysGuide.concat(data);
 
-					guide = guide.concat(stringToJson(getValueFromCache(programScheduleDataKey)));
-					series = removeDuplicatesSeries(guide);
+					fourDaysGuide = fourDaysGuide.concat(stringToJson(getValueFromCache(programScheduleDataKey)));
+					series = removeDuplicatesSeries();
 
 					cacheValue(seriesDataKey, jsonToString(series));
 					handleSeries(series, pageState);
@@ -1027,58 +1027,58 @@ var ArchiveMain = (function () {
 	function readDynamicRows(pageState) {
 		var dynamicData = getValueFromCache(dynamicRowDataKey);
 		if (!dynamicData) {
-			var guide = stringToJson(getValueFromCache(programSchedulePastDataKey));
-			if (guide) {
-				guide = guide.concat(stringToJson(getValueFromCache(programScheduleDataKey)));
-				guide = removeDuplicatesProgram(guide);
+			var guide = removeDuplicatesProgram();
 
-				for (var i = 0; i < guide.length; i++) {
-					var g = guide[i];
-					if (!g) {
-						continue;
-					}
-
-					addToMap(g);
+			for (var i = 0; i < guide.length; i++) {
+				var g = guide[i];
+				if (!g) {
+					continue;
 				}
 
-				//console.log('Map item: ', dynamicRowsMap);
-
-				var ids = shuffleIds(getCategoryIdsFromMap(4, 54));
-				if (ids.length < 5) {
-					ids = ids.concat(shuffleIds(getCategoryIdsFromMap(3, 3)));
-				}
-
-				//console.log('Ids: ', ids);
-
-				for (var i = 0; i < ids.length; i++) {
-					var key = ids[i];
-					if (!key) {
-						continue;
-					}
-
-					var data = null;
-					if (dynamicRowsMap[key] && dynamicRowsMap[key].length) {
-						data = dynamicRowsMap[key];
-					}
-
-					if (i === 0 && data) {
-						dynamicRowData[i] = data;
-					}
-					else if (i === 1 && data) {
-						dynamicRowData[i] = data;
-					}
-					else if (i === 2 && data) {
-						dynamicRowData[i] = data;
-					}
-					else if (i === 3 && data) {
-						dynamicRowData[i] = data;
-					}
-					else if (i === 4 && data) {
-						dynamicRowData[i] = data;
-					}
-				}
-				cacheValue(dynamicRowDataKey, jsonToString(dynamicRowData));
+				addToMap(g);
 			}
+
+			//console.log('Map item: ', dynamicRowsMap);
+
+			var ids = shuffleIds(getCategoryIdsFromMap(4, 54));
+			if (ids.length < 5) {
+				ids = ids.concat(shuffleIds(getCategoryIdsFromMap(3, 3)));
+			}
+
+			//console.log('Ids: ', ids);
+
+			for (var i = 0; i < ids.length; i++) {
+				var key = ids[i];
+				if (!key) {
+					continue;
+				}
+
+				var data = null;
+				if (dynamicRowsMap[key] && dynamicRowsMap[key].length) {
+					data = dynamicRowsMap[key];
+				}
+
+				if (i === 0 && data) {
+					dynamicRowData[i] = data;
+				}
+				else if (i === 1 && data) {
+					dynamicRowData[i] = data;
+				}
+				else if (i === 2 && data) {
+					dynamicRowData[i] = data;
+				}
+				else if (i === 3 && data) {
+					dynamicRowData[i] = data;
+				}
+				else if (i === 4 && data) {
+					dynamicRowData[i] = data;
+				}
+			}
+
+			cacheValue(dynamicRowDataKey, jsonToString(dynamicRowData));
+
+			dynamicRowsMap = {};
+			fourDaysGuide = [];
 		}
 		else {
 			console.log('**Return dynamic rows data from cache.');
@@ -1178,11 +1178,11 @@ var ArchiveMain = (function () {
 		}
 	}
 
-	function removeDuplicatesSeries(guide) {
+	function removeDuplicatesSeries() {
 		var seen = [];
 		var retVal = [];
-		for (var i = 0; i < guide.length; i++) {
-			var g = guide[i];
+		for (var i = 0; i < fourDaysGuide.length; i++) {
+			var g = fourDaysGuide[i];
 			if (!g) {
 				continue;
 			}
@@ -1210,18 +1210,18 @@ var ArchiveMain = (function () {
 						localStartDate: localStartDate,
 						duration_time: duration_time
 					});
-				seen.push(guide[i].sid);
+				seen.push(sid);
 			}
 		}
 
 		return retVal;
 	}
 
-	function removeDuplicatesProgram(guide) {
+	function removeDuplicatesProgram() {
 		var seen = [];
 		var retVal = [];
-		for (var i = 0; i < guide.length; i++) {
-			var g = guide[i];
+		for (var i = 0; i < fourDaysGuide.length; i++) {
+			var g = fourDaysGuide[i];
 			if (!g) {
 				continue;
 			}
@@ -1251,7 +1251,7 @@ var ArchiveMain = (function () {
 						duration_time: duration_time,
 						name_desc: name_desc
 					});
-				seen.push(g.id);
+				seen.push(id);
 			}
 		}
 
@@ -1278,6 +1278,7 @@ var ArchiveMain = (function () {
 	function initArchiveMainVariables() {
 		dynamicRowsMap = {};
 		dynamicRowData = {};
+		fourDaysGuide = [];
 
 		modalVisible = false;
 
