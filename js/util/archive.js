@@ -81,7 +81,7 @@ function getBroadcastRecommendationsPrograms(date, limit, offset, cb) {
 }
 
 function getNewestPrograms(date, limit, offset, category, cb) {
-    let categoryId = '';
+    var categoryId = '';
     if (category) {
         categoryId = category;
     }

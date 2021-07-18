@@ -547,7 +547,7 @@ function getKeyboard() {
 }
 
 function getArchivePageCategories() {
-    let categories = '';
+    var categories = '';
     if (selectedLocale === localeFi) {
         categories = archivePageCategoriesFi;
     }
