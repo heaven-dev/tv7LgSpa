@@ -1295,7 +1295,7 @@ var ArchiveMain = (function () {
 			if (row === 2 || row === 3) {
 				bottomMargin = height;
 			}
-			else if (row === 4 || row === 5 || row === 6 || row === 7 || row === 8 || row === 9) {
+			else if (row === 4 || row === 5 || row === 6 || row === 7 || row === 8) {
 				bottomMargin = height * (row - 1);
 			}
 			else {
@@ -1336,7 +1336,12 @@ var ArchiveMain = (function () {
 					toSeriesInfoPage(row, col);
 				}
 				else {
-					toProgramInfoPage(row, col);
+					if ((row === 5 || row === 6 || row === 7 || row === 8) && col === 5) {
+						toCategoriesPage(row, col);
+					}
+					else {
+						toProgramInfoPage(row, col);
+					}
 				}
 			}
 			else {
