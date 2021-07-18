@@ -46,7 +46,7 @@
 .amNewestProgramsText,
 .amCategoriesText,
 .amSeriesText,
-.amDynamicRowsText {
+.amCategoryRowText {
 	font-size: 32px;
 	font-weight: bold;
 	color: #444444;
@@ -59,8 +59,7 @@
     text-overflow: ellipsis;
 }
 
-.amCategoryNameText,
-.amCategoryBackText {
+.amCategoryNameText {
 	width: calc(100% - 20px);
 	padding: 10px;
 	font-size: 32px;
@@ -82,7 +81,7 @@
 .amNewestPrograms,
 .amCategories,
 .amSeries,
-.amDynamicRow {
+.amCategoryRow {
 	height: 100%;
 	position: relative;
 	display: -webkit-flex;
@@ -96,7 +95,7 @@
 
 .amProgramItem,
 .amCategoriesItem,
-.amCategoriesBackItem {
+.amCategoriesBoxItem {
 	position: relative;
 	border: 10px solid #444444;
 	outline: none;
@@ -123,19 +122,14 @@
 	margin-left: 10px;
 }
 
-.amCategoriesItem,
-.amCategoriesBackItem {
+.amCategoriesItem {
 	text-align: center;
 	background-color: #eeeeee;
 }
 
-.amCategoriesBackItem {
-	width: 346px;
-}
-
 .amProgramItem:focus,
 .amCategoriesItem:focus,
-.amCategoriesBackItem:focus {
+.amCategoriesBoxItem:focus {
 	border: 10px solid #0099CC;
 	border-radius: 4px;
 	/*
@@ -193,23 +187,15 @@
 	bottom: 0;
 }
 
-.amCategoriesIconText {
+.amCategoriesBoxItem {
 	display: -webkit-flex;
 	display: flex;
 	align-items: center;
 	width: 346px;
+	background-color: #eeeeee;
 }
 
-.amCategoryBackText {
-	width: initial;
-}
-
-.amBackIconContainer {
-	width: 100px;
-	height: 100px;
-}
-
-.amBackIcon {
-	width: 100px;
-	height: 100px;
+.amCategoriesBoxItemIcon {
+	width: 346px;
+	height: 150px;
 }

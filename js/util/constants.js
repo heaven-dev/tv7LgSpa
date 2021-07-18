@@ -142,7 +142,6 @@ var videoStatusDataKey = 'videoStatusDataKey';
 var savedSearchDataKey = 'savedSearchDataKey';
 var visiblePageKey = 'visiblePageKey';
 var seriesDataKey = 'seriesDataKey';
-var dynamicRowDataKey = 'dynamicRowDataKey';
 
 var errorTextKey = 'errorTextKey';
 var somethingWentWrongText = 'Something went wrong :-(';

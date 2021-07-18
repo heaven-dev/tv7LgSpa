@@ -45,6 +45,11 @@ var localeEt = 'et';
 var localeRu = 'ru';
 var localeSv = 'sv';
 
+var archivePageCategoriesFi = [13, 11, 4, 8];
+var archivePageCategoriesEt = [4, 11, 24, 8];
+var archivePageCategoriesRu = [4, 15, 26, 1];
+var archivePageCategoriesSv = [23, 8, 4, 15];
+
 /*
 * UI texts and methods to update texts to the UI.
 */
@@ -539,6 +544,23 @@ function getKeyboard() {
     else if (selectedLocale === 'ru') {
         return { letter: keyboardLettersRu, special: keyboardNumberSpecialRu };
     }
+}
+
+function getArchivePageCategories() {
+    let categories = '';
+    if (selectedLocale === localeFi) {
+        categories = archivePageCategoriesFi;
+    }
+    else if (selectedLocale === localeEt) {
+        categories = archivePageCategoriesEt;
+    }
+    else if (selectedLocale === localeRu) {
+        categories = archivePageCategoriesRu;
+    }
+    else if (selectedLocale === localeSv) {
+        categories = archivePageCategoriesSv;
+    }
+    return categories;
 }
 
 function getChannelLogo() {

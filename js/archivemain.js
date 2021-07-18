@@ -4,9 +4,7 @@ var ArchiveMain = (function () {
 
 	function ArchiveMain() { }
 
-	var dynamicRowsMap = {};
-	var dynamicRowData = {};
-	var fourDaysGuide = [];
+	var twoDaysGuide = [];
 
 	var modalVisible = false;
 
@@ -15,11 +13,10 @@ var ArchiveMain = (function () {
 	var newestMargin = 0;
 	var categoriesMargin = 0;
 	var seriesMargin = 0;
-	var dynamicRowOneMargin = 0;
-	var dynamicRowTwoMargin = 0;
-	var dynamicRowThreeMargin = 0;
-	var dynamicRowFourMargin = 0;
-	var dynamicRowFiveMargin = 0;
+	var categoryRowOneMargin = 0;
+	var categoryRowTwoMargin = 0;
+	var categoryRowThreeMargin = 0;
+	var categoryRowFourMargin = 0;
 	var bottomMargin = 0;
 	var animationOngoing = false;
 
@@ -34,6 +31,11 @@ var ArchiveMain = (function () {
 	var newest = null;
 	var categories = null;
 	var series = null;
+	var categoryRowOneData = [];
+	var categoryRowTwoData = [];
+	var categoryRowThreeData = [];
+	var categoryRowFourData = [];
+
 	var categoryLogo = null;
 
 	var lastParentCategoryId = null;
@@ -78,16 +80,25 @@ var ArchiveMain = (function () {
 
 		showBusyLoaders();
 
+		var todayDate = getDateByDateIndex(dateIndexToday);
+
 		// get data
-		readRecommendedPrograms(getDateByDateIndex(dateIndexToday), 30, 0, pageState);
+		readRecommendedPrograms(todayDate, 30, 0, pageState);
 		readMostViewedPrograms(getArchiveLanguage(), pageState);
-		readNewestPrograms(getDateByDateIndex(dateIndexToday), 30, 0, null, pageState);
+		readNewestPrograms(todayDate, 30, 0, null, pageState);
 
 		if (pageState && pageState.subCategoryId) {
 			readSubCategories(pageState, true);
 		}
 		else {
 			readParentCategories(pageState, true);
+		}
+
+		var categoryIds = getArchivePageCategories();
+		if (categoryIds) {
+			for (var i = 0; i < categoryIds.length; i++) {
+				readNewestProgramsByCategoryId(todayDate, 5, 0, categoryIds[i], i, pageState);
+			}
 		}
 
 		readSeries(pageState);
@@ -261,7 +272,12 @@ var ArchiveMain = (function () {
 						toSeriesInfoPage(row, col);
 					}
 					else {
-						toProgramInfoPage(row, col);
+						if ((row === 5 || row === 6 || row === 7 || row === 8) && col === 5) {
+							toCategoriesPage(row, col);
+						}
+						else {
+							toProgramInfoPage(row, col);
+						}
 					}
 				}
 			}
@@ -420,29 +436,24 @@ var ArchiveMain = (function () {
 			seriesMargin = margin;
 		}
 		else if (row === 5) {
-			rowElement = 'dynamicRowOne';
-			margin = calculateRightMargin(col, right, dynamicRowOneMargin);
-			dynamicRowOneMargin = margin;
+			rowElement = 'categoryRowOne';
+			margin = calculateRightMargin(col, right, categoryRowOneMargin);
+			categoryRowOneMargin = margin;
 		}
 		else if (row === 6) {
-			rowElement = 'dynamicRowTwo';
-			margin = calculateRightMargin(col, right, dynamicRowTwoMargin);
-			dynamicRowTwoMargin = margin;
+			rowElement = 'categoryRowTwo';
+			margin = calculateRightMargin(col, right, categoryRowTwoMargin);
+			categoryRowTwoMargin = margin;
 		}
 		else if (row === 7) {
-			rowElement = 'dynamicRowThree';
-			margin = calculateRightMargin(col, right, dynamicRowThreeMargin);
-			dynamicRowThreeMargin = margin;
+			rowElement = 'categoryRowThree';
+			margin = calculateRightMargin(col, right, categoryRowThreeMargin);
+			categoryRowThreeMargin = margin;
 		}
 		else if (row === 8) {
-			rowElement = 'dynamicRowFour';
-			margin = calculateRightMargin(col, right, dynamicRowFourMargin);
-			dynamicRowFourMargin = margin;
-		}
-		else if (row === 9) {
-			rowElement = 'dynamicRowFive';
-			margin = calculateRightMargin(col, right, dynamicRowFiveMargin);
-			dynamicRowFiveMargin = margin;
+			rowElement = 'categoryRowFour';
+			margin = calculateRightMargin(col, right, categoryRowFourMargin);
+			categoryRowFourMargin = margin;
 		}
 
 		if (move) {
@@ -556,19 +567,16 @@ var ArchiveMain = (function () {
 			return newest[col];
 		}
 		else if (row === 5) {
-			return dynamicRowData[0][col];
+			return categoryRowOneData[col];
 		}
 		else if (row === 6) {
-			return dynamicRowData[1][col];
+			return categoryRowTwoData[col];
 		}
 		else if (row === 7) {
-			return dynamicRowData[2][col];
+			return categoryRowThreeData[col];
 		}
 		else if (row === 8) {
-			return dynamicRowData[3][col];
-		}
-		else if (row === 9) {
-			return dynamicRowData[4][col];
+			return categoryRowFourData[col];
 		}
 	}
 
@@ -595,19 +603,16 @@ var ArchiveMain = (function () {
 			margin = seriesMargin;
 		}
 		else if (row === 5) {
-			margin = dynamicRowOneMargin;
+			margin = categoryRowOneMargin;
 		}
 		else if (row === 6) {
-			margin = dynamicRowTwoMargin;
+			margin = categoryRowTwoMargin;
 		}
 		else if (row === 7) {
-			margin = dynamicRowThreeMargin;
+			margin = categoryRowThreeMargin;
 		}
 		else if (row === 8) {
-			margin = dynamicRowFourMargin;
-		}
-		else if (row === 9) {
-			margin = dynamicRowFiveMargin;
+			margin = categoryRowFourMargin;
 		}
 
 		var ps = {
@@ -657,19 +662,16 @@ var ArchiveMain = (function () {
 						seriesMargin = marginValue;
 					}
 					else if (row === 5) {
-						dynamicRowOneMargin = marginValue;
+						categoryRowOneMargin = marginValue;
 					}
 					else if (row === 6) {
-						dynamicRowTwoMargin = marginValue;
+						categoryRowTwoMargin = marginValue;
 					}
 					else if (row === 7) {
-						dynamicRowThreeMargin = marginValue;
+						categoryRowThreeMargin = marginValue;
 					}
 					else if (row === 8) {
-						dynamicRowFourMargin = marginValue;
-					}
-					else if (row === 9) {
-						dynamicRowFiveMargin = marginValue;
+						categoryRowFourMargin = marginValue;
 					}
 
 					var focusElementId = pageState['focusElementId']
@@ -698,11 +700,10 @@ var ArchiveMain = (function () {
 		showElementById('newestBusyLoader');
 		showElementById('categoriesBusyLoader');
 		showElementById('seriesBusyLoader');
-		showElementById('dynamicRowOneBusyLoader');
-		showElementById('dynamicRowTwoBusyLoader');
-		showElementById('dynamicRowThreeBusyLoader');
-		showElementById('dynamicRowFourBusyLoader');
-		showElementById('dynamicRowFiveBusyLoader');
+		showElementById('categoryRowOneBusyLoader');
+		showElementById('categoryRowTwoBusyLoader');
+		showElementById('categoryRowThreeBusyLoader');
+		showElementById('categoryRowFourBusyLoader');
 	}
 
 	function changeRowBackgroundColor(elementId, color) {
@@ -750,27 +751,22 @@ var ArchiveMain = (function () {
 				element.style.height = rowHeight + 'px';
 			}
 
-			element = getElementById('dynamicRowOneContainer');
+			element = getElementById('categoryRowOneContainer');
 			if (element) {
 				element.style.height = rowHeight + 'px';
 			}
 
-			element = getElementById('dynamicRowTwoContainer');
+			element = getElementById('categoryRowTwoContainer');
 			if (element) {
 				element.style.height = rowHeight + 'px';
 			}
 
-			element = getElementById('dynamicRowThreeContainer');
+			element = getElementById('categoryRowThreeContainer');
 			if (element) {
 				element.style.height = rowHeight + 'px';
 			}
 
-			element = getElementById('dynamicRowFourContainer');
-			if (element) {
-				element.style.height = rowHeight + 'px';
-			}
-
-			element = getElementById('dynamicRowFiveContainer');
+			element = getElementById('categoryRowFourContainer');
 			if (element) {
 				element.style.height = rowHeight + 'px';
 			}
@@ -784,6 +780,37 @@ var ArchiveMain = (function () {
 		}
 	}
 
+	function toCategoriesPage(row, col) {
+		savePageState(row, col);
+
+		getSubCategories(function (data) {
+			if (data !== null) {
+				var categoryId = getArchivePageCategories();
+				categoryId = categoryId[row - 5];
+				if (!categoryId) {
+					return;
+				}
+
+				var category = null;
+				for (var i = 0; i < data.length; i++) {
+					var c = data[i];
+					if (c) {
+						if (c.category_id === String(categoryId)) {
+							category = c;
+							break;
+						}
+					}
+				}
+
+				if (!category) {
+					return;
+				}
+
+				toCategoryProgramsPage(category);
+			}
+		});
+	}
+
 	function toProgramInfoPage(row, col) {
 		var data = getProgramDataByRowAndCol(row, col);
 		if (data) {
@@ -793,7 +820,9 @@ var ArchiveMain = (function () {
 
 			getProgramInfo(data.id, function (program) {
 				if (program !== null) {
-					cacheValue(selectedArchiveProgramKey, jsonToString(program[0]));
+					program = program[0];
+
+					cacheValue(selectedArchiveProgramKey, jsonToString(program));
 
 					hideElementById('commonBusyLoader');
 					toPage(programInfoPage, archiveMainPage);
@@ -983,31 +1012,92 @@ var ArchiveMain = (function () {
 		});
 	}
 
+	function readNewestProgramsByCategoryId(date, limit, offset, categoryId, index, pageState) {
+		getNewestPrograms(date, limit, offset, categoryId, function (data) {
+			if (data !== null) {
+				//console.log('readNewestProgramsByCategoryId(): CategoryId: ', categoryId, ' response: ', data);
+
+				if (index === 0) {
+					categoryRowOneData = data;
+					prepareCategoryRow(data, index, 'categoryRowOneText', 'categoryRowOne', 'categoryRowOneBusyLoader', 'categoryRowOneContainer', pageState);
+				}
+				else if (index === 1) {
+					categoryRowTwoData = data;
+					prepareCategoryRow(data, index, 'categoryRowTwoText', 'categoryRowTwo', 'categoryRowTwoBusyLoader', 'categoryRowTwoContainer', pageState);
+				}
+				else if (index === 2) {
+					categoryRowThreeData = data;
+					prepareCategoryRow(data, index, 'categoryRowThreeText', 'categoryRowThree', 'categoryRowThreeBusyLoader', 'categoryRowThreeContainer', pageState);
+				}
+				else if (index === 3) {
+					categoryRowFourData = data;
+					prepareCategoryRow(data, index, 'categoryRowFourText', 'categoryRowFour', 'categoryRowFourBusyLoader', 'categoryRowFourContainer', pageState);
+				}
+			}
+		});
+	}
+
+	function prepareCategoryRow(data, index, textId, rowId, rowBusyLoaderId, rowContainer, pageState) {
+		if (data) {
+			var rowNumber = 0;
+			var template = null;
+			var container = null;
+			if (index === 0) {
+				rowNumber = 5;
+				template = 'categoryRowOneTemplate';
+				container = 'categoryRowOneContainer';
+			}
+			else if (index === 1) {
+				rowNumber = 6;
+				template = 'categoryRowTwoTemplate';
+				container = 'categoryRowTwoContainer';
+			}
+			else if (index === 2) {
+				rowNumber = 7;
+				template = 'categoryRowThreeTemplate';
+				container = 'categoryRowThreeContainer';
+			}
+			else if (index === 3) {
+				rowNumber = 8;
+				template = 'categoryRowFourTemplate';
+				container = 'categoryRowFourContainer';
+			}
+
+			addToElement(textId, data[0].cname);
+
+			addData(data, template, container);
+
+			restoreRightMargin(pageState, rowId, rowNumber);
+
+			hideElementById(rowBusyLoaderId);
+			changeRowBackgroundColor(rowContainer, '#ffffff');
+		}
+		else {
+			hideElementById(rowBusyLoaderId);
+			removeEventListeners(true);
+
+			toPage(errorPage, null);
+		}
+	}
+
 	function readSeries(pageState) {
 		var seriesData = getValueFromCache(seriesDataKey);
 		if (!seriesData) {
-			getGuide(getDateByDateIndex(dateIndexDayBeforeYesterday), function (data) {
-				fourDaysGuide = data;
-				getGuide(getDateByDateIndex(dateIndexYesterday), function (data) {
-					fourDaysGuide = fourDaysGuide.concat(data);
+			twoDaysGuide = stringToJson(getValueFromCache(programScheduleDataKey));
+			series = removeDuplicatesSeries();
 
-					fourDaysGuide = fourDaysGuide.concat(stringToJson(getValueFromCache(programScheduleDataKey)));
-					series = removeDuplicatesSeries();
-
-					cacheValue(seriesDataKey, jsonToString(series));
-					handleSeries(series, pageState);
-				});
-			});
+			cacheValue(seriesDataKey, jsonToString(series));
+			handleSeries(pageState);
 		}
 		else {
 			console.log('**Return series data from cache.');
 
 			series = stringToJson(seriesData);
-			handleSeries(series, pageState);
+			handleSeries(pageState);
 		}
 	}
 
-	function handleSeries(series, pageState) {
+	function handleSeries(pageState) {
 		if (series) {
 			//console.log('Series data: ', series);
 
@@ -1019,170 +1109,14 @@ var ArchiveMain = (function () {
 
 			hideElementById('seriesBusyLoader');
 			changeRowBackgroundColor('seriesContainer', '#ffffff');
-
-			readDynamicRows(pageState);
-		}
-	}
-
-	function readDynamicRows(pageState) {
-		var dynamicData = getValueFromCache(dynamicRowDataKey);
-		if (!dynamicData) {
-			var guide = removeDuplicatesProgram();
-
-			for (var i = 0; i < guide.length; i++) {
-				var g = guide[i];
-				if (!g) {
-					continue;
-				}
-
-				addToMap(g);
-			}
-
-			//console.log('Map item: ', dynamicRowsMap);
-
-			var ids = shuffleIds(getCategoryIdsFromMap(4, 54));
-			if (ids.length < 5) {
-				ids = ids.concat(shuffleIds(getCategoryIdsFromMap(3, 3)));
-			}
-
-			//console.log('Ids: ', ids);
-
-			for (var i = 0; i < ids.length; i++) {
-				var key = ids[i];
-				if (!key) {
-					continue;
-				}
-
-				var data = null;
-				if (dynamicRowsMap[key] && dynamicRowsMap[key].length) {
-					data = dynamicRowsMap[key];
-				}
-
-				if (i === 0 && data) {
-					dynamicRowData[i] = data;
-				}
-				else if (i === 1 && data) {
-					dynamicRowData[i] = data;
-				}
-				else if (i === 2 && data) {
-					dynamicRowData[i] = data;
-				}
-				else if (i === 3 && data) {
-					dynamicRowData[i] = data;
-				}
-				else if (i === 4 && data) {
-					dynamicRowData[i] = data;
-				}
-			}
-
-			cacheValue(dynamicRowDataKey, jsonToString(dynamicRowData));
-
-			dynamicRowsMap = {};
-			fourDaysGuide = [];
-		}
-		else {
-			console.log('**Return dynamic rows data from cache.');
-			dynamicRowData = stringToJson(dynamicData);
-		}
-
-		//console.log('Dynamic rows data: ', dynamicRowData);
-
-		if (dynamicRowData) {
-			prepareElement(dynamicRowData[0], pageState, 'dynamicRowOneText', 'dynamicRowOneTemplate', 'dynamicRowOneContainer',
-				'dynamicRowOne', 5, 'dynamicRowOneBusyLoader');
-
-			prepareElement(dynamicRowData[1], pageState, 'dynamicRowTwoText', 'dynamicRowTwoTemplate', 'dynamicRowTwoContainer',
-				'dynamicRowTwo', 6, 'dynamicRowTwoBusyLoader');
-
-			prepareElement(dynamicRowData[2], pageState, 'dynamicRowThreeText', 'dynamicRowThreeTemplate', 'dynamicRowThreeContainer',
-				'dynamicRowThree', 7, 'dynamicRowThreeBusyLoader');
-
-			prepareElement(dynamicRowData[3], pageState, 'dynamicRowFourText', 'dynamicRowFourTemplate', 'dynamicRowFourContainer',
-				'dynamicRowFour', 8, 'dynamicRowFourBusyLoader');
-
-			prepareElement(dynamicRowData[4], pageState, 'dynamicRowFiveText', 'dynamicRowFiveTemplate', 'dynamicRowFiveContainer',
-				'dynamicRowFive', 9, 'dynamicRowFiveBusyLoader');
-		}
-	}
-
-	function prepareElement(data, pageState, textId, templateId, containerId, rowId, rowNumber, busyLoaderId) {
-		if (data) {
-			addToElement(textId, data[0].category);
-			addData(data, templateId, containerId);
-
-			restoreRightMargin(pageState, rowId, rowNumber);
-
-			hideElementById(busyLoaderId);
-			changeRowBackgroundColor(containerId, '#ffffff');
-		}
-		else {
-			hideElementById(textId);
-			hideElementById(containerId);
-		}
-	}
-
-	function getGuide(date, cb) {
-		getGuideByDate(date, function (gd) {
-			if (gd !== null) {
-				cb(gd.data);
-			}
-			else {
-				hideElementById('seriesBusyLoader');
-				removeEventListeners(true);
-
-				toPage(errorPage, null);
-			}
-		});
-	}
-
-	function shuffleIds(ids) {
-		for (var i = ids.length - 1; i > 0; i--) {
-			var j = Math.floor(Math.random() * (i + 1));
-			var tmp = ids[i];
-			ids[i] = ids[j];
-			ids[j] = tmp;
-		}
-		return ids;
-	}
-
-	function getCategoryIdsFromMap(minProgramsInRow, maxProgramsInRow) {
-		var ids = [];
-		for (var d in dynamicRowsMap) {
-			//console.log('Key: ', d, ' Value: ', dynamicRowsMap[d]);
-
-			var arrLen = dynamicRowsMap[d].length;
-			if (arrLen >= minProgramsInRow && arrLen <= maxProgramsInRow) {
-				ids.push(d);
-			}
-
-		}
-
-		//console.log('Ids: ', ids);
-		return ids;
-	}
-
-	function addToMap(item) {
-		if (dynamicRowsMap && item && item.cid) {
-			var cid = item.cid;
-
-			var array = dynamicRowsMap[cid];
-			if (!array) {
-				array = [];
-				array.push(item);
-			}
-			else {
-				array.push(item);
-			}
-
-			dynamicRowsMap[cid] = array;
 		}
 	}
 
 	function removeDuplicatesSeries() {
 		var seen = [];
 		var retVal = [];
-		for (var i = 0; i < fourDaysGuide.length; i++) {
-			var g = fourDaysGuide[i];
+		for (var i = 0; i < twoDaysGuide.length; i++) {
+			var g = twoDaysGuide[i];
 			if (!g) {
 				continue;
 			}
@@ -1217,47 +1151,6 @@ var ArchiveMain = (function () {
 		return retVal;
 	}
 
-	function removeDuplicatesProgram() {
-		var seen = [];
-		var retVal = [];
-		for (var i = 0; i < fourDaysGuide.length; i++) {
-			var g = fourDaysGuide[i];
-			if (!g) {
-				continue;
-			}
-
-			var id = g.id;
-			var cid = g.cid;
-			var category = g.category;
-			var is_visible_on_vod = g.is_visible_on_vod;
-			var image_path = g.image_path;
-			var broadcast_date_time = g.broadcast_date_time;
-			var duration_time = g.duration_time;
-			var name_desc = g.name_desc;
-
-			if (!validateValue(id) || !validateValue(cid)
-				|| !validateValue(category) || !validateValue(is_visible_on_vod)) {
-				continue;
-			}
-
-			if ((is_visible_on_vod === '1' || is_visible_on_vod === '2') && seen.indexOf(id) === -1) {
-				retVal.push(
-					{
-						id: id,
-						cid: cid,
-						category: category,
-						image_path: image_path,
-						broadcast_date_time: broadcast_date_time,
-						duration_time: duration_time,
-						name_desc: name_desc
-					});
-				seen.push(id);
-			}
-		}
-
-		return retVal;
-	}
-
 	function validateValue(value) {
 		return value && value !== '' && value !== nullValue;
 	}
@@ -1276,9 +1169,7 @@ var ArchiveMain = (function () {
 	}
 
 	function initArchiveMainVariables() {
-		dynamicRowsMap = {};
-		dynamicRowData = {};
-		fourDaysGuide = [];
+		twoDaysGuide = [];
 
 		modalVisible = false;
 
@@ -1288,8 +1179,10 @@ var ArchiveMain = (function () {
 		categoriesMargin = 0;
 		bottomMargin = 0;
 		seriesMargin = 0;
-		dynamicRowOneMargin = 0;
-		dynamicRowTwoMargin = 0;
+		categoryRowOneMargin = 0;
+		categoryRowTwoMargin = 0;
+		categoryRowThreeMargin = 0;
+		categoryRowFourMargin = 0;
 		animationOngoing = false;
 
 		rowItemWidth = 0;
@@ -1303,6 +1196,11 @@ var ArchiveMain = (function () {
 		newest = null;
 		categories = null;
 		series = null;
+		categoryRowOneData = [];
+		categoryRowTwoData = [];
+		categoryRowThreeData = [];
+		categoryRowFourData = [];
+
 		categoryLogo = null;
 
 		lastParentCategoryId = null;
@@ -1333,20 +1231,17 @@ var ArchiveMain = (function () {
 			else if (value === 'series') {
 				itemCount = series.length;
 			}
-			else if (value === 'dynamicRowOne') {
-				itemCount = dynamicRowData[0].length;
+			else if (value === 'categoryRowOne') {
+				itemCount = categoryRowOneData.length + 1;
 			}
-			else if (value === 'dynamicRowTwo') {
-				itemCount = dynamicRowData[1].length;
+			else if (value === 'categoryRowTwo') {
+				itemCount = categoryRowTwoData.length + 1;
 			}
-			else if (value === 'dynamicRowThree') {
-				itemCount = dynamicRowData[2].length;
+			else if (value === 'categoryRowThree') {
+				itemCount = categoryRowThreeData.length + 1;
 			}
-			else if (value === 'dynamicRowFour') {
-				itemCount = dynamicRowData[3].length;
-			}
-			else if (value === 'dynamicRowFive') {
-				itemCount = dynamicRowData[4].length;
+			else if (value === 'categoryRowFour') {
+				itemCount = categoryRowFourData.length + 1;
 			}
 
 			return itemWidth * itemCount;
@@ -1421,19 +1316,16 @@ var ArchiveMain = (function () {
 					seriesMargin = newRightMargin;
 				}
 				else if (row === 5) {
-					dynamicRowOneMargin = newRightMargin;
+					categoryRowOneMargin = newRightMargin;
 				}
 				else if (row === 6) {
-					dynamicRowTwoMargin = newRightMargin;
+					categoryRowTwoMargin = newRightMargin;
 				}
 				else if (row === 7) {
-					dynamicRowThreeMargin = newRightMargin;
+					categoryRowThreeMargin = newRightMargin;
 				}
 				else if (row === 8) {
-					dynamicRowFourMargin = newRightMargin;
-				}
-				else if (row === 9) {
-					dynamicRowFiveMargin = newRightMargin;
+					categoryRowFourMargin = newRightMargin;
 				}
 
 				rowMoveLeftRight(row, col, true, false);

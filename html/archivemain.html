@@ -95,9 +95,9 @@
 				</div>
 			</div>
 
-			<div id="dynamicRowOneText" class="amDynamicRowsText"></div>
-			<div id="dynamicRowOneContainer" class="amRowContainer">
-				<div id="dynamicRowOneBusyLoader" class="busyLoader archiveMainBusyLoader">
+			<div id="categoryRowOneText" class="amCategoryRowText"></div>
+			<div id="categoryRowOneContainer" class="amRowContainer">
+				<div id="categoryRowOneBusyLoader" class="busyLoader archiveMainBusyLoader">
 					<div></div>
 					<div></div>
 					<div></div>
@@ -113,9 +113,9 @@
 				</div>
 			</div>
 
-			<div id="dynamicRowTwoText" class="amDynamicRowsText"></div>
-			<div id="dynamicRowTwoContainer" class="amRowContainer">
-				<div id="dynamicRowTwoBusyLoader" class="busyLoader archiveMainBusyLoader">
+			<div id="categoryRowTwoText" class="amCategoryRowText"></div>
+			<div id="categoryRowTwoContainer" class="amRowContainer">
+				<div id="categoryRowTwoBusyLoader" class="busyLoader archiveMainBusyLoader">
 					<div></div>
 					<div></div>
 					<div></div>
@@ -131,9 +131,9 @@
 				</div>
 			</div>
 
-			<div id="dynamicRowThreeText" class="amDynamicRowsText"></div>
-			<div id="dynamicRowThreeContainer" class="amRowContainer">
-				<div id="dynamicRowThreeBusyLoader" class="busyLoader archiveMainBusyLoader">
+			<div id="categoryRowThreeText" class="amCategoryRowText"></div>
+			<div id="categoryRowThreeContainer" class="amRowContainer">
+				<div id="categoryRowThreeBusyLoader" class="busyLoader archiveMainBusyLoader">
 					<div></div>
 					<div></div>
 					<div></div>
@@ -149,27 +149,9 @@
 				</div>
 			</div>
 
-			<div id="dynamicRowFourText" class="amDynamicRowsText"></div>
-			<div id="dynamicRowFourContainer" class="amRowContainer">
-				<div id="dynamicRowFourBusyLoader" class="busyLoader archiveMainBusyLoader">
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-			</div>
-
-			<div id="dynamicRowFiveText" class="amDynamicRowsText"></div>
-			<div id="dynamicRowFiveContainer" class="amRowContainer">
-				<div id="dynamicRowFiveBusyLoader" class="busyLoader archiveMainBusyLoader">
+			<div id="categoryRowFourText" class="amCategoryRowText"></div>
+			<div id="categoryRowFourContainer" class="amRowContainer">
+				<div id="categoryRowFourBusyLoader" class="busyLoader archiveMainBusyLoader">
 					<div></div>
 					<div></div>
 					<div></div>
@@ -258,13 +240,8 @@
 
 				{{#if parent_id}}
 					{{#if @last}}
-						<div id="3_{{incIdx @index}}" class="amCategoriesBackItem" onclick="amItemClicked(this)" tabindex="0">
-							<div class="amCategoriesIconText">
-								<div class="amBackIconContainer">
-									<object class="amBackIcon" data="images/arrow_back.svg" type="image/svg+xml"></object>
-								</div>
-								<div id="categoryBackText" class="amCategoryBackText" style="height: {{rowItemHeight -40}}px; line-height: {{rowItemHeight -40}}px"></div>
-							</div>
+						<div id="3_{{incIdx @index}}"  class="amCategoriesBoxItem" onclick="amItemClicked(this)" tabindex="0">
+							<img class="amCategoriesBoxItemIcon" src="images/arrow_back.svg" alt=""/>
 						</div>
 					{{/if}}
 				{{/if}}
@@ -285,67 +262,78 @@
 		</div>
 	</script>
 
-	<script id="dynamicRowOneTemplate" type="text/x-handlebars-template">
-		<div id="dynamicRowOne" class="amDynamicRow" style="width: {{rowWidth 'dynamicRowOne'}}px">
+	<script id="categoryRowOneTemplate" type="text/x-handlebars-template">
+		<div id="categoryRowOne" class="amCategoryRow" style="width: {{rowWidth 'categoryRowOne'}}px">
 			{{#each this}}
-				<div id="5_{{@index}}" class="amProgramItem dynamicRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+				<div id="5_{{@index}}" class="amProgramItem categoryRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
 					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
+
+				{{#if @last}}
+					<div id="5_{{incIdx @index}}"  class="amCategoriesBoxItem" onclick="amItemClicked(this)" tabindex="0">
+						<img class="amCategoriesBoxItemIcon" src="images/more.svg" alt=""/>
+					</div>
+				{{/if}}
 			{{/each}}
 		</div>
 	</script>
 
-	<script id="dynamicRowTwoTemplate" type="text/x-handlebars-template">
-		<div id="dynamicRowTwo" class="amDynamicRow" style="width: {{rowWidth 'dynamicRowTwo'}}px">
+	<script id="categoryRowTwoTemplate" type="text/x-handlebars-template">
+		<div id="categoryRowTwo" class="amCategoryRow" style="width: {{rowWidth 'categoryRowTwo'}}px">
 			{{#each this}}
-				<div id="6_{{@index}}" class="amProgramItem dynamicRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+				<div id="6_{{@index}}" class="amProgramItem categoryRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
 					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
+
+				{{#if @last}}
+					<div id="6_{{incIdx @index}}"  class="amCategoriesBoxItem" onclick="amItemClicked(this)" tabindex="0">
+						<img class="amCategoriesBoxItemIcon" src="images/more.svg" alt=""/>
+					</div>
+				{{/if}}
 			{{/each}}
 		</div>
 	</script>
 
-	<script id="dynamicRowThreeTemplate" type="text/x-handlebars-template">
-		<div id="dynamicRowThree" class="amDynamicRow" style="width: {{rowWidth 'dynamicRowThree'}}px">
+	<script id="categoryRowThreeTemplate" type="text/x-handlebars-template">
+		<div id="categoryRowThree" class="amCategoryRow" style="width: {{rowWidth 'categoryRowThree'}}px">
 			{{#each this}}
-				<div id="7_{{@index}}" class="amProgramItem dynamicRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+				<div id="7_{{@index}}" class="amProgramItem categoryRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
 					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
+
+				{{#if @last}}
+					<div id="7_{{incIdx @index}}"  class="amCategoriesBoxItem" onclick="amItemClicked(this)" tabindex="0">
+						<img class="amCategoriesBoxItemIcon" src="images/more.svg" alt=""/>
+					</div>
+				{{/if}}
 			{{/each}}
 		</div>
 	</script>
 
-	<script id="dynamicRowFourTemplate" type="text/x-handlebars-template">
-		<div id="dynamicRowFour" class="amDynamicRow" style="width: {{rowWidth 'dynamicRowFour'}}px">
+	<script id="categoryRowFourTemplate" type="text/x-handlebars-template">
+		<div id="categoryRowFour" class="amCategoryRow" style="width: {{rowWidth 'categoryRowFour'}}px">
 			{{#each this}}
-				<div id="8_{{@index}}" class="amProgramItem dynamicRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
+				<div id="8_{{@index}}" class="amProgramItem categoryRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
 					<div class="amProgramDate">{{broadcast_date_time}}</div>
 					<div class="amProgramTime">{{duration_time}}</div>
 					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
 					<div class="amProgramDesc">{{name_desc}}</div>
 				</div>
-			{{/each}}
-		</div>
-	</script>
 
-	<script id="dynamicRowFiveTemplate" type="text/x-handlebars-template">
-		<div id="dynamicRowFive" class="amDynamicRow" style="width: {{rowWidth 'dynamicRowFive'}}px">
-			{{#each this}}
-				<div id="9_{{@index}}" class="amProgramItem dynamicRowItem" style="min-width: {{rowItemWidth -20}}px" onclick="amItemClicked(this)" tabindex="0">
-					<div class="amProgramDate">{{broadcast_date_time}}</div>
-					<div class="amProgramTime">{{duration_time}}</div>
-					<img class="amProgramImg" style="width: {{rowItemWidth -20}}px; height: {{rowItemHeight -20}}px" src="{{image_path}}" onerror="if (this.src != 'images/tv7logo.png') this.src='images/tv7logo.png';" alt="" />
-					<div class="amProgramDesc">{{name_desc}}</div>
-				</div>
+				{{#if @last}}
+					<div id="8_{{incIdx @index}}"  class="amCategoriesBoxItem" onclick="amItemClicked(this)" tabindex="0">
+						<img class="amCategoriesBoxItemIcon" src="images/more.svg" alt=""/>
+					</div>
+				{{/if}}
 			{{/each}}
 		</div>
 	</script>

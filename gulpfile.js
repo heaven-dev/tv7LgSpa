@@ -93,6 +93,7 @@ gulp.task('copyToDist', () =>
         'images/error.svg',
         'images/info.svg',
         'images/clear.svg',
+        'images/more.svg',
         'images/saved_search.svg',
         'images/specialchar.svg', 
         'images/arrow_up_down.png',

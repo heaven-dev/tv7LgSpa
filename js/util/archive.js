@@ -81,8 +81,13 @@ function getBroadcastRecommendationsPrograms(date, limit, offset, cb) {
 }
 
 function getNewestPrograms(date, limit, offset, category, cb) {
-    if (!isCacheExpired(cacheExpirationKey + newestProgramsKey)) {
-        var newest = getDataFromCache(newestProgramsKey);
+    let categoryId = '';
+    if (category) {
+        categoryId = category;
+    }
+
+    if (!isCacheExpired(cacheExpirationKey + newestProgramsKey + categoryId)) {
+        var newest = getDataFromCache(newestProgramsKey + categoryId);
         if (newest) {
             console.log('**Return newest data from cache.');
             cb(newest);
@@ -108,7 +113,7 @@ function getNewestPrograms(date, limit, offset, category, cb) {
                 data = filterResponse(data, newestProgramsMethod);
 
                 if (data && data.length) {
-                    cacheData(newestProgramsKey, jsonToString(data));
+                    cacheData(newestProgramsKey + categoryId, jsonToString(data));
                 }
 
                 cb(data);
@@ -161,7 +166,7 @@ function getParentCategories(cb) {
     }
     else {
         // Read sub categories to cache
-        getSubCategories(function() {});
+        getSubCategories(function () { });
 
         var url = getArchiveUrl() + parentCategoriesMethod;
 
@@ -480,6 +485,10 @@ function filterResponse(data, method) {
             if (method === programInfoMethod) {
                 resultItem.path = checkPropertyValue(sourceItem.path);
                 resultItem.aspect_ratio = checkPropertyValue(sourceItem.aspect_ratio);
+            }
+
+            if (method === newestProgramsMethod) {
+                resultItem.cname = checkPropertyValue(sourceItem.cname);
             }
 
             result.push(resultItem);
