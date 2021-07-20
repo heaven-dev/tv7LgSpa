@@ -489,6 +489,7 @@ function filterResponse(data, method) {
 
             if (method === newestProgramsMethod) {
                 resultItem.cname = checkPropertyValue(sourceItem.cname);
+                resultItem.cid = checkPropertyValue(sourceItem.cid);
             }
 
             result.push(resultItem);

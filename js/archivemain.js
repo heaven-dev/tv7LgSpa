@@ -96,8 +96,11 @@ var ArchiveMain = (function () {
 
 		var categoryIds = getArchivePageCategories();
 		if (categoryIds) {
-			for (var i = 0; i < categoryIds.length; i++) {
-				readNewestProgramsByCategoryId(todayDate, 5, 0, categoryIds[i], i, pageState);
+			var selectedCategoryIds = selectCategoriesToRows(categoryIds);
+			if (selectedCategoryIds) {
+				for (var i = 0; i < selectedCategoryIds.length; i++) {
+					readNewestProgramsByCategoryId(todayDate, 5, 0, selectedCategoryIds[i], i, pageState);
+				}
 			}
 		}
 
@@ -136,6 +139,7 @@ var ArchiveMain = (function () {
 
 		var keyCode = e.keyCode;
 		var contentId = e.target.id;
+		var type = e.target.getAttribute('type');
 
 		//console.log('Key code : ', keyCode, ' Target element: ', contentId);
 
@@ -272,7 +276,7 @@ var ArchiveMain = (function () {
 						toSeriesInfoPage(row, col);
 					}
 					else {
-						if ((row === 5 || row === 6 || row === 7 || row === 8) && col === 5) {
+						if ((row === 5 || row === 6 || row === 7 || row === 8) && type === 'moreBox') {
 							toCategoriesPage(row, col);
 						}
 						else {
@@ -785,9 +789,23 @@ var ArchiveMain = (function () {
 
 		getSubCategories(function (data) {
 			if (data !== null) {
-				var categoryId = getArchivePageCategories();
-				categoryId = categoryId[row - 5];
-				if (!categoryId) {
+				let cid = null;
+				if (row === 5) {
+					cid = categoryRowOneData[0].cid;
+				}
+				if (row === 6) {
+					cid = categoryRowTwoData[0].cid;
+				}
+				if (row === 7) {
+					cid = categoryRowThreeData[0].cid;
+				}
+				if (row === 8) {
+					cid = categoryRowFourData[0].cid;
+				}
+
+				//console.log('Cid: ', cid);
+
+				if (!cid) {
 					return;
 				}
 
@@ -795,7 +813,7 @@ var ArchiveMain = (function () {
 				for (var i = 0; i < data.length; i++) {
 					var c = data[i];
 					if (c) {
-						if (c.category_id === String(categoryId)) {
+						if (c.category_id === String(cid)) {
 							category = c;
 							break;
 						}
@@ -1272,6 +1290,7 @@ var ArchiveMain = (function () {
 	ArchiveMain.prototype.itemClicked = function (item) {
 		if (item) {
 			//console.log('Item clicked: ', item.id);
+			var type = item.getAttribute('type');
 
 			removeEventListeners(true);
 
@@ -1336,7 +1355,7 @@ var ArchiveMain = (function () {
 					toSeriesInfoPage(row, col);
 				}
 				else {
-					if ((row === 5 || row === 6 || row === 7 || row === 8) && col === 5) {
+					if ((row === 5 || row === 6 || row === 7 || row === 8) && type === 'moreBox') {
 						toCategoriesPage(row, col);
 					}
 					else {

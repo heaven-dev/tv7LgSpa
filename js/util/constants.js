@@ -142,6 +142,7 @@ var videoStatusDataKey = 'videoStatusDataKey';
 var savedSearchDataKey = 'savedSearchDataKey';
 var visiblePageKey = 'visiblePageKey';
 var seriesDataKey = 'seriesDataKey';
+var selectedCategoriesRowKey = 'selectedCategoriesRowKey';
 
 var errorTextKey = 'errorTextKey';
 var somethingWentWrongText = 'Something went wrong :-(';
@@ -166,3 +167,5 @@ var dateIndexDayBeforeYesterday = -2;
 var dateIndexYesterday = -1;
 var dateIndexToday = 0;
 var dateIndexTomorrow = 1;
+
+var categoryRowCount = 4;

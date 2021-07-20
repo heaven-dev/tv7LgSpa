@@ -45,10 +45,69 @@ var localeEt = 'et';
 var localeRu = 'ru';
 var localeSv = 'sv';
 
-var archivePageCategoriesFi = [13, 11, 4, 8];
-var archivePageCategoriesEt = [4, 11, 24, 8];
-var archivePageCategoriesRu = [4, 15, 26, 1];
-var archivePageCategoriesSv = [23, 8, 4, 15];
+var archivePageCategoriesFi = [
+    11,
+    6,
+    15,
+    18,
+    17,
+    8,
+    12,
+    5,
+    25,
+    1,
+    7,
+    2,
+    13,
+    4,
+    10,
+    9,
+    14,
+    3
+];
+var archivePageCategoriesEt = [
+    24,
+    8,
+    13,
+    4,
+    1,
+    7,
+    2,
+    6,
+    3,
+    15,
+    5
+];
+var archivePageCategoriesRu = [
+    26,
+    1,
+    6,
+    3,
+    10,
+    35,
+    25,
+    8,
+    15,
+    4,
+    14
+];
+var archivePageCategoriesSv = [
+    1,
+    10,
+    9,
+    6,
+    3,
+    8,
+    15,
+    7,
+    11,
+    5,
+    25,
+    18,
+    4,
+    23,
+    2
+];
 
 /*
 * UI texts and methods to update texts to the UI.

@@ -616,6 +616,36 @@ function addSeriesProperties(series, sid) {
 	return series;
 }
 
+function selectCategoriesToRows(categoryIds) {
+	var selectedCategoryIds = [];
+
+	selectedCategoryIds = getValueFromCache(selectedCategoriesRowKey);
+	if (selectedCategoryIds) {
+		return stringToJson(selectedCategoryIds);
+	}
+
+	selectedCategoryIds = [];
+
+	if (categoryIds && categoryIds.length >= categoryRowCount) {
+		for (var i = 0; i < categoryRowCount; i++) {
+			var id = categoryIds[Math.floor(Math.random() * categoryIds.length)];
+			selectedCategoryIds.push(id);
+
+			var index = categoryIds.indexOf(id);
+			if (index !== -1) {
+				categoryIds.splice(index, 1);
+			}
+
+			//console.log('categoryIds: ', categoryIds);
+			//console.log('selectedCategoryIds: ', selectedCategoryIds);
+		}
+	}
+
+	cacheValue(selectedCategoriesRowKey, jsonToString(selectedCategoryIds));
+
+	return selectedCategoryIds;
+}
+
 function deletePageStates() {
 	removeValueFromCache(archivePageStateKey);
 	removeValueFromCache(searchResultPageStateKey);
