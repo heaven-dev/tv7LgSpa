@@ -789,7 +789,7 @@ var ArchiveMain = (function () {
 
 		getSubCategories(function (data) {
 			if (data !== null) {
-				let cid = null;
+				var cid = null;
 				if (row === 5) {
 					cid = categoryRowOneData[0].cid;
 				}
