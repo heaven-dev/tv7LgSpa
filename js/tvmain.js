@@ -29,6 +29,7 @@ var TvMain = (function () {
 			]
 		);
 
+		setLocaleText('liveText');
 		setLocaleText('nextProgramsText');
 
 		initTvMainVariables();
