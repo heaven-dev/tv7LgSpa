@@ -34,11 +34,9 @@
 	font-size: 30px;
 	background-color: #229954;
 	padding: 5px 10px;
-	border-radius: 10px;
+	border-radius: 4px;
 	top: 20px;
 	left: 20px;
-	-webkit-box-shadow: 5px 5px 24px 5px #27AE60; 
-	box-shadow: 5px 5px 24px 5px #27AE60;
 }
 
 .tmNextProgramsText {
