@@ -647,6 +647,22 @@ var TvMain = (function () {
 		toPlayerPage();
 	}
 
+	TvMain.prototype.programClicked = function (item) {
+		//console.log('Program clicked: ', item);
+
+		var id = item.id;
+		if (id) {
+			var split = id.split('_');
+			if (split && split.length === 3) {
+				var row = parseInt(split[1]);
+				var col = parseInt(split[2]);
+
+				removeEventListeners();
+				toProgramInfoPage(row, col);
+			}
+		}
+	}
+
 	TvMain.prototype.tmRemoveEventListeners = function () {
 		removeEventListeners();
 	}
@@ -673,6 +689,13 @@ var TvMain = (function () {
 function tmPlayIconClicked() {
 	var obj = new TvMain();
 	obj.playIconClicked();
+}
+
+function tmProgramClicked(item) {
+	if (item) {
+		var obj = new TvMain();
+		obj.programClicked(item);
+	}
 }
 
 function tmRemoveEventListeners() {
