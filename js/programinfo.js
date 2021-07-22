@@ -297,8 +297,8 @@ var ProgramInfo = (function () {
                 addToElement('firstBroadcast', title + ': ' + selectedProgram.broadcast_date_time);
             }
 
-            if (selectedProgram.aspect_ratio && selectedProgram.aspect_ratio !== '16:9') {
-                addToElement('aspectRatioText', getLocaleTextById('aspectRatioText') + ': ' + selectedProgram.aspect_ratio);
+            if (showPlayBtn && selectedProgram.aspect_ratio && selectedProgram.aspect_ratio !== '16:9') {
+                addToElement('aspectRatioText', getLocaleTextById('aspectRatioText') + ' ' + selectedProgram.aspect_ratio);
                 showElementById('aspectRatioText');
             }
         }
