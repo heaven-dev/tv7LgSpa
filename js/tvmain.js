@@ -621,7 +621,7 @@ var TvMain = (function () {
 				return;
 			}
 
-			setTimeout(() => {
+			setTimeout(function () {
 				focusToElement(focusedElement);
 			});
 		}
