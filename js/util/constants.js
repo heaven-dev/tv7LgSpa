@@ -136,6 +136,7 @@ var categoriesPageStateKey = 'categoriesPageStateKey';
 var seriesPageStateKey = 'seriesPageStateKey';
 var guidePageStateKey = 'guidePageStateKey';
 var searchPageStateKey = 'searchPageStateKey';
+var tvMainPageStateKey = 'tvMainPageStateKey';
 var selectedCategoryKey = 'selectedCategoryKey';
 var favoritesDataKey = 'favoritesDataKey';
 var videoStatusDataKey = 'videoStatusDataKey';

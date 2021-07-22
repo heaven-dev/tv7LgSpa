@@ -1,4 +1,4 @@
-# 22.07.2021 08:03
+# 22.07.2021 11:56
 
 ### Bug Fixes
 
@@ -6,6 +6,7 @@
 
 ### Features
 
+* Programs on TV main page are now selectable and program info page can be opened.
 * Added dynamic category rows to archive main page.
 * New version number (2.2.9).
 

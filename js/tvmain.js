@@ -13,6 +13,9 @@ var TvMain = (function () {
 	var programsCount = 11;
 	var guideRowHeight = 0;
 
+	var focusedItemUpDown = null;
+	var focusedItemLeftRight = null;
+
 	TvMain.prototype.initTvMain = function () {
 		showElementById('toolbarContainer');
 		showElementById('sidebar');
@@ -52,6 +55,12 @@ var TvMain = (function () {
 			//console.log('Program count: ', guideData.length);
 		}
 
+		var pageState = getPageState();
+		if (pageState) {
+			//console.log('**Restore TV main page state from cache.');
+			restorePageState(pageState);
+		}
+
 		updatePage();
 
 		focusToElement(playButton);
@@ -74,6 +83,16 @@ var TvMain = (function () {
 		var keyCode = e.keyCode;
 		var contentId = e.target.id;
 
+		var rowId = null;
+		var row = null;
+		var col = null;
+		var split = contentId.split('_');
+		if (split.length > 1) {
+			rowId = split[0];
+			row = parseInt(split[1]);
+			col = parseInt(split[2]);
+		}
+
 		//console.log('Key code : ', keyCode);
 
 		if (keyCode === LEFT) {
@@ -90,6 +109,17 @@ var TvMain = (function () {
 				else if (contentId === playButton) {
 					focusToElement(tvIconContainer)
 				}
+				else if (rowId === 'p' && col === 0) {
+					focusToElement(tvIconContainer);
+					focusedItemLeftRight = contentId;
+				}
+				else if (rowId === 'p' && col > 0) {
+					var newCol = col - 1;
+					var newFocus = rowId + '_' + row + '_' + newCol;
+					if (elementExist(newFocus)) {
+						focusToElement(newFocus);
+					}
+				}
 			}
 		}
 		else if (keyCode === RIGHT) {
@@ -101,10 +131,23 @@ var TvMain = (function () {
 			}
 			else {
 				if (isSideBarMenuActive(contentId)) {
-					focusToElement(playButton);
+					if (focusedItemLeftRight !== null) {
+						focusToElement(focusedItemLeftRight);
+						focusedItemLeftRight = null;
+					}
+					else {
+						focusToElement(playButton);
+					}
 				}
 				else if (contentId === playButton) {
 					focusToElement(upDownIcon);
+				}
+				else if (rowId === 'p' && col < 5) {
+					var newCol = col + 1;
+					var newFocus = rowId + '_' + row + '_' + newCol;
+					if (elementExist(newFocus)) {
+						focusToElement(newFocus);
+					}
 				}
 			}
 		}
@@ -115,8 +158,21 @@ var TvMain = (function () {
 					guideIndex--;
 					updateGuide(getGuideData(guideData, guideIndex, guideDataCount));
 				}
-				else {
+				else if (isSideBarMenuActive(contentId)) {
 					menuMoveUp(contentId);
+				}
+				else {
+					if (rowId === 'p' && row === 0) {
+						focusedItemUpDown = contentId;
+						focusToElement(playButton);
+					}
+					else if (rowId === 'p' && row === 1) {
+						var newRow = row - 1;
+						var newFocus = rowId + '_' + newRow + '_' + col;
+						if (elementExist(newFocus)) {
+							focusToElement(newFocus);
+						}
+					}
 				}
 			}
 		}
@@ -127,8 +183,26 @@ var TvMain = (function () {
 					guideIndex++;
 					updateGuide(getGuideData(guideData, guideIndex, guideDataCount));
 				}
-				else {
+				else if (isSideBarMenuActive(contentId)) {
 					menuMoveDown(contentId);
+				}
+				else {
+					if (contentId === playButton) {
+						if (focusedItemUpDown != null) {
+							focusToElement(focusedItemUpDown);
+							focusedItemUpDown = null;
+						}
+						else {
+							focusToElement('p_0_0');
+						}
+					}
+					else {
+						var newRow = row + 1;
+						var newFocus = rowId + '_' + newRow + '_' + col;
+						if (elementExist(newFocus)) {
+							focusToElement(newFocus);
+						}
+					}
 				}
 			}
 		}
@@ -155,9 +229,18 @@ var TvMain = (function () {
 					// open video page
 					toPlayerPage();
 				}
+				if (rowId === 'p') {
+					toProgramInfoPage(row, col);
+				}
 				else if (contentId === tvIconContainer) {
 					focusOutFromMenuEvent(getElementById(tvIconContainer));
-					focusToElement(playButton);
+					if (focusedItemLeftRight !== null) {
+						focusToElement(focusedItemLeftRight);
+						focusedItemLeftRight = null;
+					}
+					else {
+						focusToElement(playButton);
+					}
 				}
 				else if (contentId === archiveIconContainer) {
 					sideMenuSelection(archiveMainPage);
@@ -206,7 +289,14 @@ var TvMain = (function () {
 			if (!modalVisible) {
 				if (isSideBarMenuActive(contentId)) {
 					focusOutFromMenuEvent(getElementById(tvIconContainer));
-					focusToElement(playButton);
+
+					if (focusedItemLeftRight !== null) {
+						focusToElement(focusedItemLeftRight);
+						focusedItemLeftRight = null;
+					}
+					else {
+						focusToElement(playButton);
+					}
 				}
 				else {
 					showExitModal();
@@ -458,6 +548,85 @@ var TvMain = (function () {
 		}
 	}
 
+	function toProgramInfoPage(row, col) {
+		var index = getOngoingProgramIndex(guideData);
+		//console.log('Ongoing program index: ', index);
+
+		if (row === 0) {
+			index += (col + 1);
+		}
+		else if (row === 1) {
+			index += (col + 1 + 5);
+		}
+
+		if (index < 0 || index > guideData.length - 1) {
+			return;
+		}
+
+		stopInterval();
+		removeEventListeners();
+
+		savePageState(row, col);
+
+		var selectedProgram = guideData[index];
+		var nameDesc = selectedProgram.name_desc;
+		var id = selectedProgram.id;
+
+		console.log('Selected program name: ', nameDesc, ' Id: ', id);
+
+		showElementById('tvMainBusyLoader');
+
+		getProgramInfo(id, function (program) {
+			if (program !== null) {
+				program = program[0];
+
+				cacheValue(selectedArchiveProgramKey, jsonToString(program));
+
+				hideElementById('tvMainBusyLoader');
+
+				toPage(programInfoPage, tvMainPage);
+			}
+			else {
+				hideElementById('tvMainBusyLoader');
+				toPage(errorPage, null);
+			}
+		});
+	}
+
+	function getPageState() {
+		var value = getValueFromCache(tvMainPageStateKey);
+		if (value) {
+			deletePageState();
+			return stringToJson(value);
+		}
+		return null;
+	}
+
+	function savePageState(row, col) {
+		var pageState = {
+			focusedElement: 'p_' + row + '_' + col
+		}
+
+		cacheValue(tvMainPageStateKey, jsonToString(pageState));
+	}
+
+	function deletePageState() {
+		removeValueFromCache(tvMainPageStateKey);
+	}
+
+	function restorePageState(pageState) {
+		if (pageState) {
+			var focusedElement = pageState.focusedElement;
+			if (!focusedElement) {
+				return;
+			}
+
+			setTimeout(() => {
+				focusToElement(focusedElement);
+			});
+		}
+	}
+
 	function initTvMainVariables() {
 		modalVisible = false;
 		interval = null;
@@ -467,6 +636,8 @@ var TvMain = (function () {
 		guideDataCount = 10;
 		programsCount = 11;
 		guideRowHeight = 0;
+		focusedItemUpDown = null;
+		focusedItemLeftRight = null;
 	}
 
 	TvMain.prototype.playIconClicked = function () {

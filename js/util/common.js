@@ -654,6 +654,7 @@ function deletePageStates() {
 	removeValueFromCache(guidePageStateKey);
 	removeValueFromCache(searchPageStateKey);
 	removeValueFromCache(favoritesPageStateKey);
+	removeValueFromCache(tvMainPageStateKey);
 }
 
 function loadPageTemplate(htmlName, cb) {
